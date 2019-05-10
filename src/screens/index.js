@@ -1,7 +1,9 @@
 import Login from './Login';
-import Registration from './Registration';
+import Cadastro from './Cadastro';
+import Abertura from './Abertura';
 
 export {
     Login,
-    Registration
+    Cadastro,
+    Abertura
 }

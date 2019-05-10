@@ -1,21 +1,27 @@
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import { Login, Registration } from '../screens';
+import { Login, Cadastro, Abertura } from '../screens';
 
 
 const autNavigator = createStackNavigator({
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        header: null
-      }
-    },
-    Registration: {
-      screen: Registration,
-      navigationOptions: {
-        header: null
-      }
-    },
+  Abertura: {
+    screen: Abertura,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Cadastro: {
+    screen: Cadastro,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
 });
 
 const rootNavigator = createSwitchNavigator({

@@ -27,7 +27,7 @@ const Input = (props) => (
             secureTextEntry={props.secureTextEntry}
         />
         {
-            (props.placeholder === 'Password' || props.placeholder === 'Confirm password') &&
+            (props.placeholder === 'Senha') &&
             <TouchableHighlight
                 style={styles.rightIconContainer}
                 onPress={props.setPasswordVisibility}
