@@ -1,6 +1,30 @@
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { Login, Cadastro, Abertura, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
 
-import { Login, Cadastro, Abertura } from '../screens';
+
+const appNavigator = createMaterialBottomTabNavigator({
+  Disciplinas: {
+    screen: Disciplinas,
+  },
+  Historico: {
+    screen: Historico,
+  },
+  Questionarios: {
+    screen: Questionarios,
+  },
+  Notificacoes: {
+    screen: Notificacoes,
+  },
+  Profile: {
+    screen: Profile,
+  },
+}, {
+  initialRouteName: 'Questionarios',
+  activeColor: '#f0edf6',
+  inactiveColor: '#3e2465',
+  barStyle: { backgroundColor: '#694fad' },
+})
 
 
 const autNavigator = createStackNavigator({
@@ -31,6 +55,9 @@ const rootNavigator = createSwitchNavigator({
         header: null
       }
     },
+    appNavigator: {
+      screen: appNavigator,
+    }
 });
   
   
