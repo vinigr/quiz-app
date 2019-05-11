@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import Fonts from '../../utils/fonts/';
-import Input from '../../components/TextInput/';
 
 
 export default class Abertura extends Component {
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     // marginBottom: 20,
     color: '#fff',
     fontFamily: Fonts.RubikMedium,
-    fontSize: 35,
+    fontSize: 40,
   },
   inputs: {
     display: 'flex',

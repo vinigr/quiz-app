@@ -42,7 +42,7 @@ export default class Login extends Component {
         
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center',  }}>
           <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
-          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000'}}>Cadastre-se</Text>
+          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000'}} onPress={() => this.props.navigation.replace('Cadastro')}>Cadastre-se</Text>
         </View>
       </View>
     )

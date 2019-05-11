@@ -61,7 +61,7 @@ export default class Cadastro extends Component {
         
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center',  }}>
           <Text style={{ fontSize: 16 }}>Já possui conta?</Text>
-          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000'}}>Entre</Text>
+          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000'}} onPress={() => this.props.navigation.replace('Login')}>Entre</Text>
         </View>
       </View>
     )
