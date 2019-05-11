@@ -23,17 +23,20 @@ export default class Abertura extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    // padding: 15,
     height: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#059451',
   },
   titleView:{
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '35%',
+    justifyContent: 'flex-end'
   },
   title: {
-    marginTop: 30,
-    marginBottom: 20,
-    color: '#000',
+    // marginTop: 30,
+    // marginBottom: 20,
+    color: '#fff',
     fontFamily: Fonts.RubikMedium,
     fontSize: 35,
   },
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#059451',
     marginTop: 10,
     height: 50,
-    width: '99%'
+    width: '75%'
   },
   text: {
     color: '#fff',

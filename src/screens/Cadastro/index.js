@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Picker,  } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+// import { Picker } from 'native-base';
 import Fonts from '../../utils/fonts/';
 import Input from '../../components/TextInput/';
 
@@ -46,13 +47,13 @@ export default class Cadastro extends Component {
             }} />
             <Picker
               // selectedValue={this.state.language}
+              // placeholder='Curso'
               style={{height: 50, width: '99%', backgroundColor: 'rgba(192, 192, 192, 0.5)'}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({language: itemValue})
               }>
               <Picker.Item label="Curso" value="curso" />
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
+              <Picker.Item label="Sistemas de Informação" value="si" />
             </Picker>
         </View>
         <TouchableOpacity style={styles.button}><Text style={styles.text}>Cadastrar</Text></TouchableOpacity>

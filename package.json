@@ -2,11 +2,16 @@
   "name": "quizApp",
   "version": "0.0.1",
   "private": true,
+  "author": {
+    "name": "Vinícios Grama",
+    "email": "vinyirun1@gmail.com"
+  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
+    "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
