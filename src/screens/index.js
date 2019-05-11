@@ -1,16 +1,19 @@
+import Abertura from './Abertura';
 import Login from './Login';
 import Cadastro from './Cadastro';
-import Abertura from './Abertura';
+import Recuperacao from './Recuperacao';
 import Notificacoes from './Notificacoes';
 import Historico from './Historico';
 import Profile from './Profile';
 import Questionarios from './Questionarios';
 import Disciplinas from './Disciplinas';
 
+
 export {
+    Abertura,
     Login,
     Cadastro,
-    Abertura,
+    Recuperacao,
     Notificacoes,
     Historico,
     Profile,

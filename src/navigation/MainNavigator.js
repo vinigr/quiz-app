@@ -1,6 +1,6 @@
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import { Login, Cadastro, Abertura, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
+import { Login, Cadastro, Abertura, Recuperacao, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
 
 
 const appNavigator = createMaterialBottomTabNavigator({
@@ -42,6 +42,12 @@ const autNavigator = createStackNavigator({
   },
   Login: {
     screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Recuperacao: {
+    screen: Recuperacao,
     navigationOptions: {
       header: null
     }
