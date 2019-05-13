@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import { Login, Cadastro, Abertura, Recuperacao, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
+import { AuthLoading, Login, Cadastro, Abertura, Recuperacao, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const appNavigator = createMaterialBottomTabNavigator({
@@ -85,7 +85,10 @@ const autNavigator = createStackNavigator({
 });
 
 const rootNavigator = createSwitchNavigator({
-    autNavigator: {
+    authLoading: {
+      screen: AuthLoading,
+    },
+    authNavigator: {
       screen: autNavigator,
       navigationOptions: {
         header: null
@@ -94,6 +97,8 @@ const rootNavigator = createSwitchNavigator({
     appNavigator: {
       screen: appNavigator,
     }, 
+}, {
+  initialRouteName: 'authNavigator'
 });
   
   

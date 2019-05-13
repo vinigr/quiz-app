@@ -37,7 +37,7 @@ export default class Login extends Component {
         <View style={{ display: 'flex', alignItems: 'flex-end'}}>
           <Text style={{ fontFamily: Fonts.RubikRegular, fontSize: 15, marginTop: 3 }} onPress={() => this.props.navigation.navigate('Recuperacao')}>Esqueci minha senha</Text>
         </View>
-        <TouchableOpacity style={styles.button}><Text style={styles.text} onPress={() => this.props.navigation.navigate('Questionarios')}>Entrar</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('appNavigator')}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
         </View>
         
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center',  }}>

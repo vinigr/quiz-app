@@ -1,3 +1,4 @@
+import AuthLoading from './AuthLoading';
 import Abertura from './Abertura';
 import Login from './Login';
 import Cadastro from './Cadastro';
@@ -10,6 +11,7 @@ import Disciplinas from './Disciplinas';
 
 
 export {
+    AuthLoading,
     Abertura,
     Login,
     Cadastro,
