@@ -1,29 +1,59 @@
+import React from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { Login, Cadastro, Abertura, Recuperacao, Disciplinas, Historico, Questionarios, Notificacoes, Profile } from '../screens';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const appNavigator = createMaterialBottomTabNavigator({
   Disciplinas: {
     screen: Disciplinas,
+    navigationOptions: {
+      tabBarIcon: () => (
+        <Icon size={24} name="list" />
+      )
+    }
   },
   Historico: {
     screen: Historico,
+    navigationOptions: {
+      title: 'Histórico',
+      tabBarIcon: () => (
+        <Icon size={24} name="history"/>
+      )
+    }
   },
   Questionarios: {
     screen: Questionarios,
+    navigationOptions: {
+      title: 'Quizzes',
+      tabBarIcon: () => (
+        <Icon size={24} name="question" />
+      )
+    }
   },
   Notificacoes: {
     screen: Notificacoes,
+    title: 'Notificações',
+    navigationOptions: {
+      tabBarIcon: () => (
+        <Icon size={24} name="bell" />
+      )
+    }
   },
   Profile: {
     screen: Profile,
+    navigationOptions: {
+      title: 'Perfil',
+      tabBarIcon: () => (
+        <Icon size={24} name="user" />
+      )
+    }
   },
 }, {
   initialRouteName: 'Questionarios',
   activeColor: '#f0edf6',
   inactiveColor: '#3e2465',
-  barStyle: { backgroundColor: '#694fad' },
+  barStyle: { backgroundColor: '#059451' },
 })
 
 
@@ -63,7 +93,7 @@ const rootNavigator = createSwitchNavigator({
     },
     appNavigator: {
       screen: appNavigator,
-    }
+    }, 
 });
   
   
