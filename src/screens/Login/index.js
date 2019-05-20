@@ -1,10 +1,39 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native'
 import Fonts from '../../utils/fonts/';
 import Input from '../../components/TextInput/';
-
+import api from '../../service/api';
 
 export default class Login extends Component {
+  state = {
+    email: '',
+    senha: '',
+    secureText: true,
+    erros: []
+  }
+  
+  handleSubmit = async () => {
+    const { email, senha } = this.state;
+    // console.tron.log(email, senha)
+      await api.post(`/player/signin`, {
+        email,
+        senha
+      }).then(() => console.tron.log(token))
+      .catch(err => {
+        console.tron.log('Erro:' + err)
+      }) 
+      
+      // await AsyncStorage.setItem('@quizApp:token', token);
+      // this.props.navigation.navigate('appNavigator')
+  
+  }
+  
+  setPasswordVisibility() {
+    this.setState({
+        secureText: !this.state.secureText
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -12,32 +41,32 @@ export default class Login extends Component {
         <Text style={styles.title}>Login</Text>
         <View style={styles.inputs}>
         <Input
+            value={this.state.email}
             placeholder="Email"
             iconName='md-mail'
-            // secureTextEntry={this.state.secureText}
-            // setPasswordVisibility={() => this.setPasswordVisibility()}
-            // onChangeText={(pwd) => this.setState({ password: pwd })}
+            onChangeText={(email) => this.setState({ email })}
             containerBgColor='rgba(192, 192, 192, 0.5)'
             inputStyle={{
                 color: '#000',
                 fontSize: 13
             }} />
           <Input
+            value={this.state.senha}
             placeholder="Senha"
             iconName="md-lock"
-            // secureTextEntry={this.state.secureText}
-            // setPasswordVisibility={() => this.setPasswordVisibility()}
-            // onChangeText={(pwd) => this.setState({ password: pwd })}
+            secureTextEntry={this.state.secureText}
+            setPasswordVisibility={() => this.setPasswordVisibility()}
+            onChangeText={(senha) => this.setState({ senha })}
             containerBgColor='rgba(192, 192, 192, 0.5)'
             inputStyle={{
-                color: '#fff',
+                color: '#000',
                 fontSize: 13
             }} />
         </View>
         <View style={{ display: 'flex', alignItems: 'flex-end'}}>
           <Text style={{ fontFamily: Fonts.RubikRegular, fontSize: 15, marginTop: 3 }} onPress={() => this.props.navigation.navigate('Recuperacao')}>Esqueci minha senha</Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('appNavigator')}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={this.handleSubmit}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
         </View>
         
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center',  }}>
