@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 
 export default class Histórico extends Component {
   render() {
@@ -7,6 +7,6 @@ export default class Histórico extends Component {
       <View>
         <Text> Histórico </Text>
       </View>
-    )
+    );
   }
 }

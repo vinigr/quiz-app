@@ -1,7 +1,12 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native'
-import Fonts from '../../utils/fonts/';
-import Input from '../../components/TextInput/';
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import Fonts from '../../utils/fonts';
+import Input from '../../components/TextInput';
 import api from '../../service/api';
 
 export default class Login extends Component {
@@ -9,28 +14,28 @@ export default class Login extends Component {
     email: '',
     senha: '',
     secureText: true,
-    erros: []
-  }
-  
+    erros: null,
+  };
+
   handleSubmit = async () => {
     const { email, senha } = this.state;
-    // console.tron.log(email, senha)
-      await api.post(`/player/signin`, {
+    await api
+      .post('/player/signin', {
         email,
-        senha
-      }).then(() => console.tron.log(token))
-      .catch(err => {
-        console.tron.log('Erro:' + err)
-      }) 
-      
-      // await AsyncStorage.setItem('@quizApp:token', token);
-      // this.props.navigation.navigate('appNavigator')
-  
-  }
-  
+        senha,
+      })
+      .then(() => console.tron.log(token))
+      .catch((err) => {
+        console.tron.log(`Erro:${err}`);
+      });
+
+    // await AsyncStorage.setItem('@quizApp:token', token);
+    // this.props.navigation.navigate('appNavigator')
+  };
+
   setPasswordVisibility() {
     this.setState({
-        secureText: !this.state.secureText
+      secureText: !this.state.secureText,
     });
   }
 
@@ -38,43 +43,65 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <View>
-        <Text style={styles.title}>Login</Text>
-        <View style={styles.inputs}>
-        <Input
-            value={this.state.email}
-            placeholder="Email"
-            iconName='md-mail'
-            onChangeText={(email) => this.setState({ email })}
-            containerBgColor='rgba(192, 192, 192, 0.5)'
-            inputStyle={{
+          <Text style={styles.title}>Login</Text>
+          <View style={styles.inputs}>
+            <Input
+              value={this.state.email}
+              placeholder="Email"
+              iconName="md-mail"
+              onChangeText={email => this.setState({ email })}
+              containerBgColor="rgba(192, 192, 192, 0.5)"
+              inputStyle={{
                 color: '#000',
-                fontSize: 13
-            }} />
-          <Input
-            value={this.state.senha}
-            placeholder="Senha"
-            iconName="md-lock"
-            secureTextEntry={this.state.secureText}
-            setPasswordVisibility={() => this.setPasswordVisibility()}
-            onChangeText={(senha) => this.setState({ senha })}
-            containerBgColor='rgba(192, 192, 192, 0.5)'
-            inputStyle={{
+                fontSize: 13,
+              }}
+            />
+            <Input
+              value={this.state.senha}
+              placeholder="Senha"
+              iconName="md-lock"
+              secureTextEntry={this.state.secureText}
+              setPasswordVisibility={() => this.setPasswordVisibility()}
+              onChangeText={senha => this.setState({ senha })}
+              containerBgColor="rgba(192, 192, 192, 0.5)"
+              inputStyle={{
                 color: '#000',
-                fontSize: 13
-            }} />
+                fontSize: 13,
+              }}
+            />
+          </View>
+          <View style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <Text
+              style={{
+                fontFamily: Fonts.RubikRegular,
+                fontSize: 15,
+                marginTop: 3,
+              }}
+              onPress={() => this.props.navigation.navigate('Recuperacao')}
+            >
+              Esqueci minha senha
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+            <Text style={styles.text}>Entrar</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ display: 'flex', alignItems: 'flex-end'}}>
-          <Text style={{ fontFamily: Fonts.RubikRegular, fontSize: 15, marginTop: 3 }} onPress={() => this.props.navigation.navigate('Recuperacao')}>Esqueci minha senha</Text>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={this.handleSubmit}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
-        </View>
-        
-        <View style={{ display: 'flex', bottom: 0, alignItems: 'center',  }}>
+
+        <View style={{ display: 'flex', bottom: 0, alignItems: 'center' }}>
           <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
-          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000'}} onPress={() => this.props.navigation.replace('Cadastro')}>Cadastre-se</Text>
+          <Text
+            style={{
+              fontSize: 18,
+              textDecorationLine: 'underline',
+              color: '#000',
+            }}
+            onPress={() => this.props.navigation.replace('Cadastro')}
+          >
+            Cadastre-se
+          </Text>
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -93,7 +120,7 @@ const styles = StyleSheet.create({
   },
   inputs: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   button: {
     display: 'flex',
@@ -102,11 +129,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#059451',
     marginTop: 15,
     height: 50,
-    width: '99%'
+    width: '99%',
   },
   text: {
     color: '#fff',
     fontSize: 25,
     fontFamily: Fonts.RubikRegular,
-  }
-})
+  },
+});

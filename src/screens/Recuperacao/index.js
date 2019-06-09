@@ -1,34 +1,37 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import Fonts from '../../utils/fonts/';
-import Input from '../../components/TextInput/';
+import React from 'react';
+import {
+  Text, View, StyleSheet, TouchableOpacity,
+} from 'react-native';
+import Fonts from '../../utils/fonts';
+import Input from '../../components/TextInput';
 
 
-export default class Login extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View>
+function Recuperacao() {
+  return (
+    <View style={styles.container}>
+      <View>
         <Text style={styles.title}>Recupere sua senha</Text>
         <View style={styles.inputs}>
-        <Input
+          <Input
             placeholder="Email"
-            iconName='md-mail'
+            iconName="md-mail"
             // secureTextEntry={this.state.secureText}
             // setPasswordVisibility={() => this.setPasswordVisibility()}
             // onChangeText={(pwd) => this.setState({ password: pwd })}
-            containerBgColor='rgba(192, 192, 192, 0.5)'
+            containerBgColor="rgba(192, 192, 192, 0.5)"
             inputStyle={{
-                color: '#000',
-                fontSize: 13
-            }} />
+              color: '#000',
+              fontSize: 13,
+            }}
+          />
         </View>
-            <TouchableOpacity style={styles.button}><Text style={styles.text}>Enviar</Text></TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.button}><Text style={styles.text}>Enviar</Text></TouchableOpacity>
       </View>
-    )
-  }
+    </View>
+  );
 }
+
+export default Recuperacao;
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
   },
   inputs: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   button: {
     display: 'flex',
@@ -55,11 +58,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 25,
     height: 50,
-    width: '99%'
+    width: '99%',
   },
   text: {
     color: '#fff',
     fontSize: 25,
     fontFamily: Fonts.RubikRegular,
-  }
-})
+  },
+});

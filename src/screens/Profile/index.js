@@ -7,6 +7,6 @@ export default class Profile extends Component {
       <View>
         <Text> Profile </Text>
       </View>
-    )
+    );
   }
 }

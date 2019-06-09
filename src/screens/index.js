@@ -11,14 +11,14 @@ import Disciplinas from './Disciplinas';
 
 
 export {
-    AuthLoading,
-    Abertura,
-    Login,
-    Cadastro,
-    Recuperacao,
-    Notificacoes,
-    Historico,
-    Profile,
-    Questionarios,
-    Disciplinas
-}
+  AuthLoading,
+  Abertura,
+  Login,
+  Cadastro,
+  Recuperacao,
+  Notificacoes,
+  Historico,
+  Profile,
+  Questionarios,
+  Disciplinas,
+};
