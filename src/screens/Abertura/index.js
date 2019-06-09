@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  Text, View, StyleSheet, TouchableOpacity,
+  Text, View, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import Fonts from '../../utils/fonts';
 
 
-export default class Abertura extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleView}>
-          <Text style={styles.title}>Bem-vindo</Text>
-        </View>
-        <View style={styles.inputs}>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Cadastro')}><Text style={styles.text}>Cadastrar</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Login')}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
-        </View>
-      </View>
+const Abertura = props => (
+  <View style={styles.container}>
+    <View style={styles.titleView}>
+      <Image
+        source={require('../../assets/images/logo.png')}
+        style={styles.image}
+      />
+      <Text style={styles.title}>Bem-vindo</Text>
+    </View>
+    <View style={styles.inputs}>
+      <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Cadastro')}><Text style={styles.text}>Cadastrar</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Login')}><Text style={styles.text}>Entrar</Text></TouchableOpacity>
+    </View>
+  </View>
 
-    );
-  }
-}
+);
+
+export default Abertura;
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +30,11 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'space-around',
     backgroundColor: '#059451',
+  },
+  image: {
+    alignSelf: 'center',
+    height: 200,
+    width: 200,
   },
   titleView: {
     alignItems: 'center',
