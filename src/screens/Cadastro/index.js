@@ -1,67 +1,77 @@
 import React, { Component } from 'react';
 import {
-  Text, View, StyleSheet, TouchableOpacity, Picker,
+  Text, View, StyleSheet, TouchableOpacity,
 } from 'react-native';
-// import { Picker } from 'native-base';
+import { Button, TitleAuth } from '../../styles';
 import Fonts from '../../utils/fonts';
 import Input from '../../components/TextInput';
 
 
 export default class Cadastro extends Component {
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    secureText: true,
+    error: null,
+  };
+
+  setPasswordVisibility() {
+    this.setState({
+      secureText: !this.state.secureText,
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}>Cadastro</Text>
+          <TitleAuth>Cadastro</TitleAuth>
           <View style={styles.inputs}>
             <Input
               placeholder="Nome completo"
               iconName="md-person"
-            // secureTextEntry={this.state.secureText}
-            // setPasswordVisibility={() => this.setPasswordVisibility()}
-            // onChangeText={(pwd) => this.setState({ password: pwd })}
+              onChangeText={name => this.setState({ name })}
+              autoCapitalize="words"
               containerBgColor="rgba(192, 192, 192, 0.5)"
               inputStyle={{
                 color: '#000',
                 fontSize: 13,
+                width: '100%',
               }}
             />
             <Input
+              value={this.state.email}
               placeholder="Email"
               iconName="md-mail"
-            // secureTextEntry={this.state.secureText}
-            // setPasswordVisibility={() => this.setPasswordVisibility()}
-            // onChangeText={(pwd) => this.setState({ password: pwd })}
+              onChangeText={email => this.setState({ email })}
+              autoCapitalize="none"
               containerBgColor="rgba(192, 192, 192, 0.5)"
               inputStyle={{
                 color: '#000',
                 fontSize: 13,
+                width: '100%',
               }}
             />
             <Input
+              value={this.state.password}
               placeholder="Senha"
               iconName="md-lock"
-            // secureTextEntry={this.state.secureText}
-            // setPasswordVisibility={() => this.setPasswordVisibility()}
-            // onChangeText={(pwd) => this.setState({ password: pwd })}
+              secureTextEntry={this.state.secureText}
+              autoCapitalize="none"
+              setPasswordVisibility={() => this.setPasswordVisibility()}
+              onChangeText={password => this.setState({ password })}
               containerBgColor="rgba(192, 192, 192, 0.5)"
               inputStyle={{
-                color: '#fff',
+                color: '#000',
                 fontSize: 13,
+                width: '100%',
               }}
             />
-            <Picker
-              // selectedValue={this.state.language}
-              // placeholder='Curso'
-              style={{ height: 50, width: '99%', backgroundColor: 'rgba(192, 192, 192, 0.5)' }}
-              onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })
-              }
-            >
-              <Picker.Item label="Curso" value="curso" />
-              <Picker.Item label="Sistemas de Informação" value="si" />
-            </Picker>
           </View>
-          <TouchableOpacity style={styles.button}><Text style={styles.text}>Cadastrar</Text></TouchableOpacity>
+          <Button>
+            <Text style={styles.text}>Cadastrar</Text>
+          </Button>
         </View>
 
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center' }}>
@@ -79,25 +89,9 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'space-between',
   },
-  title: {
-    marginTop: 30,
-    marginBottom: 20,
-    color: '#000',
-    fontFamily: Fonts.RubikMedium,
-    fontSize: 35,
-  },
   inputs: {
     display: 'flex',
     alignItems: 'center',
-  },
-  button: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#059451',
-    marginTop: 15,
-    height: 50,
-    width: '99%',
   },
   text: {
     color: '#fff',

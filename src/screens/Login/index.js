@@ -3,8 +3,8 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
+import { Button, TitleAuth } from '../../styles';
 import Fonts from '../../utils/fonts';
 import Input from '../../components/TextInput';
 import api from '../../service/api';
@@ -12,61 +12,68 @@ import api from '../../service/api';
 export default class Login extends Component {
   state = {
     email: '',
-    senha: '',
+    password: '',
     secureText: true,
-    erros: null,
+    error: null,
   };
 
   handleSubmit = async () => {
-    const { email, senha } = this.state;
-    await api
-      .post('/player/signin', {
+    const { email, password } = this.state;
+    try {
+      const token = await api.post('/signin', {
         email,
-        senha,
-      })
-      .then(() => console.tron.log(token))
-      .catch((err) => {
-        console.tron.log(`Erro:${err}`);
+        password,
       });
-
+      console.tron.log(token);
+    } catch (err) {
+      console.tron.log(`Erro:${err}`);
+    }
     // await AsyncStorage.setItem('@quizApp:token', token);
     // this.props.navigation.navigate('appNavigator')
   };
 
   setPasswordVisibility() {
+    const { secureText } = this.state;
     this.setState({
-      secureText: !this.state.secureText,
+      secureText: !secureText,
     });
   }
 
   render() {
+    const { email, password, secureText } = this.state;
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}>Login</Text>
+          <TitleAuth>Login</TitleAuth>
           <View style={styles.inputs}>
             <Input
-              value={this.state.email}
+              value={email}
               placeholder="Email"
               iconName="md-mail"
               onChangeText={email => this.setState({ email })}
+              autoCapitalize="none"
+              autoCompleteType="email"
               containerBgColor="rgba(192, 192, 192, 0.5)"
               inputStyle={{
                 color: '#000',
                 fontSize: 13,
+                width: '100%',
               }}
             />
             <Input
-              value={this.state.senha}
+              value={password}
               placeholder="Senha"
               iconName="md-lock"
-              secureTextEntry={this.state.secureText}
+              secureTextEntry={secureText}
               setPasswordVisibility={() => this.setPasswordVisibility()}
-              onChangeText={senha => this.setState({ senha })}
+              onChangeText={passwordText => this.setState({ password: passwordText })}
+              autoCapitalize="none"
+              autoCompleteType="password"
               containerBgColor="rgba(192, 192, 192, 0.5)"
               inputStyle={{
                 color: '#000',
                 fontSize: 13,
+                width: '100%',
               }}
             />
           </View>
@@ -82,9 +89,9 @@ export default class Login extends Component {
               Esqueci minha senha
             </Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+          <Button onPress={this.handleSubmit}>
             <Text style={styles.text}>Entrar</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
 
         <View style={{ display: 'flex', bottom: 0, alignItems: 'center' }}>
@@ -111,25 +118,9 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'space-between',
   },
-  title: {
-    marginTop: 30,
-    marginBottom: 20,
-    color: '#000',
-    fontFamily: Fonts.RubikMedium,
-    fontSize: 35,
-  },
   inputs: {
     display: 'flex',
     alignItems: 'center',
-  },
-  button: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#059451',
-    marginTop: 15,
-    height: 50,
-    width: '99%',
   },
   text: {
     color: '#fff',
