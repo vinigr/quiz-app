@@ -12,6 +12,7 @@
     "dev-menu": "adb shell input keyevent KEYCODE_MENU"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.5.0",
     "axios": "^0.19.0",
     "native-base": "^2.12.1",
     "react": "16.8.3",
