@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {
+  StatusBar,
+} from 'react-native';
 import NavigationRoot from './src/navigation/MainNavigator';
 import './ReactotronConfig';
 
-export default class App extends Component{
-  render() {
-    return (
-      <NavigationRoot />
-    );
-  }
-}
+const App = () => (
+  <>
+    <StatusBar backgroundColor="transparent" translucent barStyle="light-content" />
+    <NavigationRoot />
+  </>
+);
 
+export default App;
