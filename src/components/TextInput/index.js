@@ -16,6 +16,7 @@ const Input = props => (
       onChangeText={props.onChangeText}
       value={props.value}
       secureTextEntry={props.secureTextEntry}
+      autoCapitalize={props.autoCapitalize}
     />
     {props.placeholder === 'Senha' && (
       <TouchableHighlight
