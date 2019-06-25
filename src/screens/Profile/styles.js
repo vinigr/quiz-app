@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
+import LinearGradient from 'react-native-linear-gradient';
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient).attrs({
+  colors: ['#F7FEFC', '#fff'],
+  start: { x: 0.5, y: 0 },
+  end: { x: 0.5, y: 1.0 },
+})`  
   align-items: center;
   background-color: #FAFAFA;
   padding-top: 30px;

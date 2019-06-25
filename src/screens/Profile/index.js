@@ -10,7 +10,7 @@ import {
 export default function Profile() {
   return (
     <View>
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" animated />
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <Container>
         <Header>
           <Photo
