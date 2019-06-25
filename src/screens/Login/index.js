@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Button, TitleAuth } from '../../styles';
 import Fonts from '../../utils/fonts';
 import Input from '../../components/TextInput';
@@ -24,12 +25,11 @@ export default class Login extends Component {
         email,
         password,
       });
-      console.tron.log(token);
+      await AsyncStorage.setItem('@QuizApp:token', token.data.token);
+      this.props.navigation.navigate('appNavigator');
     } catch (err) {
       console.tron.log(`Erro:${err}`);
     }
-    // await AsyncStorage.setItem('@quizApp:token', token);
-    // this.props.navigation.navigate('appNavigator')
   };
 
   setPasswordVisibility() {
