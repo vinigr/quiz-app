@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AuthLoading,
   Login,
@@ -11,7 +11,6 @@ import {
   Disciplinas,
   Historico,
   Questionarios,
-  Notificacoes,
   Profile,
 } from '../screens';
 
@@ -19,17 +18,8 @@ const appNavigator = createMaterialBottomTabNavigator({
   Disciplinas: {
     screen: Disciplinas,
     navigationOptions: {
-      tabBarIcon: () => (
-        <Icon size={24} name="list" />
-      ),
-    },
-  },
-  Historico: {
-    screen: Historico,
-    navigationOptions: {
-      title: 'Histórico',
-      tabBarIcon: () => (
-        <Icon size={24} name="history" />
+      tabBarIcon: ({ tintColor }) => (
+        <Icon color={tintColor} size={24} name="text-subject" />
       ),
     },
   },
@@ -37,17 +27,17 @@ const appNavigator = createMaterialBottomTabNavigator({
     screen: Questionarios,
     navigationOptions: {
       title: 'Quizzes',
-      tabBarIcon: () => (
-        <Icon size={24} name="question" />
+      tabBarIcon: ({ tintColor }) => (
+        <Icon color={tintColor} size={24} name="forum" />
       ),
     },
   },
-  Notificacoes: {
-    screen: Notificacoes,
-    title: 'Notificações',
+  Historico: {
+    screen: Historico,
     navigationOptions: {
-      tabBarIcon: () => (
-        <Icon size={24} name="bell" />
+      title: 'Histórico',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon color={tintColor} size={24} name="history" />
       ),
     },
   },
@@ -55,18 +45,17 @@ const appNavigator = createMaterialBottomTabNavigator({
     screen: Profile,
     navigationOptions: {
       title: 'Perfil',
-      tabBarIcon: () => (
-        <Icon size={24} name="user" />
+      tabBarIcon: ({ tintColor }) => (
+        <Icon color={tintColor} size={24} name="account" />
       ),
     },
   },
 }, {
   initialRouteName: 'Questionarios',
-  activeColor: '#f0edf6',
-  inactiveColor: '#3e2465',
-  barStyle: { backgroundColor: '#059451' },
+  activeColor: '#059451',
+  inactiveColor: '#3F3F3F',
+  barStyle: { backgroundColor: '#fff' },
 });
-
 
 const autNavigator = createStackNavigator({
   Abertura: {
@@ -109,8 +98,7 @@ const rootNavigator = createSwitchNavigator({
     screen: appNavigator,
   },
 }, {
-  initialRouteName: 'authNavigator',
+  initialRouteName: 'authLoading',
 });
-
 
 export default createAppContainer(rootNavigator);
