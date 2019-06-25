@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { Text, View, StatusBar } from 'react-native';
 
-export default class Questionarios extends Component {
-  render() {
-    return (
+export default function Questionarios() {
+  return (
+    <View>
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <View>
         <Text> Questionarios </Text>
       </View>
-    );
-  }
+    </View>
+  );
 }

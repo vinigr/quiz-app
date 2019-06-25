@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
-export default class Disciplinas extends Component {
-  render() {
-    return (
+export default function Disciplinas() {
+  return (
+    <View>
       <View>
         <Text> Disciplinas </Text>
       </View>
-    );
-  }
+    </View>
+  );
 }
