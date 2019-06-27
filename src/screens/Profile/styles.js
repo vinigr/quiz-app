@@ -42,6 +42,7 @@ export const Option = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  border-radius: 5px;
   padding: 0 10px 0 10px;
 `;
 
