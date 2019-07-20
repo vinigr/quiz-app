@@ -3,6 +3,7 @@ import {
   FlatList, ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Modal from 'react-native-modal';
 import {
   Container,
   ViewList,
@@ -14,6 +15,9 @@ import {
   TouchableIcon,
   ViewTeacher,
   NameTeacher,
+  ViewModal,
+  OptionsModal,
+  OptionsText,
 } from './styles';
 
 import api from '../../service/api';
@@ -23,18 +27,16 @@ export default function Disciplinas() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    async function buscaBanco() {
+      try {
+        const subjects = await api.get('/user/subjects');
+        await setSubject(subjects.data.subjects);
+      } catch (error) {
+        console.tron.log(error);
+      }
+    }
     buscaBanco();
   }, []);
-
-  async function buscaBanco() {
-    try {
-      const subjects = await api.get('/user/subjects');
-      await setSubject(subjects.data.subjects);
-    } catch (error) {
-      console.tron.log(error);
-    }
-  }
-
 
   return (
     <Container>
@@ -46,13 +48,11 @@ export default function Disciplinas() {
         />
       </View> */}
       {subject !== [] ? (
-
         <ViewList>
           <FlatList
             data={subject}
             keyExtractor={item => `${item.subject_id}`}
             renderItem={({ item }) => (
-
               <ItemList>
                 <Header>
                   <ViewSubject>
@@ -67,12 +67,17 @@ export default function Disciplinas() {
                   <NameTeacher>{item.subject.user.name}</NameTeacher>
                 </ViewTeacher>
               </ItemList>
-              // </MenuProvider>
             )}
           />
+          <Modal isVisible={visible} onBackButtonPress={() => setVisible(false)} onBackdropPress={() => setVisible(false)} useNativeDriver>
+            <ViewModal>
+              <OptionsModal underlayColor="#000">
+                <OptionsText>Cancelar inscrição</OptionsText>
+              </OptionsModal>
+            </ViewModal>
+          </Modal>
 
         </ViewList>
-
       )
         : <ActivityIndicator />
       }
