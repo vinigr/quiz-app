@@ -51,9 +51,9 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
 }, {
-  initialRouteName: 'Questionarios',
+  initialRouteName: 'Disciplinas',
   activeColor: '#059451',
-  inactiveColor: '#3F3F3F',
+  inactiveColor: '#646464',
   barStyle: { backgroundColor: '#fff' },
 });
 
