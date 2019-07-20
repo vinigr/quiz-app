@@ -7,7 +7,13 @@ import {
   Container, Header, Photo, Name, Menu, Option, OptionTextIcon, TextOption,
 } from './styles';
 
-export default function Profile() {
+import AuthService from '../../service/auth';
+
+export default function Profile(props) {
+  function logout() {
+    AuthService.logout(props);
+  }
+
   return (
     <View>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
@@ -40,7 +46,7 @@ export default function Profile() {
             </OptionTextIcon>
             <Icon name="chevron-right" size={30} />
           </Option>
-          <Option>
+          <Option onPress={logout}>
             <OptionTextIcon>
               <Icon color="#4F4F4F" name="power-standby" size={30} />
               <TextOption>Sair</TextOption>
