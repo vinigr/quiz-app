@@ -1,130 +1,98 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
 import {
   Text,
   View,
-  StyleSheet,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+
 import { Button, TitleAuth } from '../../styles';
-import Fonts from '../../utils/fonts';
+import {
+  Container, ViewInputs, ViewRecuperacao, TextRecuperacao, TextButton, ViewCadastro, TextCadastro,
+} from './styles';
+
 import Input from '../../components/TextInput';
 import api from '../../service/api';
+import AuthService from '../../service/auth';
 
-export default class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    secureText: true,
-    error: null,
-  };
+export default function Login(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [secureText, setSecureText] = useState(true);
+  const [error, setError] = useState(null);
 
-  handleSubmit = async () => {
-    const { email, password } = this.state;
+  async function handleSubmit() {
     try {
       const token = await api.post('/signin', {
         email,
         password,
       });
-      await AsyncStorage.setItem('@QuizApp:token', token.data.token);
-      this.props.navigation.navigate('appNavigator');
+      await AuthService.setToken(token.data.token);
+      props.navigation.navigate('appNavigator');
     } catch (err) {
       console.tron.log(`Erro:${err}`);
     }
-  };
-
-  setPasswordVisibility() {
-    const { secureText } = this.state;
-    this.setState({
-      secureText: !secureText,
-    });
   }
 
-  render() {
-    const { email, password, secureText } = this.state;
-    return (
-      <View style={styles.container}>
-        <View>
-          <TitleAuth>Login</TitleAuth>
-          <View style={styles.inputs}>
-            <Input
-              value={email}
-              placeholder="Email"
-              iconName="md-mail"
-              onChangeText={email => this.setState({ email })}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              containerBgColor="rgba(192, 192, 192, 0.5)"
-              inputStyle={{
-                color: '#000',
-                fontSize: 13,
-                width: '100%',
-              }}
-            />
-            <Input
-              value={password}
-              placeholder="Senha"
-              iconName="md-lock"
-              secureTextEntry={secureText}
-              setPasswordVisibility={() => this.setPasswordVisibility()}
-              onChangeText={passwordText => this.setState({ password: passwordText })}
-              autoCapitalize="none"
-              autoCompleteType="password"
-              containerBgColor="rgba(192, 192, 192, 0.5)"
-              inputStyle={{
-                color: '#000',
-                fontSize: 13,
-                width: '100%',
-              }}
-            />
-          </View>
-          <View style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text
-              style={{
-                fontFamily: Fonts.RubikRegular,
-                fontSize: 15,
-                marginTop: 3,
-              }}
-              onPress={() => this.props.navigation.navigate('Recuperacao')}
-            >
-              Esqueci minha senha
-            </Text>
-          </View>
-          <Button onPress={this.handleSubmit}>
-            <Text style={styles.text}>Entrar</Text>
-          </Button>
-        </View>
+  function setPasswordVisibility() {
+    setSecureText(!secureText);
+  }
 
-        <View style={{ display: 'flex', bottom: 0, alignItems: 'center' }}>
-          <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
-          <Text
-            style={{
-              fontSize: 18,
-              textDecorationLine: 'underline',
+  return (
+    <Container>
+      <View>
+        <TitleAuth>Login</TitleAuth>
+        <ViewInputs>
+          <Input
+            value={email}
+            placeholder="Email"
+            iconName="md-mail"
+            onChangeText={e => setEmail(e)}
+            autoCapitalize="none"
+            autoCompleteType="email"
+            containerBgColor="rgba(192, 192, 192, 0.5)"
+            inputStyle={{
               color: '#000',
+              fontSize: 13,
+              width: '100%',
             }}
-            onPress={() => this.props.navigation.replace('Cadastro')}
+          />
+          <Input
+            value={password}
+            placeholder="Senha"
+            iconName="md-lock"
+            secureTextEntry={secureText}
+            setPasswordVisibility={() => setPasswordVisibility()}
+            onChangeText={e => setPassword(e)}
+            autoCapitalize="none"
+            autoCompleteType="password"
+            containerBgColor="rgba(192, 192, 192, 0.5)"
+            inputStyle={{
+              color: '#000',
+              fontSize: 13,
+              width: '100%',
+            }}
+          />
+        </ViewInputs>
+        <ViewRecuperacao>
+          <TextRecuperacao
+            onPress={() => props.navigation.navigate('Recuperacao')}
           >
-            Cadastre-se
-          </Text>
-        </View>
+          Esqueci minha senha
+          </TextRecuperacao>
+        </ViewRecuperacao>
+        <Button onPress={handleSubmit}>
+          <TextButton>Entrar</TextButton>
+        </Button>
       </View>
-    );
-  }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-    height: '100%',
-    justifyContent: 'space-between',
-  },
-  inputs: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 25,
-    fontFamily: Fonts.RubikRegular,
-  },
-});
+      <ViewCadastro>
+        <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
+        <TextCadastro
+          onPress={() => props.navigation.replace('Cadastro')}
+        >
+        Cadastre-se
+        </TextCadastro>
+      </ViewCadastro>
+    </Container>
+  );
+}
