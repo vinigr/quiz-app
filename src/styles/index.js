@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Fonts from '../utils/fonts';
 
 export const Button = styled.TouchableOpacity`
   display: flex;
@@ -16,4 +17,17 @@ export const TitleAuth = styled.Text`
   color: #000;
   font-family: 'Rubik-Medium';
   font-size: 35;
+`;
+
+export const ViewError = styled.View`
+  width: 100%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+`;
+
+export const TextError = styled.Text`
+  color: #d41919;
+  font-size: 18px;
+  font-family: ${Fonts.RubikRegular};
 `;

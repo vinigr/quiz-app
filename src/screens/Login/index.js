@@ -5,7 +5,9 @@ import {
   View,
 } from 'react-native';
 
-import { Button, TitleAuth } from '../../styles';
+import {
+  Button, TitleAuth, ViewError, TextError,
+} from '../../styles';
 import {
   Container, ViewInputs, ViewRecuperacao, TextRecuperacao, TextButton, ViewCadastro, TextCadastro,
 } from './styles';
@@ -21,6 +23,9 @@ export default function Login(props) {
   const [error, setError] = useState(null);
 
   async function handleSubmit() {
+    setError(null);
+    if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
+
     try {
       const token = await api.post('/signin', {
         email,
@@ -29,7 +34,7 @@ export default function Login(props) {
       await AuthService.setToken(token.data.token);
       props.navigation.navigate('appNavigator');
     } catch (err) {
-      console.tron.log(`Erro:${err}`);
+      return setError(err.response.data.message);
     }
   }
 
@@ -41,6 +46,7 @@ export default function Login(props) {
     <Container>
       <View>
         <TitleAuth>Login</TitleAuth>
+        {error && <ViewError><TextError>{error}</TextError></ViewError>}
         <ViewInputs>
           <Input
             value={email}
