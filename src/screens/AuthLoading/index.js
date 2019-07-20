@@ -1,37 +1,20 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
-  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import api from '../../service/api';
+import AuthService from '../../service/auth';
 
-export default class AuthLoading extends Component {
-  state={
-    loading: true,
+export default function AuthLoading(props) {
+  useEffect(() => {
+    verifyToken();
+  }, []);
+
+  async function verifyToken() {
+    const auth = await AuthService.loggedIn();
+    props.navigation.navigate(auth ? 'appNavigator' : 'authNavigator');
   }
 
-  componentDidMount = async () => {
-    const userToken = await AsyncStorage.getItem('@QuizApp:token');
-    if (userToken) {
-      const user = await api.post('/verify', {
-        token: userToken,
-      });
-      if (user.data.auth === false) return this.props.navigation.navigate('authNavigator');
-      this.props.navigation.navigate('appNavigator');
-    } else {
-      this.props.navigation.navigate('authNavigator');
-    }
-  };
-
-  render() {
-    const { loading } = this.state;
-    return (
-      <View>
-        {loading ? <ActivityIndicator /> : <View />}
-
-        {/* <StatusBar barStyle="default" /> */}
-      </View>
-    );
-  }
+  return (
+    <ActivityIndicator />
+  );
 }
