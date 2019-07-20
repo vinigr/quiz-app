@@ -1,101 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
 import {
-  Text, View, StyleSheet, TouchableOpacity,
+  View,
 } from 'react-native';
 import { Button, TitleAuth } from '../../styles';
-import Fonts from '../../utils/fonts';
 import Input from '../../components/TextInput';
+import {
+  Container, ViewInputs, TextButton, ViewLogin, TextConta, TextLogin,
+} from './styles';
 
+export default function Cadastro(props) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [secureText, setSecureText] = useState(true);
+  const [error, setError] = useState(null);
 
-export default class Cadastro extends Component {
-  state = {
-    name: '',
-    email: '',
-    password: '',
-    secureText: true,
-    error: null,
-  };
-
-  setPasswordVisibility() {
-    this.setState({
-      secureText: !this.state.secureText,
-    });
+  function setPasswordVisibility() {
+    setSecureText(!secureText);
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View>
-          <TitleAuth>Cadastro</TitleAuth>
-          <View style={styles.inputs}>
-            <Input
-              placeholder="Nome completo"
-              iconName="md-person"
-              onChangeText={name => this.setState({ name })}
-              autoCapitalize="words"
-              containerBgColor="rgba(192, 192, 192, 0.5)"
-              inputStyle={{
-                color: '#000',
-                fontSize: 13,
-                width: '100%',
-              }}
-            />
-            <Input
-              value={this.state.email}
-              placeholder="Email"
-              iconName="md-mail"
-              onChangeText={email => this.setState({ email })}
-              autoCapitalize="none"
-              containerBgColor="rgba(192, 192, 192, 0.5)"
-              inputStyle={{
-                color: '#000',
-                fontSize: 13,
-                width: '100%',
-              }}
-            />
-            <Input
-              value={this.state.password}
-              placeholder="Senha"
-              iconName="md-lock"
-              secureTextEntry={this.state.secureText}
-              autoCapitalize="none"
-              setPasswordVisibility={() => this.setPasswordVisibility()}
-              onChangeText={password => this.setState({ password })}
-              containerBgColor="rgba(192, 192, 192, 0.5)"
-              inputStyle={{
-                color: '#000',
-                fontSize: 13,
-                width: '100%',
-              }}
-            />
-          </View>
-          <Button>
-            <Text style={styles.text}>Cadastrar</Text>
-          </Button>
-        </View>
-
-        <View style={{ display: 'flex', bottom: 0, alignItems: 'center' }}>
-          <Text style={{ fontSize: 16 }}>Já possui conta?</Text>
-          <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: '#000' }} onPress={() => this.props.navigation.replace('Login')}>Entre</Text>
-        </View>
+  return (
+    <Container>
+      <View>
+        <TitleAuth>Cadastro</TitleAuth>
+        <ViewInputs>
+          <Input
+            value={name}
+            placeholder="Nome completo"
+            iconName="md-person"
+            onChangeText={e => setName(e)}
+            autoCapitalize="words"
+            containerBgColor="rgba(192, 192, 192, 0.5)"
+          />
+          <Input
+            value={email}
+            placeholder="Email"
+            iconName="md-mail"
+            onChangeText={e => setEmail(e)}
+            autoCapitalize="none"
+            containerBgColor="rgba(192, 192, 192, 0.5)"
+          />
+          <Input
+            value={password}
+            placeholder="Senha"
+            iconName="md-lock"
+            secureTextEntry={secureText}
+            autoCapitalize="none"
+            setPasswordVisibility={setPasswordVisibility}
+            onChangeText={e => setPassword(e)}
+            containerBgColor="rgba(192, 192, 192, 0.5)"
+          />
+        </ViewInputs>
+        <Button>
+          <TextButton>Cadastrar</TextButton>
+        </Button>
       </View>
-    );
-  }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-    height: '100%',
-    justifyContent: 'space-between',
-  },
-  inputs: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 25,
-    fontFamily: Fonts.RubikRegular,
-  },
-});
+      <ViewLogin>
+        <TextConta>Já possui conta?</TextConta>
+        <TextLogin onPress={() => props.navigation.replace('Login')}>Entre</TextLogin>
+      </ViewLogin>
+    </Container>
+  );
+}
