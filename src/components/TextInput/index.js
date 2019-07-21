@@ -1,57 +1,44 @@
 import React from 'react';
-import {
-  View, StyleSheet, TextInput, TouchableHighlight,
-} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {
+  Container, IconContainer, TextInput, TouchableSecure,
+} from './styles';
 
-const Input = props => (
-  <View style={[styles.container, { backgroundColor: props.containerBgColor }]}>
-    <View style={styles.iconContainer}>
-      <Icon name={props.iconName} size={19} color="#000" />
-    </View>
+const Input = ({
+  containerBgColor,
+  iconName,
+  placeholder,
+  onChangeText,
+  value,
+  secureTextEntry,
+  autoCapitalize,
+  setPasswordVisibility,
+}) => (
+  <Container containerBgColor={containerBgColor}>
+    <IconContainer>
+      <Icon name={iconName} size={19} color="#000" />
+    </IconContainer>
     <TextInput
-      style={props.inputStyle}
-      placeholder={props.placeholder}
+      placeholder={placeholder}
       placeholderTextColor="#000"
-      onChangeText={props.onChangeText}
-      value={props.value}
-      secureTextEntry={props.secureTextEntry}
-      autoCapitalize={props.autoCapitalize}
+      onChangeText={onChangeText}
+      value={value}
+      secureTextEntry={secureTextEntry}
+      autoCapitalize={autoCapitalize}
     />
-    {props.placeholder === 'Senha' && (
-      <TouchableHighlight
-        style={styles.rightIconContainer}
-        onPress={props.setPasswordVisibility}
+    {placeholder === 'Senha' && (
+      <TouchableSecure
+        onPress={setPasswordVisibility}
         underlayColor="transparent"
       >
         <Icon
-          name={props.secureTextEntry ? 'md-eye-off' : 'md-eye'}
+          name={secureTextEntry ? 'md-eye-off' : 'md-eye'}
           size={19}
           color="#000"
         />
-      </TouchableHighlight>
+      </TouchableSecure>
     )}
-  </View>
+  </Container>
 );
-export default Input;
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    width: '99%',
-    height: 50,
-    marginBottom: 10,
-  },
-  iconContainer: {
-    width: 30,
-    marginLeft: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rightIconContainer: {
-    position: 'absolute',
-    right: 10,
-  },
-});
+export default Input;
