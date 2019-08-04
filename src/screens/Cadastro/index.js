@@ -9,6 +9,9 @@ import {
   Container, ViewInputs, TextButton, ViewLogin, TextConta, TextLogin,
 } from './styles';
 
+import api from '../../service/api';
+import AuthService from '../../service/auth';
+
 export default function Cadastro(props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,6 +21,23 @@ export default function Cadastro(props) {
 
   function setPasswordVisibility() {
     setSecureText(!secureText);
+  }
+
+  async function handleSubmit() {
+    setError(null);
+    if (!name || name === '' || !email || !password || email === '' || password === '') return setError('Dados insuficientes');
+
+    try {
+      const token = await api.post('/signup', {
+        name,
+        email,
+        password,
+      });
+      await AuthService.setToken(token.data.token);
+      return props.navigation.navigate('appNavigator');
+    } catch (err) {
+      return setError(err.response.data.message);
+    }
   }
 
   return (
@@ -52,7 +72,7 @@ export default function Cadastro(props) {
             containerBgColor="rgba(192, 192, 192, 0.5)"
           />
         </ViewInputs>
-        <Button>
+        <Button onPress={handleSubmit}>
           <TextButton>Cadastrar</TextButton>
         </Button>
       </View>
