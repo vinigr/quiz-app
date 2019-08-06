@@ -8,7 +8,8 @@ import Historico from './Historico';
 import Profile from './Profile';
 import Questionarios from './Questionarios';
 import Disciplinas from './Disciplinas';
-
+import Conteudo from './Disciplina/Conteudo';
+import Pessoas from './Disciplina/Pessoas';
 
 export {
   AuthLoading,
@@ -21,4 +22,6 @@ export {
   Profile,
   Questionarios,
   Disciplinas,
+  Conteudo,
+  Pessoas,
 };

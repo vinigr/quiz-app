@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  createStackNavigator, createAppContainer, createSwitchNavigator,
+  createStackNavigator, createAppContainer, createSwitchNavigator, createMaterialTopTabNavigator,
 } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,17 +11,59 @@ import {
   Abertura,
   Recuperacao,
   Disciplinas,
+  Conteudo,
+  Pessoas,
   Historico,
   Questionarios,
   Profile,
 } from '../screens';
 
-const appNavigator = createMaterialBottomTabNavigator({
+const Disciplina = createMaterialTopTabNavigator({
+  Conteudo: {
+    screen: Conteudo,
+    navigationOptions: {
+      title: 'Conteúdo',
+    },
+  },
+  Pessoas: {
+    screen: Pessoas,
+    navigationOptions: {
+
+    },
+  },
+}, {
+  initialRouteName: 'Pessoas',
+  tabBarOptions: {
+    upperCaseLabel: false,
+    labelStyle: {
+      fontFamily: 'Rubik-Medium',
+    },
+  },
+});
+
+
+const stackDisciplinas = createStackNavigator({
   Disciplinas: {
     screen: Disciplinas,
     navigationOptions: {
+      header: null,
+    },
+  },
+  Disciplina: {
+    screen: Disciplina,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
+
+
+const appNavigator = createMaterialBottomTabNavigator({
+  Disciplinas: {
+    screen: stackDisciplinas,
+    navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-        <Icon color={tintColor} size={24} name="text-subject" />
+        <Icon color={tintColor} size={24} name="application" />
       ),
     },
   },
