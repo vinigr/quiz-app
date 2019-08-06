@@ -5885,6 +5885,13 @@ react-native-safe-area-view@^0.14.1:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
   integrity sha512-kSyAt0AeVU6N7ZonfV6dP6iZF8B7Bce+tk3eujXhzBGsLg0VSLnU7uE9VqJF0xdQrHR91ZjGgVMieo/8df9KTA==
 
+react-native-spinkit@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-spinkit/-/react-native-spinkit-1.4.1.tgz#348e8b72b68741abdabe43fc14a9d69cd6a606de"
+  integrity sha512-lidKv4bnKzVOB+es2BwBGr/giLN6anMg6fOnI4FGPsJp2g6PqFYAbaGNZFDU82toINjQ476Q8qvFss2DHy4npg==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-native-tab-view@^1.0.0, react-native-tab-view@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.0.tgz#c70a1f6a86a12bdb6e8b30c390afc751dfe41275"
