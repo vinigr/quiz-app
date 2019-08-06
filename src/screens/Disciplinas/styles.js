@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export const Container = styled.View`
   align-items: center;
@@ -14,15 +14,16 @@ export const HeaderBar = styled.View`
   position: absolute;
   top: 0;
   width: 100%;
-  background-color: #000;
   justify-content: flex-end;
   align-items: center;
   padding: 0 10px;
+  border-bottom-width: ${StyleSheet.hairlineWidth}px;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
 `;
 
 export const ViewList = styled.View`
   width: 95%;
-  margin-top: 60px;
+  margin-top: 50px;
 `;
 
 export const ItemList = styled.TouchableOpacity`
@@ -73,21 +74,29 @@ export const NameTeacher = styled.Text`
 
 export const ViewModal = styled.View`
   background-color: #fff; 
-  width: ${Dimensions.get('window').width * 0.8};
-  height: ${Dimensions.get('window').height * 0.3};
+  width: ${Dimensions.get('window').width * 0.6};
+  height: ${Dimensions.get('window').height * 0.1};
   margin: 0 auto;
   border-radius: 5px;
+  align-items: center;
+  justify-content: center;
 `;
 
-export const OptionsModal = styled.TouchableHighlight`
+export const OptionsModal = styled.TouchableHighlight.attrs({
+  underlayColor: '#DCDCDC',
+})`
   padding: 5px 10px;
-  border-top-left-radius: ${props => (props.item === 1 ? 5 : 0)};
-  border-top-right-radius: ${props => (props.item === 1 ? 5 : 0)};
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
 `;
 
 export const OptionsText = styled.Text`
   font-size: 18px;
   color: #000;
+  font-family: 'Rubik-Regular';
 `;
 
 export const ViewModalAdd = styled.View`
