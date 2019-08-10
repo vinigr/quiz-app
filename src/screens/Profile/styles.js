@@ -10,6 +10,7 @@ export const Container = styled(LinearGradient).attrs({
   background-color: #FAFAFA;
   padding-top: 30px;
   height: 100%;
+  justify-content: space-around;
 `;
 
 export const Header = styled.View`
@@ -27,6 +28,7 @@ export const Name = styled.Text`
   font-family: 'Rubik-Medium';
   font-size: 25px;
   color: #272727;
+  text-align: center;
 `;
 
 export const Menu = styled.View`
@@ -46,7 +48,7 @@ export const Option = styled.TouchableOpacity`
   padding: 0 10px 0 10px;
 `;
 
-export const OptionTextIcon = styled.TouchableOpacity`
+export const OptionTextIcon = styled.View`
   flex-direction: row;
   align-items: center;
 `;

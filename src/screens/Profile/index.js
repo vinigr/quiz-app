@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, StatusBar,
 } from 'react-native';
@@ -7,9 +7,32 @@ import {
   Container, Header, Photo, Name, Menu, Option, OptionTextIcon, TextOption,
 } from './styles';
 
+import Loading from '../../components/Loading';
+
+import imagePerson from '../../assets/images/default-person.png';
+
 import AuthService from '../../service/auth';
 
+import api from '../../service/api';
+
 export default function Profile(props) {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await api.get('/user');
+        await setUser(result.data);
+        return setLoading(false);
+      } catch (error) {
+        return console.tron.log(error.response);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   function logout() {
     AuthService.logout(props);
   }
@@ -18,41 +41,46 @@ export default function Profile(props) {
     <View>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <Container>
-        <Header>
-          <Photo
-            source={{ uri: 'https://files.incrivel.club/files/news/part_71/715010/7826360-image-crop-1517x1585-1544022651-728-1680c03dbb-1545057856.jpg' }}
-          />
-          <Name>João Santana</Name>
-        </Header>
-        <Menu>
-          <Option>
-            <OptionTextIcon>
-              <Icon color="#4F4F4F" name="account-edit" size={30} />
-              <TextOption>Editar perfil</TextOption>
-            </OptionTextIcon>
-            <Icon name="chevron-right" size={30} />
-          </Option>
-          <Option>
-            <OptionTextIcon>
-              <Icon color="#4F4F4F" name="bell" size={30} />
-              <TextOption>Notificações</TextOption>
-            </OptionTextIcon>
-            <Icon name="chevron-right" size={30} />
-          </Option>
-          <Option>
-            <OptionTextIcon>
-              <Icon color="#4F4F4F" name="settings" size={30} />
-              <TextOption>Configurações</TextOption>
-            </OptionTextIcon>
-            <Icon name="chevron-right" size={30} />
-          </Option>
-          <Option onPress={logout}>
-            <OptionTextIcon>
-              <Icon color="#4F4F4F" name="power-standby" size={30} />
-              <TextOption>Sair</TextOption>
-            </OptionTextIcon>
-          </Option>
-        </Menu>
+        {loading ? <Loading /> : (
+          <>
+            <Header>
+              <Photo
+                source={user.path ? { uri: user.path } : imagePerson}
+              />
+              <Name>{user.name}</Name>
+            </Header>
+            <Menu>
+              <Option>
+                <OptionTextIcon>
+                  <Icon color="#4F4F4F" name="account-edit" size={30} />
+                  <TextOption>Editar perfil</TextOption>
+                </OptionTextIcon>
+                <Icon name="chevron-right" size={30} />
+              </Option>
+              <Option>
+                <OptionTextIcon>
+                  <Icon color="#4F4F4F" name="bell" size={30} />
+                  <TextOption>Notificações</TextOption>
+                </OptionTextIcon>
+                <Icon name="chevron-right" size={30} />
+              </Option>
+              <Option>
+                <OptionTextIcon>
+                  <Icon color="#4F4F4F" name="settings" size={30} />
+                  <TextOption>Configurações</TextOption>
+                </OptionTextIcon>
+                <Icon name="chevron-right" size={30} />
+              </Option>
+              <Option onPress={logout}>
+                <OptionTextIcon>
+                  <Icon color="#4F4F4F" name="exit-to-app" size={30} />
+                  <TextOption>Sair</TextOption>
+                </OptionTextIcon>
+              </Option>
+            </Menu>
+          </>
+        )
+        }
       </Container>
     </View>
   );
