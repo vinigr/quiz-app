@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FlatList, TouchableOpacity, Alert,
+  FlatList, TouchableOpacity, ToastAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
@@ -64,10 +64,25 @@ export default function Disciplinas(props) {
       tempSubjects.push(subjectRegister.data);
       setSubject(tempSubjects);
 
-      return Alert.alert('Sucesso', 'cadastrado');
+      return ToastAndroid.showWithGravity(
+        'Cadastro feito com sucesso!',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
     } catch (error) {
       await setModalAdd(false);
-      return Alert.alert('Erro', error.response.data.message);
+      if (error.response.data.message) {
+        return ToastAndroid.showWithGravity(
+          `${error.response.data.message}`,
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER,
+        );
+      }
+      return ToastAndroid.showWithGravity(
+        'Erro ao cadastrar!',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+      );
     }
   }
 
