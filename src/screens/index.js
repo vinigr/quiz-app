@@ -8,7 +8,7 @@ import Historico from './Historico';
 import Profile from './Profile';
 import Questionarios from './Questionarios';
 import Disciplinas from './Disciplinas';
-import Conteudo from './Disciplina/Conteudo';
+import Quizzes from './Disciplina/Quizzes';
 import Pessoas from './Disciplina/Pessoas';
 
 export {
@@ -22,6 +22,6 @@ export {
   Profile,
   Questionarios,
   Disciplinas,
-  Conteudo,
+  Quizzes,
   Pessoas,
 };
