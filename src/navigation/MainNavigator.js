@@ -11,7 +11,7 @@ import {
   Abertura,
   Recuperacao,
   Disciplinas,
-  Conteudo,
+  Quizzes,
   Pessoas,
   Historico,
   Questionarios,
@@ -19,10 +19,10 @@ import {
 } from '../screens';
 
 const Disciplina = createMaterialTopTabNavigator({
-  Conteudo: {
-    screen: Conteudo,
+  Quizzes: {
+    screen: Quizzes,
     navigationOptions: {
-      title: 'Conteúdo',
+      title: 'Questionários',
     },
   },
   Pessoas: {
@@ -32,11 +32,17 @@ const Disciplina = createMaterialTopTabNavigator({
     },
   },
 }, {
-  initialRouteName: 'Pessoas',
+  initialRouteName: 'Quizzes',
   tabBarOptions: {
     upperCaseLabel: false,
     labelStyle: {
       fontFamily: 'Rubik-Medium',
+    },
+    style: {
+      backgroundColor: '#0ECF80',
+    },
+    indicatorStyle: {
+      backgroundColor: '#0C8554',
     },
   },
 });
