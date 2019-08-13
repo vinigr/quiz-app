@@ -4,18 +4,35 @@ import {
   FlatList,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {
-  Container, ViewList, QuizItem, TitleItem, Header, Footer, ButtonStart, TextButton,
+  Container,
+  ViewList,
+  QuizItem,
+  TitleItem,
+  Header,
+  Footer,
+  InfoExpired,
+  TextExpiry,
+  DateExpiry,
+  ButtonStart,
+  TextButton,
+  ItemExpired,
+  HeaderExpired,
+  FooterExpired,
 } from './styles';
 
 import Loading from '../../../components/Loading';
 
 import api from '../../../service/api';
 
+const { formatToTimeZone } = require('date-fns-timezone');
+
 export default function Quizzes(props) {
   const [loading, setLoading] = useState(true);
-  const [quizzes, setQuizzes] = useState([]);
-
+  const [quizzesAvailable, setQuizzesAvailable] = useState([]);
+  const [quizzesNotAvailable, setQuizzesNotAvailable] = useState([]);
 
   useEffect(() => {
     const id = props.navigation.getParam('id');
@@ -23,8 +40,8 @@ export default function Quizzes(props) {
     const fetchData = async () => {
       try {
         const result = await api.get(`/subjectQuizList/${id}`);
-        await setQuizzes(result.data);
-        console.tron.log(result.data);
+        await setQuizzesAvailable(result.data.available);
+        await setQuizzesNotAvailable(result.data.notAvailable);
         return setLoading(false);
       } catch (error) {
         return console.tron.log(error.response);
@@ -40,9 +57,8 @@ export default function Quizzes(props) {
         <Loading />
       ) : (
         <ViewList>
-
           <FlatList
-            data={quizzes}
+            data={quizzesAvailable}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
               <QuizItem>
@@ -50,11 +66,47 @@ export default function Quizzes(props) {
                   <TitleItem>{item.name}</TitleItem>
                 </Header>
                 <Footer>
-                  <ButtonStart>
-                    <TextButton>INICIAR</TextButton>
-                  </ButtonStart>
+                  <InfoExpired>
+                    {item.expirationAt ? (
+                      <>
+                        <TextExpiry>Disponível até:</TextExpiry>
+                        <DateExpiry>
+                          {formatToTimeZone(
+                            item.expirationAt, 'DD/MM HH:mm', {
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </DateExpiry>
+                      </>
+                    ) : <TextExpiry>Disponível</TextExpiry>}
+                  </InfoExpired>
+                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
+                    && (
+                    <ButtonStart>
+                      <TextButton>INICIAR</TextButton>
+                      <Icon name="play" size={24} color="#fff" />
+                    </ButtonStart>
+                    )
+                  }
                 </Footer>
               </QuizItem>
+            )}
+          />
+          <FlatList
+            data={quizzesNotAvailable}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item }) => (
+              <ItemExpired>
+                <HeaderExpired>
+                  <TitleItem>{item.name}</TitleItem>
+                </HeaderExpired>
+                <FooterExpired>
+                  <InfoExpired>
+                    <TextExpiry>Expirado</TextExpiry>
+                  </InfoExpired>
+                  <Icon name="timer-off" size={40} color="#FF5733" />
+                </FooterExpired>
+              </ItemExpired>
             )}
           />
         </ViewList>
