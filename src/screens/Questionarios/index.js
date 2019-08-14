@@ -1,13 +1,129 @@
-import React from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import {
+  Container, Title, Description, Header, SubjectName,
+} from './styles';
+import {
+  QuizItem,
+  TitleItem,
+  Footer,
+  InfoExpired,
+  TextExpiry,
+  DateExpiry,
+  ButtonStart,
+  TextButton,
+} from '../Disciplina/Quizzes/styles';
+
+import api from '../../service/api';
+
+const { formatToTimeZone } = require('date-fns-timezone');
 
 export default function Questionarios() {
+  const [loading, setLoading] = useState(true);
+  const [quizzesNext, setQuizzesNext] = useState([]);
+  const [quizzesOthers, setQuizzesOthers] = useState([]);
+
+  async function fetchData() {
+    try {
+      const result = await api.get('/allQuizzes/');
+      await setQuizzesNext(result.data.listNext);
+      await setQuizzesOthers(result.data.listOthers);
+      return setLoading(false);
+    } catch (error) {
+      return console.tron.log(error.response);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <View>
+    <>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <View>
-        <Text> Questionarios </Text>
-      </View>
-    </View>
+      <Container>
+        <Title>Próximos</Title>
+        <Description>(Expiram em até 7 dias)</Description>
+        <FlatList
+          data={quizzesNext}
+          keyExtractor={item => `${item.id}`}
+          onRefresh={() => {}}
+          refreshing={loading}
+          renderItem={({ item }) => (
+            <QuizItem>
+              <Header>
+                <TitleItem>{item.name}</TitleItem>
+                <SubjectName>{item.subject.name}</SubjectName>
+              </Header>
+              <Footer>
+                <InfoExpired>
+                  {item.expirationAt ? (
+                    <>
+                      <TextExpiry>Disponível até:</TextExpiry>
+                      <DateExpiry>
+                        {formatToTimeZone(
+                          item.expirationAt, 'DD/MM HH:mm', {
+                            timeZone: 'America/Sao_Paulo',
+                          },
+                        )}
+                      </DateExpiry>
+                    </>
+                  ) : <TextExpiry>Disponível</TextExpiry>}
+                </InfoExpired>
+                {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
+                    && (
+                    <ButtonStart>
+                      <TextButton>INICIAR</TextButton>
+                      <Icon name="play" size={24} color="#fff" />
+                    </ButtonStart>
+                    )
+                  }
+              </Footer>
+            </QuizItem>
+          )}
+        />
+        <Title>Outros</Title>
+        <FlatList
+          data={quizzesOthers}
+          keyExtractor={item => `${item.id}`}
+          onRefresh={() => {}}
+          refreshing={loading}
+          renderItem={({ item }) => (
+            <QuizItem>
+              <Header>
+                <TitleItem>{item.name}</TitleItem>
+                <SubjectName>{item.subject.name}</SubjectName>
+              </Header>
+              <Footer>
+                <InfoExpired>
+                  {item.expirationAt ? (
+                    <>
+                      <TextExpiry>Disponível até:</TextExpiry>
+                      <DateExpiry>
+                        {formatToTimeZone(
+                          item.expirationAt, 'DD/MM HH:mm', {
+                            timeZone: 'America/Sao_Paulo',
+                          },
+                        )}
+                      </DateExpiry>
+                    </>
+                  ) : <TextExpiry>Disponível</TextExpiry>}
+                </InfoExpired>
+                {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
+                    && (
+                    <ButtonStart>
+                      <TextButton>INICIAR</TextButton>
+                      <Icon name="play" size={24} color="#fff" />
+                    </ButtonStart>
+                    )
+                  }
+              </Footer>
+            </QuizItem>
+          )}
+        />
+      </Container>
+    </>
   );
 }
