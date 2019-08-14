@@ -34,20 +34,19 @@ export default function Quizzes(props) {
   const [quizzesAvailable, setQuizzesAvailable] = useState([]);
   const [quizzesNotAvailable, setQuizzesNotAvailable] = useState([]);
 
-  useEffect(() => {
+  async function fetchData() {
     const id = props.navigation.getParam('id');
+    try {
+      const result = await api.get(`/subjectQuizList/${id}`);
+      await setQuizzesAvailable(result.data.available);
+      await setQuizzesNotAvailable(result.data.notAvailable);
+      return setLoading(false);
+    } catch (error) {
+      return console.tron.log(error.response);
+    }
+  }
 
-    const fetchData = async () => {
-      try {
-        const result = await api.get(`/subjectQuizList/${id}`);
-        await setQuizzesAvailable(result.data.available);
-        await setQuizzesNotAvailable(result.data.notAvailable);
-        return setLoading(false);
-      } catch (error) {
-        return console.tron.log(error.response);
-      }
-    };
-
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -60,6 +59,8 @@ export default function Quizzes(props) {
           <FlatList
             data={quizzesAvailable}
             keyExtractor={item => `${item.id}`}
+            onRefresh={() => {}}
+            refreshing={loading}
             renderItem={({ item }) => (
               <QuizItem>
                 <Header>
