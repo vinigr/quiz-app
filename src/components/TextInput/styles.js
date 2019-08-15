@@ -7,7 +7,8 @@ export const Container = styled.View`
   width: 99%;
   height: 50px;
   margin-bottom: 10;
-  background-color: ${props => props.containerBgColor}
+  background-color: ${props => props.containerBgColor};
+  border-radius: 4px;
 `;
 
 export const IconContainer = styled.View`
