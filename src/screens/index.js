@@ -6,6 +6,7 @@ import Recuperacao from './Recuperacao';
 import Notificacoes from './Notificacoes';
 import Historico from './Historico';
 import Profile from './Profile';
+import Edit from './Profile/Edit';
 import Questionarios from './Questionarios';
 import Disciplinas from './Disciplinas';
 import Quizzes from './Disciplina/Quizzes';
@@ -20,6 +21,7 @@ export {
   Notificacoes,
   Historico,
   Profile,
+  Edit,
   Questionarios,
   Disciplinas,
   Quizzes,

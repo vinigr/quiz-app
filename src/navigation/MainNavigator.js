@@ -16,6 +16,7 @@ import {
   Historico,
   Questionarios,
   Profile,
+  Edit,
 } from '../screens';
 
 const Disciplina = createMaterialTopTabNavigator({
@@ -63,6 +64,23 @@ const stackDisciplinas = createStackNavigator({
   },
 });
 
+const stackProfile = createStackNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  EditProfile: {
+    screen: Edit,
+    navigationOptions: {
+      header: null,
+    },
+  },
+}, {
+  initialRouteName: 'EditProfile',
+});
+
 
 const appNavigator = createMaterialBottomTabNavigator({
   Disciplinas: {
@@ -92,7 +110,7 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
   Profile: {
-    screen: Profile,
+    screen: stackProfile,
     navigationOptions: {
       title: 'Perfil',
       tabBarIcon: ({ tintColor }) => (
@@ -101,7 +119,7 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
 }, {
-  initialRouteName: 'Disciplinas',
+  initialRouteName: 'Profile',
   activeColor: '#059451',
   inactiveColor: '#646464',
   barStyle: { backgroundColor: '#fff' },
