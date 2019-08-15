@@ -26,7 +26,7 @@ const Input = ({
       secureTextEntry={secureTextEntry}
       autoCapitalize={autoCapitalize}
     />
-    {placeholder === ('Senha' || 'Senha atual' || 'Nova senha') && (
+    {(placeholder === 'Senha' || placeholder === 'Senha atual' || placeholder === 'Nova senha') && (
       <TouchableSecure
         onPress={setPasswordVisibility}
         underlayColor="transparent"
