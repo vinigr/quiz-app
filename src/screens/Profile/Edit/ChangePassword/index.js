@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Alert } from 'react-native';
 
 import {
   Container, Options, ButtonSave, TextRecuperacao,
 } from './styles';
+
+import { ViewError, TextError, TextSuccess } from '../../../../styles';
 
 import { TextSave } from '../styles';
 
@@ -17,6 +19,9 @@ export default function ChangePassword({ navigation }) {
   const [secureCurrentPassword, setSecureCurrentPassword] = useState(true);
   const [newPassword, setNewPassword] = useState();
   const [secureNewPassword, setSecureNewPassword] = useState(true);
+  const [error, setError] = useState();
+  const [success, setSuccess] = useState();
+
 
   async function sendEmail() {
     const { email } = navigation.state.params.user.l_auth;
@@ -33,7 +38,7 @@ export default function ChangePassword({ navigation }) {
           { text: 'OK' },
         ],
       );
-    } catch (error) {
+    } catch (err) {
       Alert.alert(
         'Erro',
         `Erro ao enviar email para ${email}`,
@@ -41,6 +46,27 @@ export default function ChangePassword({ navigation }) {
           { text: 'OK' },
         ],
       );
+    }
+  }
+
+  async function updatePassword() {
+    setError(null);
+    setSuccess(null);
+    if (!currentPassword || !newPassword) return setError('Dados insuficientes!');
+    if (currentPassword === newPassword) return setError('Senhas iguais!');
+
+    try {
+      await api.put('/changePassword', {
+        currentPassword,
+        newPassword,
+      });
+
+      return setSuccess('Senha alterada com sucesso!');
+    } catch (err) {
+      if (err.response.data.message) {
+        return setError(err.response.data.message);
+      }
+      return setError('Erro ao atualizar senha!');
     }
   }
 
@@ -78,8 +104,11 @@ export default function ChangePassword({ navigation }) {
           width: '100%',
         }}
       />
+      {error && <ViewError><TextError>{error}</TextError></ViewError>}
+      {success && <ViewError><TextSuccess>{success}</TextSuccess></ViewError>}
+
       <Options>
-        <ButtonSave>
+        <ButtonSave onPress={updatePassword}>
           <TextSave>Atualizar senha</TextSave>
         </ButtonSave>
         <TextRecuperacao onPress={sendEmail}>
