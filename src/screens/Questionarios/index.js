@@ -20,7 +20,7 @@ import api from '../../service/api';
 
 const { formatToTimeZone } = require('date-fns-timezone');
 
-export default function Questionarios() {
+export default function Questionarios(props) {
   const [loading, setLoading] = useState(true);
   const [quizzesNext, setQuizzesNext] = useState([]);
   const [quizzesOthers, setQuizzesOthers] = useState([]);
@@ -74,7 +74,7 @@ export default function Questionarios() {
                 </InfoExpired>
                 {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
                     && (
-                    <ButtonStart>
+                    <ButtonStart onPress={() => props.navigation.navigate('Quiz')}>
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
@@ -88,8 +88,6 @@ export default function Questionarios() {
         <FlatList
           data={quizzesOthers}
           keyExtractor={item => `${item.id}`}
-          onRefresh={() => {}}
-          refreshing={loading}
           renderItem={({ item }) => (
             <QuizItem>
               <Header>
@@ -113,7 +111,7 @@ export default function Questionarios() {
                 </InfoExpired>
                 {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
                     && (
-                    <ButtonStart>
+                    <ButtonStart onPress={() => props.navigation.navigate('Quiz')}>
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>

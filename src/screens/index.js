@@ -7,10 +7,12 @@ import Notificacoes from './Notificacoes';
 import Historico from './Historico';
 import Profile from './Profile';
 import Edit from './Profile/Edit';
+import ChangePassword from './Profile/Edit/ChangePassword';
 import Questionarios from './Questionarios';
 import Disciplinas from './Disciplinas';
 import Quizzes from './Disciplina/Quizzes';
 import Pessoas from './Disciplina/Pessoas';
+import Quiz from './Quiz';
 
 export {
   AuthLoading,
@@ -26,4 +28,6 @@ export {
   Disciplinas,
   Quizzes,
   Pessoas,
+  ChangePassword,
+  Quiz,
 };

@@ -50,7 +50,7 @@ export default function Profile(props) {
               <Name>{user.name}</Name>
             </Header>
             <Menu>
-              <Option>
+              <Option onPress={() => props.navigation.navigate('EditProfile', { user })}>
                 <OptionTextIcon>
                   <Icon color="#4F4F4F" name="account-edit" size={30} />
                   <TextOption>Editar perfil</TextOption>
