@@ -20,7 +20,7 @@ export const IconContainer = styled.View`
 
 export const TextInput = styled.TextInput`
   color: #000;
-  font-size: 13px;
+  font-size: 14px;
   width: 100%;
 `;
 
