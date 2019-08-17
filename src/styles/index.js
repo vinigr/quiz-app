@@ -31,3 +31,9 @@ export const TextError = styled.Text`
   font-size: 18px;
   font-family: ${Fonts.RubikRegular};
 `;
+
+export const TextSuccess = styled.Text`
+  color: #059451;
+  font-size: 18px;
+  font-family: ${Fonts.RubikRegular};
+`;
