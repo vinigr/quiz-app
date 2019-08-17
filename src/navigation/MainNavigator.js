@@ -17,6 +17,8 @@ import {
   Questionarios,
   Profile,
   Edit,
+  ChangePassword,
+  Quiz,
 } from '../screens';
 
 const Disciplina = createMaterialTopTabNavigator({
@@ -77,8 +79,29 @@ const stackProfile = createStackNavigator({
       header: null,
     },
   },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: {
+      title: 'Alterar senha',
+    },
+  },
+});
+
+const stackQuizzes = createStackNavigator({
+  Questionarios: {
+    screen: Questionarios,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      header: null,
+    },
+  },
 }, {
-  initialRouteName: 'EditProfile',
+  initialRouteName: 'Quiz',
 });
 
 
@@ -92,7 +115,7 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
   Questionarios: {
-    screen: Questionarios,
+    screen: stackQuizzes,
     navigationOptions: {
       title: 'Quizzes',
       tabBarIcon: ({ tintColor }) => (
@@ -119,7 +142,7 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
 }, {
-  initialRouteName: 'Profile',
+  initialRouteName: 'Questionarios',
   activeColor: '#059451',
   inactiveColor: '#646464',
   barStyle: { backgroundColor: '#fff' },
