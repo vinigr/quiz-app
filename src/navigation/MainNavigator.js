@@ -87,25 +87,7 @@ const stackProfile = createStackNavigator({
   },
 });
 
-const stackQuizzes = createStackNavigator({
-  Questionarios: {
-    screen: Questionarios,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  Quiz: {
-    screen: Quiz,
-    navigationOptions: {
-      header: null,
-    },
-  },
-}, {
-  initialRouteName: 'Quiz',
-});
-
-
-const appNavigator = createMaterialBottomTabNavigator({
+const bottomNavigator = createMaterialBottomTabNavigator({
   Disciplinas: {
     screen: stackDisciplinas,
     navigationOptions: {
@@ -115,7 +97,7 @@ const appNavigator = createMaterialBottomTabNavigator({
     },
   },
   Questionarios: {
-    screen: stackQuizzes,
+    screen: Questionarios,
     navigationOptions: {
       title: 'Quizzes',
       tabBarIcon: ({ tintColor }) => (
@@ -147,6 +129,24 @@ const appNavigator = createMaterialBottomTabNavigator({
   inactiveColor: '#646464',
   barStyle: { backgroundColor: '#fff' },
 });
+
+const appNavigator = createStackNavigator({
+  BottomNavigator: {
+    screen: bottomNavigator,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      header: null,
+    },
+  },
+}, {
+  initialRouteName: 'Quiz',
+});
+
 
 const autNavigator = createStackNavigator({
   Abertura: {
