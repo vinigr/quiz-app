@@ -16,8 +16,26 @@ export default function Quiz() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(2);
   const [loading, setLoading] = useState(true);
+  const [answer, setAnswers] = useState();
 
   const indexQuestion = currentQuestion - 1;
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await api.get('/questionsQuiz/16');
+        setQuestions(data);
+        setLoading(false);
+      } catch (error) {
+        console.tron.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  function handleAnswers(answer) {
+    setAnswers(answer);
+  }
 
   function renderOptions(question) {
     const arrayOptions = [];
@@ -33,26 +51,18 @@ export default function Quiz() {
     const { options } = question;
 
     return options.map(
-      (option, index) => option !== null && (
-      <OptionME key={index}>
-        <TextOption>{option}</TextOption>
+      (option, index) => option && (
+      <OptionME
+        key={index}
+        correct={answer === index}
+        onPress={() => handleAnswers(index)}
+      >
+        <TextOption correct={answer === index}>{option}</TextOption>
       </OptionME>
       ),
     );
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data } = await api.get('/questionsQuiz/16');
-        setQuestions(data);
-        setLoading(false);
-      } catch (error) {
-        console.tron.log(error);
-      }
-    }
-    fetchData();
-  }, []);
 
   return (
     <Container>
@@ -66,17 +76,16 @@ export default function Quiz() {
             {questions[indexQuestion].tfQuestion ? (
               <QuestionView>
                 <QuestionText>
-                  {console.tron.log(questions[indexQuestion])}
                   {questions[indexQuestion].tfQuestion.question}
                 </QuestionText>
                 {!questions[indexQuestion].tfQuestion.pathImage && (
                   <ImageQuestion source={{ uri: 'https://s3.amazonaws.com/qcon-assets-production/images/provas/37927/imagem-026.jpg' }} />
                 )}
                 <OptionsTF>
-                  <OptionTF>
+                  <OptionTF onPress={() => handleAnswers(true)}>
                     <TextOption>Verdadeiro</TextOption>
                   </OptionTF>
-                  <OptionTF>
+                  <OptionTF onPress={() => handleAnswers(false)}>
                     <TextOption>Falso</TextOption>
                   </OptionTF>
                 </OptionsTF>

@@ -40,24 +40,33 @@ export const ImageQuestion = styled(Image).attrs({
 export const OptionsTF = styled.View`
   width: 100%;
   flex-direction: row;
+  justify-content: space-around;
 `;
 
-export const OptionTF = styled.TouchableHighlight`
+export const OptionTF = styled.TouchableOpacity`
   width: 40%;
+  align-items: center;
+  padding: 6px 0;
+  border-radius: 2px;
+  border: #757575;
 `;
 
 export const TextOption = styled.Text`
   font-size: 20px;
+  color: ${props => (props.correct ? '#fff' : '#000')};
 `;
 
 export const OptionsME = styled.View`
   width: 100%;
 `;
 
-export const OptionME = styled.TouchableHighlight`
+export const OptionME = styled.TouchableHighlight.attrs({
+  underlayColor: '#757575',
+})`
   width: 100%;
-  padding: 6px;
+  padding: 10px;
   margin-bottom: 10px;
-  background-color: aliceblue;
-  border-radius: 2px;
+  border-radius: 4px;
+  background-color: ${props => (props.correct ? 'green' : '#fff')};
+  border: ${props => (props.correct ? 'none' : '#757575')};;
 `;
