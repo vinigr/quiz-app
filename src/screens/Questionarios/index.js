@@ -27,12 +27,13 @@ export default function Questionarios(props) {
 
   async function fetchData() {
     try {
+      setLoading(true);
       const result = await api.get('/allQuizzes/');
       await setQuizzesNext(result.data.listNext);
       await setQuizzesOthers(result.data.listOthers);
       return setLoading(false);
-    } catch (error) {
-      return console.tron.log(error.response);
+    } catch ({ response }) {
+      return console.tron.log(response);
     }
   }
 
@@ -49,7 +50,7 @@ export default function Questionarios(props) {
         <FlatList
           data={quizzesNext}
           keyExtractor={item => `${item.id}`}
-          onRefresh={() => {}}
+          onRefresh={fetchData}
           refreshing={loading}
           renderItem={({ item }) => (
             <QuizItem>
@@ -74,7 +75,9 @@ export default function Questionarios(props) {
                 </InfoExpired>
                 {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
                     && (
-                    <ButtonStart onPress={() => props.navigation.navigate('Quiz')}>
+                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
+                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                    >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
@@ -88,6 +91,8 @@ export default function Questionarios(props) {
         <FlatList
           data={quizzesOthers}
           keyExtractor={item => `${item.id}`}
+          onRefresh={quizzesNext.length === 0 ? fetchData : null}
+          refreshing={loading}
           renderItem={({ item }) => (
             <QuizItem>
               <Header>
@@ -111,7 +116,9 @@ export default function Questionarios(props) {
                 </InfoExpired>
                 {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
                     && (
-                    <ButtonStart onPress={() => props.navigation.navigate('Quiz')}>
+                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
+                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                    >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
