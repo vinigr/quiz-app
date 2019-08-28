@@ -25,14 +25,13 @@ export default function Login(props) {
   async function handleSubmit() {
     setError(null);
     if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
-
     try {
       const token = await api.post('/signin', {
         email,
         password,
       });
       await AuthService.setToken(token.data.token);
-      props.navigation.navigate('appNavigator');
+      return props.navigation.navigate('appNavigator');
     } catch (err) {
       return setError(err.response.data.message);
     }
