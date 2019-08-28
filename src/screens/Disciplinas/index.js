@@ -6,7 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import {
   Container,
-  HeaderBar,
+  IconsHeader,
+  IconHeader,
   ViewList,
   ItemList,
   HeaderSubject,
@@ -37,17 +38,20 @@ export default function Disciplinas(props) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function buscaBanco() {
-      try {
-        const subjects = await api.get('/user/subjects');
-        await setSubject(subjects.data.subjects);
-        return setLoading(false);
-      } catch (error) {
-        return console.tron.log(error);
-      }
+  async function fetchData() {
+    try {
+      setLoading(true);
+      const subjects = await api.get('/user/subjects');
+      await setSubject(subjects.data.subjects);
+      return setLoading(false);
+    } catch (error) {
+      return console.tron.log(error);
     }
-    buscaBanco();
+  }
+
+  useEffect(() => {
+    props.navigation.setParams({ openModalSubject: () => setModalAdd(true), update: fetchData });
+    fetchData();
   }, []);
 
   async function addSubject() {
@@ -88,23 +92,14 @@ export default function Disciplinas(props) {
 
   return (
     <Container>
-      <HeaderBar>
-        <TouchableOpacity
-          onPress={() => setModalAdd(true)}
-        >
-          <Icon
-            name="plus"
-            size={30}
-            color="#000"
-          />
-        </TouchableOpacity>
-      </HeaderBar>
       {loading ? <Loading />
         : (
           <ViewList>
             <FlatList
               data={subject}
               keyExtractor={item => `${item.subject_id}`}
+              onRefresh={fetchData}
+              refreshing={loading}
               renderItem={({ item }) => (
                 <ItemList onPress={() => props.navigation.navigate('Disciplina', {
                   id: item.subject_id,
@@ -135,6 +130,7 @@ export default function Disciplinas(props) {
               animationIn="fadeIn"
               animationOut="fadeOut"
               animationInTiming={200}
+              backdropTransitionOutTiming={0}
             >
               <ViewModal>
                 <OptionsModal onPress={() => {}}>
@@ -149,7 +145,7 @@ export default function Disciplinas(props) {
               animationIn="fadeIn"
               animationOut="fadeOut"
               animationInTiming={200}
-              hardwareAccelerated
+              backdropTransitionOutTiming={0}
             >
               <ViewModalAdd>
                 <TextModalAdd>
@@ -167,3 +163,29 @@ export default function Disciplinas(props) {
     </Container>
   );
 }
+
+Disciplinas.navigationOptions = ({ navigation }) => ({
+  headerRight: (
+    <IconsHeader>
+      <IconHeader
+        onPress={() => navigation.state.params.update()}
+      >
+        <Icon
+          name="refresh"
+          size={30}
+          color="#000"
+        />
+      </IconHeader>
+      <IconHeader
+        onPress={() => navigation.state.params.openModalSubject()}
+      >
+        <Icon
+          name="plus"
+          size={30}
+          color="#000"
+        />
+      </IconHeader>
+    </IconsHeader>
+
+  ),
+});

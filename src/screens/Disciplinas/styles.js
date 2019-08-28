@@ -1,29 +1,24 @@
 import styled from 'styled-components/native';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
 
 export const Container = styled.View`
   align-items: center;
-  padding-top: 10px;
-  flex: 1;
   width: 100%;
 `;
 
-export const HeaderBar = styled.View`
+export const IconsHeader = styled.View`
   flex-direction: row;
-  height: 50px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
   padding: 0 10px;
-  border-bottom-width: ${StyleSheet.hairlineWidth}px;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
+  align-items: center;
+`;
+
+export const IconHeader = styled.TouchableOpacity`
+  margin-right: 4px;
 `;
 
 export const ViewList = styled.View`
   width: 95%;
-  margin-top: 50px;
+  margin-top: 10px;
 `;
 
 export const ItemList = styled.TouchableOpacity`
@@ -40,7 +35,6 @@ export const HeaderSubject = styled.View`
   flex-direction: row;
   justify-content: space-between; 
 `;
-
 
 export const ViewSubject = styled.View`
   width: 85%;
@@ -102,7 +96,7 @@ export const OptionsText = styled.Text`
 export const ViewModalAdd = styled.View`
   background-color: #fff; 
   width: ${Dimensions.get('window').width * 0.8};
-  height: ${Dimensions.get('window').height * 0.3};
+  height: ${Dimensions.get('window').height * 0.25};
   margin: 0 auto;
   align-items: center;
   border-radius: 5px;
@@ -110,7 +104,8 @@ export const ViewModalAdd = styled.View`
 `;
 
 export const TextModalAdd = styled.Text`
-  font-size: 14px;
+  font-size: 16px;
+  font-family: 'Rubik-Regular';
   color: #000;
   text-align: left;
   width: 80%;
@@ -134,6 +129,7 @@ export const InputCode = styled.TextInput.attrs({
 export const ButtonAdd = styled.TouchableOpacity`
   padding: 10px;
   background-color: #F3F3F3;
+  border-radius: 2px;
 `;
 
 export const TextAdd = styled.Text`

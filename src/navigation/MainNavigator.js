@@ -54,9 +54,6 @@ const Disciplina = createMaterialTopTabNavigator({
 const stackDisciplinas = createStackNavigator({
   Disciplinas: {
     screen: Disciplinas,
-    navigationOptions: {
-      header: null,
-    },
   },
   Disciplina: {
     screen: Disciplina,
@@ -124,7 +121,6 @@ const bottomNavigator = createMaterialBottomTabNavigator({
     },
   },
 }, {
-  initialRouteName: 'Questionarios',
   activeColor: '#059451',
   inactiveColor: '#646464',
   barStyle: { backgroundColor: '#fff' },
@@ -143,8 +139,6 @@ const appNavigator = createStackNavigator({
       header: null,
     },
   },
-}, {
-  initialRouteName: 'Quiz',
 });
 
 
