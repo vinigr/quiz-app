@@ -1,40 +1,154 @@
 import React, { useState, useEffect } from 'react';
 
-import { Button } from 'react-native';
+import { Alert } from 'react-native';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
   Container, StateQuestions, TextState,
   QuestionView, QuestionText, OptionsTF,
-  OptionTF, TextOption, OptionsME, OptionME, ImageQuestion,
+  OptionTF, OptionTFCorrect, OptionTFError, TextOption, OptionsME, OptionMECorrect, OptionMEError, OptionME, ImageQuestion,
+  Actions, ButtonActions, TextActions, ViewError,
 } from './styles';
+
+import { TextError } from '../../styles';
 
 import api from '../../service/api';
 
 import Loading from '../../components/Loading';
 
-export default function Quiz() {
+export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(2);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [dispute, setDispute] = useState();
   const [loading, setLoading] = useState(true);
-  const [answer, setAnswers] = useState();
+  const [answer, setAnswer] = useState();
+  const [answerCorrect, setAnswerCorrect] = useState(null);
+  const [error, setError] = useState();
 
   const indexQuestion = currentQuestion - 1;
+  const id = props.navigation.state.params.item;
+  const { feedbackAnswer } = props.navigation.state.params;
 
   useEffect(() => {
     async function fetchData() {
+      if (!id) return props.navigation.goBack();
       try {
-        const { data } = await api.get('/questionsQuiz/16');
-        setQuestions(data);
-        setLoading(false);
-      } catch (error) {
-        console.tron.log(error);
+        const { data } = await api.post('/startQuiz', {
+          id,
+        });
+        setQuestions(data.listQuiz);
+        setDispute(data.dispute.id);
+        return setLoading(false);
+      } catch (err) {
+        if (err.response.data.message === 'Este quiz já foi disputado!') {
+          return Alert.alert(
+            'Erro',
+            'Quiz já disputado',
+            [
+              { text: 'OK', onPress: () => props.navigation.goBack() },
+            ],
+          );
+        }
       }
     }
     fetchData();
   }, []);
 
-  function handleAnswers(answer) {
-    setAnswers(answer);
+  function handleAnswers(answerQuestion) {
+    setAnswer(answerQuestion);
+  }
+
+  async function handleQuestions() {
+    setError(null);
+    if (!dispute) return;
+    if (answer === null) return setError('Nenhuma resposta selecionada!');
+
+    try {
+      const { data } = await api.post('/answerQuestion', {
+        disputeId: dispute,
+        questionId: questions[indexQuestion].id,
+        answer,
+      });
+
+      if (feedbackAnswer) {
+        setAnswerCorrect(`${data.answer}`);
+        return;
+      }
+
+      if (currentQuestion === questions.length) {
+        Alert.alert(
+          'Status',
+          'Quiz finalizado!',
+          [
+            { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+            { text: 'Sair', onPress: () => props.navigation.goBack() },
+          ],
+        );
+        return;
+      }
+
+      setAnswer(null);
+      setAnswerCorrect(null);
+      setCurrentQuestion(currentQuestion + 1);
+      return;
+    } catch (err) {
+      setError('Tente novamente!');
+    }
+  }
+
+  async function jumpQuestion() {
+    if (!dispute) return;
+
+    try {
+      const { data } = await api.post('/answerQuestion', {
+        disputeId: dispute,
+        questionId: questions[indexQuestion].id,
+        answer: 'skip',
+      });
+
+      if (feedbackAnswer) {
+        setAnswerCorrect(`${data.answer}`);
+        return;
+      }
+
+      if (currentQuestion === questions.length) {
+        Alert.alert(
+          'Status',
+          'Quiz finalizado!',
+          [
+            { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+            { text: 'Sair', onPress: () => props.navigation.goBack() },
+          ],
+        );
+        return;
+      }
+
+      setAnswer(null);
+      setAnswerCorrect(null);
+      setCurrentQuestion(currentQuestion + 1);
+      return;
+    } catch (err) {
+      setError('Tente novamente!');
+    }
+  }
+
+  function nextQuestion() {
+    if (currentQuestion === questions.length) {
+      Alert.alert(
+        'Status',
+        'Quiz finalizado!',
+        [
+          { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+          { text: 'Sair', onPress: () => props.navigation.goBack() },
+        ],
+      );
+      return;
+    }
+
+    setAnswer(null);
+    setAnswerCorrect(null);
+    setCurrentQuestion(currentQuestion + 1);
   }
 
   function renderOptions(question) {
@@ -52,17 +166,40 @@ export default function Quiz() {
 
     return options.map(
       (option, index) => option && (
-      <OptionME
-        key={index}
-        correct={answer === index}
-        onPress={() => handleAnswers(index)}
-      >
-        <TextOption correct={answer === index}>{option}</TextOption>
-      </OptionME>
+        <OptionME
+          key={index}
+          correct={answer === index}
+          onPress={() => handleAnswers(index)}
+        >
+          <TextOption correct={answer === index}>{option}</TextOption>
+        </OptionME>
       ),
     );
   }
 
+  function renderAnswers(question) {
+    const { options } = question;
+
+    return options.map(
+      (option, index) => option && ((JSON.parse(answerCorrect) === index) ? (
+        <OptionMECorrect
+          key={index}
+          correct={answer === index}
+          onPress={() => handleAnswers(index)}
+        >
+          <TextOption correct={JSON.parse(answerCorrect) === index}>{option}</TextOption>
+        </OptionMECorrect>
+      ) : (
+        <OptionMEError
+          key={index}
+          incorrect={answer === index}
+          onPress={() => handleAnswers(index)}
+        >
+          <TextOption correct={answer === index}>{option}</TextOption>
+        </OptionMEError>
+      )),
+    );
+  }
 
   return (
     <Container>
@@ -70,6 +207,7 @@ export default function Quiz() {
         : (
           <>
             <StateQuestions>
+              {console.tron.log(`teste${answerCorrect}`)}
               <TextState>Questão</TextState>
               <TextState>{`${currentQuestion}/${questions.length}`}</TextState>
             </StateQuestions>
@@ -78,16 +216,73 @@ export default function Quiz() {
                 <QuestionText>
                   {questions[indexQuestion].tfQuestion.question}
                 </QuestionText>
-                {!questions[indexQuestion].tfQuestion.pathImage && (
-                  <ImageQuestion source={{ uri: 'https://s3.amazonaws.com/qcon-assets-production/images/provas/37927/imagem-026.jpg' }} />
+                {questions[indexQuestion].tfQuestion.pathImage && (
+                  <ImageQuestion source={{ uri: questions[indexQuestion].tfQuestion.pathImage }} />
                 )}
                 <OptionsTF>
-                  <OptionTF onPress={() => handleAnswers(true)}>
-                    <TextOption>Verdadeiro</TextOption>
-                  </OptionTF>
-                  <OptionTF onPress={() => handleAnswers(false)}>
-                    <TextOption>Falso</TextOption>
-                  </OptionTF>
+                  {(answerCorrect === null) ? (
+                    <>
+                      <OptionTF
+                        correct={answer === true}
+                        onPress={() => handleAnswers(true)}
+                      >
+                        <TextOption
+                          correct={answer === true}
+                        >
+                      Verdadeiro
+                        </TextOption>
+                      </OptionTF>
+                      <OptionTF
+                        correct={answer === false}
+                        onPress={() => handleAnswers(false)}
+                      >
+                        <TextOption
+                          correct={answer === false}
+                        >Falso
+                        </TextOption>
+                      </OptionTF>
+                    </>
+                  ) : (JSON.parse(answerCorrect) === answer) ? (
+                    <>
+                      <OptionTFCorrect
+                        correct={JSON.parse(answerCorrect) === true}
+                      >
+                        <TextOption
+                          correct={JSON.parse(answerCorrect) === true}
+                        >
+                          Verdadeiro
+                        </TextOption>
+                      </OptionTFCorrect>
+                      <OptionTFCorrect
+                        correct={JSON.parse(answerCorrect) === false}
+                      >
+                        <TextOption
+                          correct={JSON.parse(answerCorrect) === false}
+                        >Falso
+                        </TextOption>
+                      </OptionTFCorrect>
+                    </>
+                  ) : (
+                    <>
+                      <OptionTFError
+                        incorrect={JSON.parse(answerCorrect) === true}
+                      >
+                        <TextOption
+                          correct
+                        >
+                      Verdadeiro
+                        </TextOption>
+                      </OptionTFError>
+                      <OptionTFError
+                        incorrect={JSON.parse(answerCorrect) === false}
+                      >
+                        <TextOption
+                          correct
+                        >Falso
+                        </TextOption>
+                      </OptionTFError>
+                    </>
+                  )}
                 </OptionsTF>
               </QuestionView>
             ) : (
@@ -95,21 +290,61 @@ export default function Quiz() {
                 <QuestionText>
                   {questions[indexQuestion].meQuestion.question}
                 </QuestionText>
-                {!questions[indexQuestion].meQuestion.pathImage && (
+                {questions[indexQuestion].meQuestion.pathImage && (
                   <ImageQuestion
-                    source={{ uri: 'https://www.infoescola.com/wp-content/uploads/2018/02/Clipboard01-763.jpg' }}
+                    source={{ uri: questions[indexQuestion].meQuestion.pathImage }}
                   />
                 )}
                 <OptionsME>
-                  {renderOptions(questions[indexQuestion].meQuestion)}
+                  {(answerCorrect === null)
+                    ? renderOptions(questions[indexQuestion].meQuestion)
+                    : renderAnswers(questions[indexQuestion].meQuestion)
+                  }
                 </OptionsME>
               </QuestionView>
             )}
           </>
         )
       }
-      <Button title="Anterior" onPress={() => setCurrentQuestion(currentQuestion - 1)} />
-      <Button title="Próximo" onPress={() => setCurrentQuestion(currentQuestion + 1)} />
+      {error
+      && (
+      <ViewError>
+        <TextError>{error}</TextError>
+      </ViewError>
+      )
+      }
+      <Actions>
+        {answerCorrect ? (
+          <ButtonActions
+            onPress={nextQuestion}
+            color="#3F8DF3"
+          >
+            { currentQuestion === questions.length
+              ? <TextActions>Finalizar</TextActions>
+              : <TextActions>Avançar</TextActions>
+            }
+            <Icon name="chevron-right" size={24} color="#fff" />
+          </ButtonActions>
+        ) : (
+          <>
+            <ButtonActions
+              onPress={jumpQuestion}
+              color="#DC7633"
+            >
+              <TextActions>Pular</TextActions>
+              <Icon name="skip-next" size={24} color="#fff" />
+            </ButtonActions>
+            <ButtonActions
+              onPress={handleQuestions}
+              color="#28B463"
+            >
+              <TextActions>Confirmar</TextActions>
+              <Icon name="check" size={24} color="#fff" />
+            </ButtonActions>
+          </>
+        )
+      }
+      </Actions>
     </Container>
   );
 }
