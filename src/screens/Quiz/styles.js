@@ -137,3 +137,47 @@ export const ViewError = styled.View`
   margin: 10px auto;
   align-items: center;
 `;
+
+export const ViewModalAlert = styled.View`
+  background-color: #fff; 
+  width: ${Dimensions.get('window').width * 0.7};
+  height: ${Dimensions.get('window').height * 0.3};
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 4px;
+`;
+
+export const TitleModal = styled.Text`
+  font-size: 18px;
+  margin-bottom: 10px;
+`;
+
+export const TextInfo = styled.Text`
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 8px;
+`;
+
+export const ViewButtons = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 18px;
+`;
+
+export const ButtonModal = styled.TouchableOpacity`
+  border-color: #757575;
+  border-width: 1px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 4px;
+  width: 40%;
+`;
+
+export const TextButton = styled.Text`
+  color: #757575;
+  font-size: 14px;
+  text-transform: uppercase;
+`;

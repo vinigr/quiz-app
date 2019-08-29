@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-import { Alert } from 'react-native';
+import { Alert, BackHandler } from 'react-native';
+import Modal from 'react-native-modal';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
   Container, StateQuestions, TextState,
   QuestionView, QuestionText, OptionsTF,
-  OptionTF, OptionTFCorrect, OptionTFError, TextOption, OptionsME, OptionMECorrect, OptionMEError, OptionME, ImageQuestion,
-  Actions, ButtonActions, TextActions, ViewError,
+  OptionTF, OptionTFCorrect, OptionTFError,
+  TextOption, OptionsME, OptionMECorrect,
+  OptionMEError, OptionME, ImageQuestion,
+  Actions, ButtonActions, TextActions,
+  ViewError, ViewModalAlert, TitleModal, TextInfo,
+  ViewButtons, ButtonModal, TextButton,
 } from './styles';
 
 import { TextError } from '../../styles';
@@ -25,10 +30,16 @@ export default function Quiz(props) {
   const [answer, setAnswer] = useState();
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [error, setError] = useState();
+  const [alertModal, setAlertModal] = useState(false);
 
   const indexQuestion = currentQuestion - 1;
   const id = props.navigation.state.params.item;
   const { feedbackAnswer } = props.navigation.state.params;
+
+  function handleBackPress() {
+    setAlertModal(true);
+    return true;
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -52,7 +63,13 @@ export default function Quiz(props) {
         }
       }
     }
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     fetchData();
+  }, []);
+
+
+  useEffect(() => () => {
+    BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
   }, []);
 
   function handleAnswers(answerQuestion) {
@@ -207,7 +224,6 @@ export default function Quiz(props) {
         : (
           <>
             <StateQuestions>
-              {console.tron.log(`teste${answerCorrect}`)}
               <TextState>Questão</TextState>
               <TextState>{`${currentQuestion}/${questions.length}`}</TextState>
             </StateQuestions>
@@ -345,6 +361,31 @@ export default function Quiz(props) {
         )
       }
       </Actions>
+      <Modal
+        isVisible={alertModal}
+        onBackButtonPress={() => setAlertModal(false)}
+        onBackdropPress={() => setAlertModal(false)}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        animationInTiming={200}
+        backdropTransitionOutTiming={0}
+      >
+        <ViewModalAlert>
+          <TitleModal>
+            Sair
+          </TitleModal>
+          <TextInfo>Se abandonar o quiz você não poderá mais disputá-lo.</TextInfo>
+          <TextInfo>Você realmente deseja sair?</TextInfo>
+          <ViewButtons>
+            <ButtonModal onPress={() => props.navigation.goBack()}>
+              <TextButton>Ok</TextButton>
+            </ButtonModal>
+            <ButtonModal onPress={() => setAlertModal(false)}>
+              <TextButton>Cancelar</TextButton>
+            </ButtonModal>
+          </ViewButtons>
+        </ViewModalAlert>
+      </Modal>
     </Container>
   );
 }
