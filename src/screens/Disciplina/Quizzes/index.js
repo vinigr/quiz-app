@@ -83,7 +83,9 @@ export default function Quizzes(props) {
                   </InfoExpired>
                   {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
                     && (
-                    <ButtonStart>
+                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
+                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                    >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>

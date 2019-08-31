@@ -33,6 +33,7 @@ export default function Questionarios(props) {
       await setQuizzesOthers(result.data.listOthers);
       return setLoading(false);
     } catch ({ response }) {
+      setLoading(false);
       return console.tron.log(response);
     }
   }
