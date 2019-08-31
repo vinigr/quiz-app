@@ -101,10 +101,22 @@ export default function Disciplinas(props) {
               onRefresh={fetchData}
               refreshing={loading}
               renderItem={({ item }) => (
-                <ItemList onPress={() => props.navigation.navigate('Disciplina', {
-                  id: item.subject_id,
-                })
-              }
+                <ItemList
+                  onPress={() => props.navigation.navigate('Disciplina', {
+                    id: item.subject_id,
+                  })
+                  }
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: 4.65,
+
+                    elevation: 6,
+                  }}
                 >
                   <HeaderSubject>
                     <ViewSubject>

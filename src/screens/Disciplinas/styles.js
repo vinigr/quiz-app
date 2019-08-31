@@ -23,7 +23,7 @@ export const ViewList = styled.View`
 
 export const ItemList = styled.TouchableOpacity`
   width: 100%;
-  background-color: #E16F4A;
+  background-color: #5ECDD5;
   height: 120px;
   padding: 10px;
   border-radius: 8px;
@@ -50,7 +50,7 @@ export const TopicItem = styled.Text.attrs({
   numberOfLines: 1,
 })`
   font-family: 'Rubik-Regular';
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const TouchableIcon = styled.TouchableOpacity`
@@ -105,7 +105,7 @@ export const ViewModalAdd = styled.View`
 
 export const TextModalAdd = styled.Text`
   font-size: 16px;
-  font-family: 'Rubik-Regular';
+  /* font-family: 'Rubik-Regular'; */
   color: #000;
   text-align: left;
   width: 80%;
@@ -128,7 +128,7 @@ export const InputCode = styled.TextInput.attrs({
 
 export const ButtonAdd = styled.TouchableOpacity`
   padding: 10px;
-  background-color: #F3F3F3;
+  background-color: #E7E7E7;
   border-radius: 2px;
 `;
 
