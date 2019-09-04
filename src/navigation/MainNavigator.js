@@ -19,6 +19,7 @@ import {
   Edit,
   ChangePassword,
   Quiz,
+  Result,
 } from '../screens';
 
 const Disciplina = createMaterialTopTabNavigator({
@@ -40,12 +41,13 @@ const Disciplina = createMaterialTopTabNavigator({
     upperCaseLabel: false,
     labelStyle: {
       fontFamily: 'Rubik-Medium',
+      fontSize: 14,
     },
     style: {
-      backgroundColor: '#0ECF80',
+      backgroundColor: '#519A9F',
     },
     indicatorStyle: {
-      backgroundColor: '#0C8554',
+      backgroundColor: '#2D5558',
     },
   },
 });
@@ -135,6 +137,12 @@ const appNavigator = createStackNavigator({
   },
   Quiz: {
     screen: Quiz,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Result: {
+    screen: Result,
     navigationOptions: {
       header: null,
     },

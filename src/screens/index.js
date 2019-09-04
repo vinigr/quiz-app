@@ -13,6 +13,7 @@ import Disciplinas from './Disciplinas';
 import Quizzes from './Disciplina/Quizzes';
 import Pessoas from './Disciplina/Pessoas';
 import Quiz from './Quiz';
+import Result from './Result';
 
 export {
   AuthLoading,
@@ -30,4 +31,5 @@ export {
   Pessoas,
   ChangePassword,
   Quiz,
+  Result,
 };
