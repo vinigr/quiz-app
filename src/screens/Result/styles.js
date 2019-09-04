@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   padding: 10px;
 `;
 
@@ -61,4 +61,27 @@ export const TextButton = styled.Text`
   font-family: 'Rubik-Regular';
   font-size: 16px;
   color: #000;
+`;
+
+export const ItemList = styled.View`
+  margin-bottom: 20px;
+  background-color: #F1F1F1;
+  padding: 10px;
+  border-radius: 4px;
+`;
+
+export const ViewQuestion = styled.View`
+  flex-direction: row;
+`;
+
+export const TextExplanation = styled.Text`
+  font-family: 'Rubik-Regular';
+  font-size: 14px;
+  color: #000;
+  margin-top: 10px;
+`;
+
+export const QuestionView = styled.View`
+  width: 100%;
+  align-items: flex-start;
 `;
