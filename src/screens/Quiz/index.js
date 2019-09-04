@@ -72,6 +72,11 @@ export default function Quiz(props) {
     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
   }, []);
 
+  function navigationResult() {
+    BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    props.navigation.replace('Result', { quizId: id, disputeId: dispute });
+  }
+
   function handleAnswers(answerQuestion) {
     setAnswer(answerQuestion);
   }
@@ -98,7 +103,7 @@ export default function Quiz(props) {
           'Status',
           'Quiz finalizado!',
           [
-            { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+            { text: 'Mostrar resultado', onPress: navigationResult },
             { text: 'Sair', onPress: () => props.navigation.goBack() },
           ],
         );
@@ -134,7 +139,7 @@ export default function Quiz(props) {
           'Status',
           'Quiz finalizado!',
           [
-            { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+            { text: 'Mostrar resultado', onPress: navigationResult },
             { text: 'Sair', onPress: () => props.navigation.goBack() },
           ],
         );
@@ -156,7 +161,7 @@ export default function Quiz(props) {
         'Status',
         'Quiz finalizado!',
         [
-          { text: 'Mostrar resultado', onPress: () => props.navigation.goBack() },
+          { text: 'Mostrar resultado', onPress: () => props.navigation.navigate('Result', { quizId: id, disputeId: dispute }) },
           { text: 'Sair', onPress: () => props.navigation.goBack() },
         ],
       );

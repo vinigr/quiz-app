@@ -11,7 +11,7 @@ import {
 
 import api from '../../service/api';
 
-export default function Histórico() {
+export default function Histórico(props) {
   const [disputes, setDisputes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +55,7 @@ export default function Histórico() {
                   <TextScore>Pontuação</TextScore>
                   <TextScore>{item.score}</TextScore>
                 </ViewScore>
-                <ButtonDetails>
+                <ButtonDetails onPress={() => props.navigation.navigate('Result', { quizId: item.quizId, disputeId: item.id })}>
                   <Icon name="chevron-right" color="#000" size={30} />
                 </ButtonDetails>
               </ViewRight>
