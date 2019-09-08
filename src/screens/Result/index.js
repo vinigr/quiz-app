@@ -54,16 +54,16 @@ export default function Result(props) {
       (option, index) => option && answer.length > 0 && ((JSON.parse(question.answer) === index) ? (
         <OptionMECorrect
           key={index}
-          correct={JSON.parse(answer[0].selectedAnswer) === index}
+          correct={answer[0].selectedAnswer == index}
         >
-          <TextOption correct={JSON.parse(question.answer) === index}>{option}</TextOption>
+          <TextOption correct={answer[0].selectedAnswer == index}>{option}</TextOption>
         </OptionMECorrect>
       ) : (
         <OptionMEError
           key={index}
-          incorrect={JSON.parse(answer[0].selectedAnswer) === index}
+          incorrect={answer[0].selectedAnswer == index}
         >
-          <TextOption correct={JSON.parse(answer[0].selectedAnswer) === index}>{option}</TextOption>
+          <TextOption correct={answer[0].selectedAnswer == index}>{option}</TextOption>
         </OptionMEError>
       )),
     );
