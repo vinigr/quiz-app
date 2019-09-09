@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, StatusBar,
+  ScrollView, StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -38,7 +38,7 @@ export default function Profile(props) {
   }
 
   return (
-    <View>
+    <ScrollView>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <Container>
         {loading ? <Loading /> : (
@@ -82,6 +82,6 @@ export default function Profile(props) {
         )
         }
       </Container>
-    </View>
+    </ScrollView>
   );
 }
