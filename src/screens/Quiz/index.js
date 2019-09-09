@@ -5,6 +5,8 @@ import Modal from 'react-native-modal';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import FullScreen from '../../utils/FullScreen';
+
 import {
   Container, StateQuestions, TextState,
   QuestionView, QuestionText, OptionsTF,
@@ -63,6 +65,7 @@ export default function Quiz(props) {
         }
       }
     }
+    FullScreen.enable();
     BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     fetchData();
   }, []);
@@ -70,6 +73,7 @@ export default function Quiz(props) {
 
   useEffect(() => () => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    FullScreen.disable();
   }, []);
 
   function navigationResult() {
