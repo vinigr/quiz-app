@@ -96,7 +96,7 @@ export const OptionsText = styled.Text`
 export const ViewModalAdd = styled.View`
   background-color: #fff; 
   width: ${Dimensions.get('window').width * 0.8};
-  height: ${Dimensions.get('window').height * 0.25};
+  height: ${Dimensions.get('window').height * 0.30};
   margin: 0 auto;
   align-items: center;
   border-radius: 5px;
