@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { FlatList } from 'react-native';
+import { FlatList, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Container, Title, HeadList, TextHead, User, UserName, UserScore, UserThis,
@@ -22,6 +22,7 @@ export default function Result(props) {
 
   async function fetchData() {
     const id = props.navigation.getParam('quizId');
+    StatusBar.setBarStyle('dark-content');
     try {
       const { data } = await api.get(`/result/${id}`);
       setDisputes(data.disputes);

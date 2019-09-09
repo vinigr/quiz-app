@@ -173,7 +173,7 @@ export const ButtonModal = styled.TouchableOpacity`
   align-items: center;
   padding: 10px;
   border-radius: 4px;
-  width: 40%;
+  width: 48%;
 `;
 
 export const TextButton = styled.Text`

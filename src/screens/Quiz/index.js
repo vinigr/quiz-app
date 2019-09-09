@@ -40,6 +40,7 @@ export default function Quiz(props) {
 
   function handleBackPress() {
     setAlertModal(true);
+    FullScreen.enable();
     return true;
   }
 
@@ -50,6 +51,8 @@ export default function Quiz(props) {
         const { data } = await api.post('/startQuiz', {
           id,
         });
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+        FullScreen.enable();
         setQuestions(data.listQuiz);
         setDispute(data.dispute.id);
         return setLoading(false);
@@ -65,8 +68,6 @@ export default function Quiz(props) {
         }
       }
     }
-    FullScreen.enable();
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     fetchData();
   }, []);
 
@@ -78,6 +79,7 @@ export default function Quiz(props) {
 
   function navigationResult() {
     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    FullScreen.disable();
     props.navigation.replace('Result', { quizId: id, disputeId: dispute });
   }
 
@@ -165,7 +167,7 @@ export default function Quiz(props) {
         'Status',
         'Quiz finalizado!',
         [
-          { text: 'Mostrar resultado', onPress: () => props.navigation.navigate('Result', { quizId: id, disputeId: dispute }) },
+          { text: 'Mostrar resultado', onPress: navigationResult },
           { text: 'Sair', onPress: () => props.navigation.goBack() },
         ],
       );
