@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, TouchableOpacity, ToastAndroid } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Modal from "react-native-modal";
+import React, { useState, useEffect } from 'react';
+import { FlatList, ToastAndroid } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Modal from 'react-native-modal';
 import {
   Container,
   IconsHeader,
@@ -22,25 +22,25 @@ import {
   TextModalAdd,
   InputCode,
   ButtonAdd,
-  TextAdd
-} from "./styles";
+  TextAdd,
+} from './styles';
 
-import Loading from "../../components/Loading";
+import Loading from '../../components/Loading';
 
-import api from "../../service/api";
+import api from '../../service/api';
 
 export default function Disciplinas(props) {
   const [subject, setSubject] = useState([]);
   const [visible, setVisible] = useState(false);
   const [modalAdd, setModalAdd] = useState(false);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
   const [subjectSelected, setSubjectSelected] = useState();
   const [loading, setLoading] = useState(true);
 
   async function fetchData() {
     try {
       setLoading(true);
-      const subjects = await api.get("/user/subjects");
+      const subjects = await api.get('/user/subjects');
       await setSubject(subjects.data.subjects);
       return setLoading(false);
     } catch (error) {
@@ -51,18 +51,18 @@ export default function Disciplinas(props) {
   useEffect(() => {
     props.navigation.setParams({
       openModalSubject: () => setModalAdd(true),
-      update: fetchData
+      update: fetchData,
     });
     fetchData();
   }, []);
 
   async function addSubject() {
-    if (!code || code === "") return setModalAdd(false);
+    if (!code || code === '') return setModalAdd(false);
 
     await setModalAdd(false);
     try {
-      const subjectRegister = await api.post("/subject/registrationUser", {
-        accessCode: code
+      const subjectRegister = await api.post('/subject/registrationUser', {
+        accessCode: code,
       });
       await setModalAdd(false);
       await setCode(null);
@@ -72,9 +72,9 @@ export default function Disciplinas(props) {
       setSubject(tempSubjects);
 
       return ToastAndroid.showWithGravity(
-        "Cadastro feito com sucesso!",
+        'Cadastro feito com sucesso!',
         ToastAndroid.SHORT,
-        ToastAndroid.CENTER
+        ToastAndroid.CENTER,
       );
     } catch (error) {
       await setModalAdd(false);
@@ -82,13 +82,13 @@ export default function Disciplinas(props) {
         return ToastAndroid.showWithGravity(
           `${error.response.data.message}`,
           ToastAndroid.LONG,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
       }
       return ToastAndroid.showWithGravity(
-        "Erro ao cadastrar!",
+        'Erro ao cadastrar!',
         ToastAndroid.LONG,
-        ToastAndroid.CENTER
+        ToastAndroid.CENTER,
       );
     }
   }
@@ -99,26 +99,20 @@ export default function Disciplinas(props) {
   }
 
   async function unsubscribe() {
-    if (!setSubjectSelected) return console.tron.log("erro");
+    if (!setSubjectSelected) return console.tron.log('erro');
 
     try {
       const { data } = await api.delete(`/user/unsubscribe/${subjectSelected}`);
       const tempSubjects = [...subject];
-      const newSubjects = tempSubjects.filter(
-        subject => subject.subject.id !== subjectSelected
-      );
+      const newSubjects = tempSubjects.filter(subject => subject.subject.id !== subjectSelected);
       setSubject(newSubjects);
 
-      ToastAndroid.showWithGravity(
-        data.message,
-        ToastAndroid.SHORT,
-        ToastAndroid.CENTER
-      );
+      ToastAndroid.showWithGravity(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
     } catch (error) {
       ToastAndroid.showWithGravity(
-        "Erro ao cancelar inscrição!",
+        'Erro ao cancelar inscrição!',
         ToastAndroid.LONG,
-        ToastAndroid.CENTER
+        ToastAndroid.CENTER,
       );
     }
     setVisible(false);
@@ -138,21 +132,20 @@ export default function Disciplinas(props) {
             refreshing={loading}
             renderItem={({ item }) => (
               <ItemList
-                onPress={() =>
-                  props.navigation.navigate("Disciplina", {
-                    id: item.subject.id
-                  })
+                onPress={() => props.navigation.navigate('Disciplina', {
+                  id: item.subject.id,
+                })
                 }
                 style={{
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
-                    height: 3
+                    height: 3,
                   },
                   shadowOpacity: 0.27,
                   shadowRadius: 4.65,
 
-                  elevation: 6
+                  elevation: 6,
                 }}
               >
                 <HeaderSubject>
@@ -160,9 +153,7 @@ export default function Disciplinas(props) {
                     <TitleItem>{item.subject.name}</TitleItem>
                     <TopicItem>{item.subject.topic}</TopicItem>
                   </ViewSubject>
-                  <TouchableIcon
-                    onPress={() => handleVisibleSubscribe(item.subject.id)}
-                  >
+                  <TouchableIcon onPress={() => handleVisibleSubscribe(item.subject.id)}>
                     <Icon name="dots-vertical" size={24} />
                   </TouchableIcon>
                 </HeaderSubject>
@@ -222,5 +213,5 @@ Disciplinas.navigationOptions = ({ navigation }) => ({
         <Icon name="plus" size={30} color="#000" />
       </IconHeader>
     </IconsHeader>
-  )
+  ),
 });
