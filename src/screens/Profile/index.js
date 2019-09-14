@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ScrollView, StatusBar,
-} from 'react-native';
+import { ScrollView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Container, Header, Photo, Name, Menu, Option, OptionTextIcon, TextOption,
@@ -12,6 +10,7 @@ import Loading from '../../components/Loading';
 import imagePerson from '../../assets/images/default-person.png';
 
 import AuthService from '../../service/auth';
+import NotificationService from '../../service/notification';
 
 import api from '../../service/api';
 
@@ -33,20 +32,30 @@ export default function Profile(props) {
     fetchData();
   }, []);
 
-  function logout() {
-    AuthService.logout(props);
+  async function logout() {
+    try {
+      const userNotification = await NotificationService.getIdNotification();
+      if (!userNotification) return;
+      await api.post('/logout', {
+        userNotification,
+      });
+
+      AuthService.logout(props);
+    } catch (error) {
+      console.tron.log(error);
+    }
   }
 
   return (
     <ScrollView>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <Container>
-        {loading ? <Loading /> : (
+        {loading ? (
+          <Loading />
+        ) : (
           <>
             <Header>
-              <Photo
-                source={user.path ? { uri: user.path } : imagePerson}
-              />
+              <Photo source={user.path ? { uri: user.path } : imagePerson} />
               <Name>{user.name}</Name>
             </Header>
             <Menu>
@@ -79,8 +88,7 @@ export default function Profile(props) {
               </Option>
             </Menu>
           </>
-        )
-        }
+        )}
       </Container>
     </ScrollView>
   );
