@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 
-import {
-  Text,
-  View,
-} from 'react-native';
+import { Text, View } from 'react-native';
 
 import {
   Button, TitleAuth, ViewError, TextError,
 } from '../../styles';
 import {
-  Container, ViewInputs, ViewRecuperacao, TextRecuperacao, TextButton, ViewCadastro, TextCadastro,
+  Container,
+  ViewInputs,
+  ViewRecuperacao,
+  TextRecuperacao,
+  TextButton,
+  ViewCadastro,
+  TextCadastro,
 } from './styles';
 
 import Input from '../../components/TextInput';
 import api from '../../service/api';
 import AuthService from '../../service/auth';
+import NotificationService from '../../service/notification';
 
 export default function Login(props) {
   const [email, setEmail] = useState('');
@@ -25,10 +29,13 @@ export default function Login(props) {
   async function handleSubmit() {
     setError(null);
     if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
+    const userNotification = await NotificationService.getIdNotification();
+
     try {
       const token = await api.post('/signin', {
         email,
         password,
+        userNotification,
       });
       await AuthService.setToken(token.data.token);
       return props.navigation.navigate('appNavigator');
@@ -45,7 +52,11 @@ export default function Login(props) {
     <Container>
       <View>
         <TitleAuth>Login</TitleAuth>
-        {error && <ViewError><TextError>{error}</TextError></ViewError>}
+        {error && (
+          <ViewError>
+            <TextError>{error}</TextError>
+          </ViewError>
+        )}
         <ViewInputs>
           <Input
             value={email}
@@ -79,10 +90,8 @@ export default function Login(props) {
           />
         </ViewInputs>
         <ViewRecuperacao>
-          <TextRecuperacao
-            onPress={() => props.navigation.navigate('Recuperacao')}
-          >
-          Esqueci minha senha
+          <TextRecuperacao onPress={() => props.navigation.navigate('Recuperacao')}>
+            Esqueci minha senha
           </TextRecuperacao>
         </ViewRecuperacao>
         <Button onPress={handleSubmit}>
@@ -92,10 +101,8 @@ export default function Login(props) {
 
       <ViewCadastro>
         <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
-        <TextCadastro
-          onPress={() => props.navigation.replace('Cadastro')}
-        >
-        Cadastre-se
+        <TextCadastro onPress={() => props.navigation.replace('Cadastro')}>
+          Cadastre-se
         </TextCadastro>
       </ViewCadastro>
     </Container>

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-import {
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 import { Button, TitleAuth } from '../../styles';
 import Input from '../../components/TextInput';
 import {
@@ -11,6 +9,7 @@ import {
 
 import api from '../../service/api';
 import AuthService from '../../service/auth';
+import NotificationService from '../../service/notification';
 
 export default function Cadastro(props) {
   const [name, setName] = useState('');
@@ -26,12 +25,16 @@ export default function Cadastro(props) {
   async function handleSubmit() {
     setError(null);
     if (!name || name === '' || !email || !password || email === '' || password === '') return setError('Dados insuficientes');
+    const userNotification = await NotificationService.getIdNotification();
+
+    if (!userNotification) return;
 
     try {
       const token = await api.post('/signup', {
         name,
         email,
         password,
+        userNotification,
       });
       await AuthService.setToken(token.data.token);
       return props.navigation.navigate('appNavigator');
