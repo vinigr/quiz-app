@@ -22,7 +22,7 @@ export default function Result(props) {
 
   async function fetchData() {
     const id = props.navigation.getParam('quizId');
-    StatusBar.setBarStyle('dark-content');
+    StatusBar.setBarStyle('light-content');
     try {
       const { data } = await api.get(`/result/${id}`);
       setDisputes(data.disputes);
@@ -97,7 +97,7 @@ export default function Result(props) {
             ) : (
               <UserThis>
                 <UserName>{item.User.name}</UserName>
-                <UserScore>{item.score}</UserScore>
+                <UserScore>{item.score > 0 ? item.score : 0}</UserScore>
               </UserThis>
             )
         )

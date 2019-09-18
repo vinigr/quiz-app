@@ -4,10 +4,17 @@ import { FlatList } from 'react-native';
 import { formatToTimeZone } from 'date-fns-timezone';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
-  Container, ViewList, ItemList, ViewLeft, TitleItem,
-  DateDispute, ViewRight, ViewScore, TextScore, ButtonDetails,
+  Container,
+  ViewList,
+  ItemList,
+  ViewLeft,
+  TitleItem,
+  DateDispute,
+  ViewRight,
+  ViewScore,
+  TextScore,
+  ButtonDetails,
 } from './styles';
-
 
 import api from '../../service/api';
 
@@ -43,19 +50,20 @@ export default function Histórico(props) {
               <ViewLeft>
                 <TitleItem>{item.Quiz.name}</TitleItem>
                 <DateDispute>
-                  {formatToTimeZone(
-                    item.createdAt, 'DD/MM/YY | HH:mm', {
-                      timeZone: 'America/Sao_Paulo',
-                    },
-                  )}
+                  {formatToTimeZone(item.createdAt, 'DD/MM/YY | HH:mm', {
+                    timeZone: 'America/Sao_Paulo',
+                  })}
                 </DateDispute>
               </ViewLeft>
               <ViewRight>
                 <ViewScore>
                   <TextScore>Pontuação</TextScore>
-                  <TextScore>{item.score}</TextScore>
+                  <TextScore>{item.score > 0 ? item.score : 0}</TextScore>
                 </ViewScore>
-                <ButtonDetails onPress={() => props.navigation.navigate('Result', { quizId: item.quizId, disputeId: item.id })}>
+                <ButtonDetails
+                  onPress={() => props.navigation.navigate('Result', { quizId: item.quizId, disputeId: item.id })
+                  }
+                >
                   <Icon name="chevron-right" color="#000" size={30} />
                 </ButtonDetails>
               </ViewRight>
@@ -63,7 +71,6 @@ export default function Histórico(props) {
           )}
         />
       </ViewList>
-
     </Container>
   );
 }
