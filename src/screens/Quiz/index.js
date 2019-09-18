@@ -21,6 +21,7 @@ import {
 import { TextError } from '../../styles';
 
 import api from '../../service/api';
+import randomArray from '../../utils/randomArray';
 
 import Loading from '../../components/Loading';
 
@@ -53,7 +54,7 @@ export default function Quiz(props) {
         });
         BackHandler.addEventListener('hardwareBackPress', handleBackPress);
         FullScreen.enable();
-        setQuestions(data.listQuiz);
+        setQuestions(randomArray(data.listQuiz));
         setDispute(data.dispute.id);
         return setLoading(false);
       } catch (err) {
