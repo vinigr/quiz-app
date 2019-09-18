@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  FlatList,
-} from 'react-native';
+import { FlatList } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -72,25 +70,27 @@ export default function Quizzes(props) {
                       <>
                         <TextExpiry>Disponível até:</TextExpiry>
                         <DateExpiry>
-                          {formatToTimeZone(
-                            item.expirationAt, 'DD/MM HH:mm', {
-                              timeZone: 'America/Sao_Paulo',
-                            },
-                          )}
+                          {formatToTimeZone(item.expirationAt, 'DD/MM HH:mm', {
+                            timeZone: 'America/Sao_Paulo',
+                          })}
                         </DateExpiry>
                       </>
-                    ) : <TextExpiry>Disponível</TextExpiry>}
+                    ) : (
+                      <TextExpiry>Disponível</TextExpiry>
+                    )}
                   </InfoExpired>
-                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
-                    && (
-                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
-                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                    <ButtonStart
+                      onPress={() => props.navigation.navigate('Quiz', {
+                        item: item.id,
+                        feedbackAnswer: item.feedbackAnswer,
+                      })
+                      }
                     >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
-                    )
-                  }
+                  )}
                 </Footer>
               </QuizItem>
             )}

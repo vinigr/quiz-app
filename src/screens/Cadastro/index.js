@@ -24,10 +24,12 @@ export default function Cadastro(props) {
 
   async function handleSubmit() {
     setError(null);
-    if (!name || name === '' || !email || !password || email === '' || password === '') return setError('Dados insuficientes');
+    if (!name || name === '' || !email || !password || email === '' || password === '') {
+      return setError('Dados insuficientes');
+    }
     const userNotification = await NotificationService.getIdNotification();
 
-    if (!userNotification) return;
+    if (!userNotification) return console.tron.log('Sem id');
 
     try {
       const token = await api.post('/signup', {
