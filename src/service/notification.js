@@ -1,19 +1,11 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import OneSignal from 'react-native-onesignal';
 
-const ID_ONE_SIGNAL = '@id-onesignal';
-
-const NotificationService = {
-  async setIdNotification() {
-    await OneSignal.getPermissionSubscriptionState((status) => {
-      AsyncStorage.setItem(ID_ONE_SIGNAL, status.userId);
-    });
-  },
-
-  async getIdNotification() {
-    const id = await AsyncStorage.getItem(ID_ONE_SIGNAL);
-    return id;
-  },
-};
-
-export default NotificationService;
+export default async () => new Promise(async (res, rej) => {
+  OneSignal.getPermissionSubscriptionState((status) => {
+    if (status.userId) {
+      res(status.userId);
+    } else {
+      rej(new Error('Cant receive a token'));
+    }
+  });
+});
