@@ -27,9 +27,9 @@ export default function Cadastro(props) {
     if (!name || name === '' || !email || !password || email === '' || password === '') {
       return setError('Dados insuficientes');
     }
-    const userNotification = await NotificationService.getIdNotification();
+    const userNotification = await NotificationService();
 
-    if (!userNotification) return console.tron.log('Sem id');
+    if (!userNotification) return setError('Erro ao buscar id de notificações do aparelho!');
 
     try {
       const token = await api.post('/signup', {

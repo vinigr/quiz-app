@@ -34,7 +34,7 @@ export default function Profile(props) {
 
   async function logout() {
     try {
-      const userNotification = await NotificationService.getIdNotification();
+      const userNotification = await NotificationService();
       if (!userNotification) return;
       await api.post('/logout', {
         userNotification,

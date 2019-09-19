@@ -29,7 +29,11 @@ export default function Login(props) {
   async function handleSubmit() {
     setError(null);
     if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
-    const userNotification = await NotificationService.getIdNotification();
+    const userNotification = await NotificationService();
+
+    console.tron.log(userNotification);
+
+    if (typeof userNotification !== 'string') return setError('Error type notification');
 
     try {
       const token = await api.post('/signin', {
