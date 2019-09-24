@@ -3,6 +3,7 @@ package com.quizapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.reanimated.ReanimatedPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReanimatedPackage(),
             new ReactNativeOneSignalPackage(),
             new NetInfoPackage(),
             new RNSpinkitPackage(),
