@@ -23,7 +23,7 @@ export const ViewList = styled.View`
 
 export const ItemList = styled.TouchableOpacity`
   width: 100%;
-  background-color: #5ECDD5;
+  background-color: #5ecdd5;
   height: 120px;
   padding: 10px;
   border-radius: 8px;
@@ -33,7 +33,7 @@ export const ItemList = styled.TouchableOpacity`
 
 export const HeaderSubject = styled.View`
   flex-direction: row;
-  justify-content: space-between; 
+  justify-content: space-between;
 `;
 
 export const ViewSubject = styled.View`
@@ -53,13 +53,9 @@ export const TopicItem = styled.Text.attrs({
   font-size: 14px;
 `;
 
-export const TouchableIcon = styled.TouchableOpacity`
-  
-`;
+export const TouchableIcon = styled.TouchableOpacity``;
 
-export const ViewTeacher = styled.View`
-  
-`;
+export const ViewTeacher = styled.View``;
 
 export const NameTeacher = styled.Text`
   font-family: 'Rubik-Regular';
@@ -67,7 +63,7 @@ export const NameTeacher = styled.Text`
 `;
 
 export const ViewModal = styled.View`
-  background-color: #fff; 
+  background-color: #fff;
   width: ${Dimensions.get('window').width * 0.6};
   height: ${Dimensions.get('window').height * 0.1};
   margin: 0 auto;
@@ -94,9 +90,9 @@ export const OptionsText = styled.Text`
 `;
 
 export const ViewModalAdd = styled.View`
-  background-color: #fff; 
+  background-color: #fff;
   width: ${Dimensions.get('window').width * 0.8};
-  height: ${Dimensions.get('window').height * 0.30};
+  height: ${Dimensions.get('window').height * 0.3};
   margin: 0 auto;
   align-items: center;
   border-radius: 5px;
@@ -121,14 +117,14 @@ export const InputCode = styled.TextInput.attrs({
   color: #000;
   height: 50px;
   width: 80%;
-  border: solid #097CBD 1px;
+  border: solid #097cbd 1px;
   border-radius: 4px;
   margin-bottom: 10px;
 `;
 
 export const ButtonAdd = styled.TouchableOpacity`
   padding: 10px;
-  background-color: #E7E7E7;
+  background-color: #e7e7e7;
   border-radius: 2px;
 `;
 
