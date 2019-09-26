@@ -3,7 +3,15 @@ import { StatusBar, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
-  Container, Title, Description, Header, SubjectName,
+  Container,
+  Title,
+  Description,
+  Header,
+  SubjectName,
+  ViewNotQuiz,
+  TextNotQuiz,
+  ButtonUpdate,
+  TextUpdate,
 } from './styles';
 import {
   QuizItem,
@@ -45,91 +53,104 @@ export default function Questionarios(props) {
   return (
     <>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <Container>
-        <Title>Próximos</Title>
-        <Description>(Expiram em até 7 dias)</Description>
-        <FlatList
-          data={quizzesNext}
-          keyExtractor={item => `${item.id}`}
-          onRefresh={fetchData}
-          refreshing={loading}
-          renderItem={({ item }) => (
-            <QuizItem>
-              <Header>
-                <TitleItem>{item.name}</TitleItem>
-                <SubjectName>{item.subject.name}</SubjectName>
-              </Header>
-              <Footer>
-                <InfoExpired>
-                  {item.expirationAt ? (
-                    <>
-                      <TextExpiry>Disponível até:</TextExpiry>
-                      <DateExpiry>
-                        {formatToTimeZone(
-                          item.expirationAt, 'DD/MM HH:mm', {
+      {quizzesNext.length !== 0 || quizzesOthers.length !== 0 ? (
+        <Container>
+          <Title>Próximos</Title>
+          <Description>(Expiram em até 7 dias)</Description>
+          <FlatList
+            data={quizzesNext}
+            keyExtractor={item => `${item.id}`}
+            onRefresh={fetchData}
+            refreshing={loading}
+            renderItem={({ item }) => (
+              <QuizItem>
+                <Header>
+                  <TitleItem>{item.name}</TitleItem>
+                  <SubjectName>{item.subject.name}</SubjectName>
+                </Header>
+                <Footer>
+                  <InfoExpired>
+                    {item.expirationAt ? (
+                      <>
+                        <TextExpiry>Disponível até:</TextExpiry>
+                        <DateExpiry>
+                          {formatToTimeZone(item.expirationAt, 'DD/MM HH:mm', {
                             timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </DateExpiry>
-                    </>
-                  ) : <TextExpiry>Disponível</TextExpiry>}
-                </InfoExpired>
-                {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
-                    && (
-                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
-                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                          })}
+                        </DateExpiry>
+                      </>
+                    ) : (
+                      <TextExpiry>Disponível</TextExpiry>
+                    )}
+                  </InfoExpired>
+                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                    <ButtonStart
+                      onPress={() => props.navigation.navigate('Quiz', {
+                        item: item.id,
+                        feedbackAnswer: item.feedbackAnswer,
+                      })
+                      }
                     >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
-                    )
-                  }
-              </Footer>
-            </QuizItem>
-          )}
-        />
-        <Title>Outros</Title>
-        <FlatList
-          data={quizzesOthers}
-          keyExtractor={item => `${item.id}`}
-          onRefresh={quizzesNext.length === 0 ? fetchData : null}
-          refreshing={loading}
-          renderItem={({ item }) => (
-            <QuizItem>
-              <Header>
-                <TitleItem>{item.name}</TitleItem>
-                <SubjectName>{item.subject.name}</SubjectName>
-              </Header>
-              <Footer>
-                <InfoExpired>
-                  {item.expirationAt ? (
-                    <>
-                      <TextExpiry>Disponível até:</TextExpiry>
-                      <DateExpiry>
-                        {formatToTimeZone(
-                          item.expirationAt, 'DD/MM HH:mm', {
+                  )}
+                </Footer>
+              </QuizItem>
+            )}
+          />
+          <Title>Outros</Title>
+          <FlatList
+            data={quizzesOthers}
+            keyExtractor={item => `${item.id}`}
+            onRefresh={quizzesNext.length === 0 ? fetchData : null}
+            refreshing={loading}
+            renderItem={({ item }) => (
+              <QuizItem>
+                <Header>
+                  <TitleItem>{item.name}</TitleItem>
+                  <SubjectName>{item.subject.name}</SubjectName>
+                </Header>
+                <Footer>
+                  <InfoExpired>
+                    {item.expirationAt ? (
+                      <>
+                        <TextExpiry>Disponível até:</TextExpiry>
+                        <DateExpiry>
+                          {formatToTimeZone(item.expirationAt, 'DD/MM HH:mm', {
                             timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </DateExpiry>
-                    </>
-                  ) : <TextExpiry>Disponível</TextExpiry>}
-                </InfoExpired>
-                {(new Date().toISOString() < item.expirationAt || !item.expirationAt)
-                    && (
-                    <ButtonStart onPress={() => props.navigation.navigate('Quiz',
-                      { item: item.id, feedbackAnswer: item.feedbackAnswer })}
+                          })}
+                        </DateExpiry>
+                      </>
+                    ) : (
+                      <TextExpiry>Disponível</TextExpiry>
+                    )}
+                  </InfoExpired>
+                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                    <ButtonStart
+                      onPress={() => props.navigation.navigate('Quiz', {
+                        item: item.id,
+                        feedbackAnswer: item.feedbackAnswer,
+                      })
+                      }
                     >
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
-                    )
-                  }
-              </Footer>
-            </QuizItem>
-          )}
-        />
-      </Container>
+                  )}
+                </Footer>
+              </QuizItem>
+            )}
+          />
+        </Container>
+      ) : (
+        <ViewNotQuiz>
+          <TextNotQuiz>Sem quizzes disponíveis</TextNotQuiz>
+          <ButtonUpdate onPress={fetchData}>
+            <TextUpdate>Atualizar</TextUpdate>
+          </ButtonUpdate>
+        </ViewNotQuiz>
+      )}
     </>
   );
 }
