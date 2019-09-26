@@ -31,13 +31,15 @@ export default function Quizzes(props) {
   const [loading, setLoading] = useState(true);
   const [quizzesAvailable, setQuizzesAvailable] = useState([]);
   const [quizzesNotAvailable, setQuizzesNotAvailable] = useState([]);
+  const [disputes, setDisputes] = useState([]);
 
   async function fetchData() {
     const id = props.navigation.getParam('id');
     try {
-      const result = await api.get(`/subjectQuizList/${id}`);
-      await setQuizzesAvailable(result.data.available);
-      await setQuizzesNotAvailable(result.data.notAvailable);
+      const { data } = await api.get(`/subjectQuizList/${id}`);
+      await setQuizzesAvailable(data.available);
+      await setQuizzesNotAvailable(data.notAvailable);
+      await setDisputes(data.disputes);
       return setLoading(false);
     } catch (error) {
       return console.tron.log(error.response);
@@ -57,7 +59,7 @@ export default function Quizzes(props) {
           <FlatList
             data={quizzesAvailable}
             keyExtractor={item => `${item.id}`}
-            onRefresh={() => {}}
+            onRefresh={fetchData}
             refreshing={loading}
             renderItem={({ item }) => (
               <QuizItem>
@@ -75,11 +77,14 @@ export default function Quizzes(props) {
                           })}
                         </DateExpiry>
                       </>
-                    ) : (
+                    ) : disputes.indexOf(item.id) === -1 ? (
                       <TextExpiry>Disponível</TextExpiry>
+                    ) : (
+                      <TextExpiry>Já disputado</TextExpiry>
                     )}
                   </InfoExpired>
-                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                  {(new Date().toISOString() < item.expirationAt
+                    || (!item.expirationAt && disputes.indexOf(item.id) === -1)) && (
                     <ButtonStart
                       onPress={() => props.navigation.navigate('Quiz', {
                         item: item.id,
