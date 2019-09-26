@@ -132,6 +132,7 @@ export default function Disciplinas(props) {
             refreshing={loading}
             renderItem={({ item }) => (
               <ItemList
+                onLongPress={() => handleVisibleSubscribe(item.subject.id)}
                 onPress={() => props.navigation.navigate('Disciplina', {
                   id: item.subject.id,
                 })
