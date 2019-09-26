@@ -22,8 +22,9 @@ export const TextHead = styled.Text`
 `;
 
 export const User = styled.View`
-  height: 60px;
+  height: 40px;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -41,7 +42,7 @@ export const UserThis = styled.View`
   height: 60px;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #68C280;
+  background-color: #68c280;
   border-radius: 4px;
   align-items: center;
   padding: 0 4px;
@@ -65,7 +66,7 @@ export const TextButton = styled.Text`
 
 export const ItemList = styled.View`
   margin-bottom: 20px;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   padding: 10px;
   border-radius: 4px;
 `;

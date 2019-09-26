@@ -22,7 +22,7 @@ export default function Result(props) {
 
   async function fetchData() {
     const id = props.navigation.getParam('quizId');
-    StatusBar.setBarStyle('light-content');
+    StatusBar.setBarStyle('dark-content');
     try {
       const { data } = await api.get(`/result/${id}`);
       setDisputes(data.disputes);
@@ -57,7 +57,7 @@ export default function Result(props) {
           key={index}
           correct={answer[0].selectedAnswer == index}
         >
-          <TextOption correct={answer[0].selectedAnswer == index}>{option}</TextOption>
+          <TextOption correct>{option}</TextOption>
         </OptionMECorrect>
       ) : (
         <OptionMEError
@@ -91,12 +91,12 @@ export default function Result(props) {
           item.id !== props.navigation.getParam('disputeId')
             ? (
               <User>
-                <UserName>{item.User.name}</UserName>
+                <UserName>{item.userId ? item.User.name : `${item.UnloggedUser.name} (Não registrado)`}</UserName>
                 <UserScore>{item.score}</UserScore>
               </User>
             ) : (
               <UserThis>
-                <UserName>{item.User.name}</UserName>
+                <UserName>{item.userId ? item.User.name : `${item.UnloggedUser.name} (Não registrado)`}</UserName>
                 <UserScore>{item.score > 0 ? item.score : 0}</UserScore>
               </UserThis>
             )
@@ -180,7 +180,7 @@ export default function Result(props) {
                     </>
                   )}
                 </OptionsTF>
-                {item.tfQuestion.explanation && <TextExplanation>Justificativa: {item.tfQuestion.explanation }</TextExplanation>}
+                {item.tfQuestion.explanation && <TextExplanation>Justificativa: {item.tfQuestion.explanation}</TextExplanation>}
               </QuestionView>
             ))}
           </ItemList>
