@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import OneSignal from 'react-native-onesignal';
 import NavigationRoot from './src/navigation/MainNavigator';
+import { NetworkProvider } from './src/service/NetworkProvider';
 import './ReactotronConfig';
 
 export default class App extends Component {
@@ -20,6 +21,10 @@ export default class App extends Component {
   }
 
   render() {
-    return <NavigationRoot />;
+    return (
+      <NetworkProvider>
+        <NavigationRoot />
+      </NetworkProvider>
+    );
   }
 }
