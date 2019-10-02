@@ -31,8 +31,6 @@ export default function Login(props) {
     if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
     const userNotification = await NotificationService();
 
-    console.tron.log(userNotification);
-
     if (typeof userNotification !== 'string') return setError('Error type notification');
 
     try {
