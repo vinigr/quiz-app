@@ -12,7 +12,6 @@ function shuffle(arra1) {
     arra1[ctr] = arra1[index];
     arra1[index] = temp;
   }
-  console.tron.log(arra1.length);
   return arra1;
 }
 

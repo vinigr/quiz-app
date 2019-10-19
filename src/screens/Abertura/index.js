@@ -51,10 +51,8 @@ export default function Abertura(props) {
       });
       setCode(null);
       setQuiz(null);
-      console.tron.log(data);
     } catch ({ response }) {
       setError(response.data.message);
-      console.tron.log(response);
     }
   }
 
