@@ -1,6 +1,6 @@
-import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-import Image from 'react-native-scalable-image';
+import styled from "styled-components/native";
+import { Dimensions } from "react-native";
+import Image from "react-native-scalable-image";
 
 export const Container = styled.ScrollView`
   padding: 0 6px;
@@ -14,7 +14,7 @@ export const StateQuestions = styled.View`
 `;
 
 export const TextState = styled.Text`
-  font-family: 'Rubik-Regular';
+  font-family: "Rubik-Regular";
   font-size: 20px;
 `;
 
@@ -24,14 +24,14 @@ export const QuestionView = styled.View`
 `;
 
 export const QuestionText = styled.Text`
-  font-family: 'Rubik-Regular';
+  font-family: "Rubik-Regular";
   font-size: 24px;
   margin-bottom: 16px;
 `;
 
 export const ImageQuestion = styled(Image).attrs({
-  width: Dimensions.get('window').width,
-  height: 500,
+  width: Dimensions.get("window").width,
+  height: 500
 })`
   margin-bottom: 20px;
   border-radius: 4px;
@@ -44,14 +44,14 @@ export const OptionsTF = styled.View`
 `;
 
 export const OptionTF = styled.TouchableHighlight.attrs({
-  underlayColor: '#757575',
+  underlayColor: "#DADC2E"
 })`
   width: 40%;
   align-items: center;
   padding: 6px 0;
   border-radius: 4px;
-  background-color: ${props => (props.correct ? '#757575' : '#fff')};
-  border: ${props => (props.correct ? 'none' : '#757575')};
+  background-color: ${props => (props.correct ? "#C9CB32" : "#fff")};
+  border: ${props => (props.correct ? "none" : "#757575")};
 `;
 
 export const OptionTFCorrect = styled.View`
@@ -59,8 +59,8 @@ export const OptionTFCorrect = styled.View`
   align-items: center;
   padding: 6px 0;
   border-radius: 4px;
-  background-color: ${props => (props.correct ? 'green' : '#fff')};
-  border: ${props => (props.correct ? 'none' : '#757575')};
+  background-color: ${props => (props.correct ? "green" : "#fff")};
+  border: ${props => (props.optionSelect ? "#DDDF31" : "#757575")};
 `;
 
 export const OptionTFError = styled.View`
@@ -68,13 +68,14 @@ export const OptionTFError = styled.View`
   align-items: center;
   padding: 6px 0;
   border-radius: 4px;
-  background-color: ${props => (props.incorrect ? 'red' : '#757575')};
+  background-color: ${props => (props.incorrect ? "red" : "#fff")};
+  border: ${props => (props.optionSelect ? "#DDDF31" : "#757575")};
 `;
 
 export const TextOption = styled.Text`
   font-size: 20px;
-  font-family: 'Rubik-Regular';
-  color: ${props => (props.correct ? '#fff' : '#000')};
+  font-family: "Rubik-Regular";
+  color: ${props => (props.correct ? "#FFF" : "#000")};
 `;
 
 export const OptionsME = styled.View`
@@ -82,14 +83,14 @@ export const OptionsME = styled.View`
 `;
 
 export const OptionME = styled.TouchableHighlight.attrs({
-  underlayColor: '#757575',
+  underlayColor: "#E1E365"
 })`
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  background-color: ${props => (props.correct ? '#757575' : '#fff')};
-  border: ${props => (props.correct ? 'none' : '#757575')};
+  background-color: ${props => (props.correct ? "#C9CB32" : "#fff")};
+  border: ${props => (props.correct ? "none" : "#757575")};
 `;
 
 export const OptionMECorrect = styled.View`
@@ -97,7 +98,8 @@ export const OptionMECorrect = styled.View`
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  background-color: ${props => (props.correct ? 'green' : 'red')};
+  background-color: ${props => (props.correct ? "green" : "red")};
+  border: ${props => (props.correct ? "#C9CB32" : "none")};
 `;
 
 export const OptionMEError = styled.View`
@@ -105,8 +107,8 @@ export const OptionMEError = styled.View`
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  background-color: ${props => (props.incorrect ? '#757575' : '#fff')};
-  border: ${props => (props.incorrect ? 'none' : '#757575')};
+  background-color: #fff;
+  border: ${props => (props.incorrect ? "#C9CB32" : "#757575")};
 `;
 
 export const Actions = styled.View`
@@ -128,7 +130,7 @@ export const ButtonActions = styled.TouchableOpacity`
 
 export const TextActions = styled.Text`
   font-size: 20px;
-  font-family: 'Rubik-Medium';
+  font-family: "Rubik-Medium";
   color: #fff;
 `;
 
@@ -139,9 +141,9 @@ export const ViewError = styled.View`
 `;
 
 export const ViewModalAlert = styled.View`
-  background-color: #fff; 
-  width: ${Dimensions.get('window').width * 0.7};
-  height: ${Dimensions.get('window').height * 0.3};
+  background-color: #fff;
+  width: ${Dimensions.get("window").width * 0.7};
+  height: ${Dimensions.get("window").height * 0.3};
   padding: 10px;
   align-items: center;
   justify-content: center;

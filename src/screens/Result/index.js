@@ -1,18 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { FlatList, StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { FlatList, StatusBar } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
-  Container, Title, HeadList, TextHead, User, UserName, UserScore, UserThis,
-  ButtonShowAnswers, TextButton, ItemList, ViewQuestion, TextExplanation, QuestionView,
-} from './styles';
+  Container,
+  Title,
+  HeadList,
+  TextHead,
+  User,
+  UserName,
+  UserScore,
+  UserThis,
+  ButtonShowAnswers,
+  TextButton,
+  ItemList,
+  ViewQuestion,
+  TextExplanation,
+  QuestionView
+} from "./styles";
 
 import {
-  OptionMECorrect, OptionMEError, TextOption, QuestionText, OptionsTF,
-  OptionTFCorrect, OptionTFError,
-} from '../Quiz/styles';
+  OptionMECorrect,
+  OptionMEError,
+  TextOption,
+  QuestionText,
+  OptionsTF,
+  OptionTFCorrect,
+  OptionTFError
+} from "../Quiz/styles";
 
-import api from '../../service/api';
+import api from "../../service/api";
 
 export default function Result(props) {
   const [disputes, setDisputes] = useState([]);
@@ -21,8 +38,8 @@ export default function Result(props) {
   const [showAnswers, setShowAnswers] = useState(false);
 
   async function fetchData() {
-    const id = props.navigation.getParam('quizId');
-    StatusBar.setBarStyle('dark-content');
+    const id = props.navigation.getParam("quizId");
+    StatusBar.setBarStyle("dark-content");
     try {
       const { data } = await api.get(`/result/${id}`);
       setDisputes(data.disputes);
@@ -44,7 +61,7 @@ export default function Result(props) {
       question.option2,
       question.option3,
       question.option4,
-      question.option5,
+      question.option5
     );
     Object.assign(question, { options: arrayOptions });
     const { options } = question;
@@ -52,21 +69,26 @@ export default function Result(props) {
     const answer = answers.filter(a => a.questionId === id);
 
     return options.map(
-      (option, index) => option && answer.length > 0 && ((JSON.parse(question.answer) === index) ? (
-        <OptionMECorrect
-          key={index}
-          correct={answer[0].selectedAnswer == index}
-        >
-          <TextOption correct>{option}</TextOption>
-        </OptionMECorrect>
-      ) : (
-        <OptionMEError
-          key={index}
-          incorrect={answer[0].selectedAnswer == index}
-        >
-          <TextOption correct={answer[0].selectedAnswer == index}>{option}</TextOption>
-        </OptionMEError>
-      )),
+      (option, index) =>
+        option &&
+        answer.length > 0 &&
+        (JSON.parse(question.answer) === index ? (
+          <OptionMECorrect
+            key={index}
+            correct={answer[0].selectedAnswer == index}
+          >
+            <TextOption correct>{option}</TextOption>
+          </OptionMECorrect>
+        ) : (
+          <OptionMEError
+            key={index}
+            incorrect={answer[0].selectedAnswer == index}
+          >
+            <TextOption correct={answer[0].selectedAnswer == index}>
+              {option}
+            </TextOption>
+          </OptionMEError>
+        ))
     );
   }
 
@@ -87,21 +109,27 @@ export default function Result(props) {
       <FlatList
         data={disputes}
         keyExtractor={item => `${item.id}`}
-        renderItem={({ item }) => (
-          item.id !== props.navigation.getParam('disputeId')
-            ? (
-              <User>
-                <UserName>{item.userId ? item.User.name : `${item.UnloggedUser.name} (Não registrado)`}</UserName>
-                <UserScore>{item.score}</UserScore>
-              </User>
-            ) : (
-              <UserThis>
-                <UserName>{item.userId ? item.User.name : `${item.UnloggedUser.name} (Não registrado)`}</UserName>
-                <UserScore>{item.score > 0 ? item.score : 0}</UserScore>
-              </UserThis>
-            )
-        )
-      }
+        renderItem={({ item }) =>
+          item.id !== props.navigation.getParam("disputeId") ? (
+            <User>
+              <UserName>
+                {item.userId
+                  ? item.User.name
+                  : `${item.UnloggedUser.name} (Não registrado)`}
+              </UserName>
+              <UserScore>{item.score}</UserScore>
+            </User>
+          ) : (
+            <UserThis>
+              <UserName>
+                {item.userId
+                  ? item.User.name
+                  : `${item.UnloggedUser.name} (Não registrado)`}
+              </UserName>
+              <UserScore>{item.score > 0 ? item.score : 0}</UserScore>
+            </UserThis>
+          )
+        }
       />
       {!showAnswers ? (
         <ButtonShowAnswers onPress={() => setShowAnswers(true)}>
@@ -114,80 +142,92 @@ export default function Result(props) {
           <Icon name="chevron-up" color="#000" size={30} />
         </ButtonShowAnswers>
       )}
-      {showAnswers
-      && (
-      <FlatList
-        data={questions}
-        keyExtractor={item => `${item.id}`}
-        renderItem={({ item, index }) => (
-          <ItemList>
-            {(item.meQuestion ? (
-              <React.Fragment>
-                <ViewQuestion>
-                  <QuestionText>{index + 1} - </QuestionText>
-                  <QuestionText>{item.meQuestion.question}</QuestionText>
-                </ViewQuestion>
-                {renderAnswers(item.meQuestion, item.id)}
-                {item.meQuestion.explanation && <TextExplanation>Justificativa: {item.meQuestion.explanation }</TextExplanation>}
-              </React.Fragment>
-            ) : (
-              <QuestionView key={item.id}>
-                <ViewQuestion>
-                  <QuestionText>{index + 1} - </QuestionText>
-                  <QuestionText>{item.tfQuestion.question}</QuestionText>
-                </ViewQuestion>
-
-                <OptionsTF>
-                  {item.tfQuestion.answer === answerResp(item.id) ? (
-                    <>
-                      <OptionTFCorrect
-                        correct={JSON.parse(item.tfQuestion.answer) === true}
-                      >
-                        <TextOption
-                          correct={JSON.parse(item.tfQuestion.answer) === true}
-                        >
-                    Verdadeiro
-                        </TextOption>
-                      </OptionTFCorrect>
-                      <OptionTFCorrect
-                        correct={JSON.parse(item.tfQuestion.answer) === false}
-                      >
-                        <TextOption
-                          correct={JSON.parse(item.tfQuestion.answer) === false}
-                        >Falso
-                        </TextOption>
-                      </OptionTFCorrect>
-                    </>
-                  ) : (
-                    <>
-                      <OptionTFError
-                        incorrect={JSON.parse(item.tfQuestion.answer) === true}
-                      >
-                        <TextOption
-                          correct
-                        >
-                Verdadeiro
-                        </TextOption>
-                      </OptionTFError>
-                      <OptionTFError
-                        incorrect={JSON.parse(item.tfQuestion.answer) === false}
-                      >
-                        <TextOption
-                          correct
-                        >Falso
-                        </TextOption>
-                      </OptionTFError>
-                    </>
+      {showAnswers && (
+        <FlatList
+          data={questions}
+          keyExtractor={item => `${item.id}`}
+          renderItem={({ item, index }) => (
+            <ItemList>
+              {item.meQuestion ? (
+                <React.Fragment>
+                  <ViewQuestion>
+                    <QuestionText>{index + 1} - </QuestionText>
+                    <QuestionText>{item.meQuestion.question}</QuestionText>
+                  </ViewQuestion>
+                  {renderAnswers(item.meQuestion, item.id)}
+                  {item.meQuestion.explanation && (
+                    <TextExplanation>
+                      Justificativa: {item.meQuestion.explanation}
+                    </TextExplanation>
                   )}
-                </OptionsTF>
-                {item.tfQuestion.explanation && <TextExplanation>Justificativa: {item.tfQuestion.explanation}</TextExplanation>}
-              </QuestionView>
-            ))}
-          </ItemList>
-        )}
-      />
-      )
-      }
+                </React.Fragment>
+              ) : (
+                <QuestionView key={item.id}>
+                  <ViewQuestion>
+                    <QuestionText>{index + 1} - </QuestionText>
+                    <QuestionText>{item.tfQuestion.question}</QuestionText>
+                  </ViewQuestion>
+
+                  <OptionsTF>
+                    {answerResp(item.id) !== "skip" &&
+                    item.tfQuestion.answer ==
+                      JSON.parse(answerResp(item.id)) ? (
+                      <>
+                        <OptionTFCorrect
+                          correct={item.tfQuestion.answer === true}
+                          optionSelect={
+                            JSON.parse(answerResp(item.id)) === true
+                          }
+                        >
+                          <TextOption correct={item.tfQuestion.answer === true}>
+                            Verdadeiro
+                          </TextOption>
+                        </OptionTFCorrect>
+                        <OptionTFCorrect
+                          correct={item.tfQuestion.answer === false}
+                          optionSelect={
+                            JSON.parse(answerResp(item.id)) === false
+                          }
+                        >
+                          <TextOption
+                            correct={item.tfQuestion.answer === false}
+                          >
+                            Falso
+                          </TextOption>
+                        </OptionTFCorrect>
+                      </>
+                    ) : (
+                      <>
+                        <OptionTFError
+                          incorrect={item.tfQuestion.answer === true}
+                          optionSelect={answerResp(item.id) === "true"}
+                        >
+                          <TextOption correct={answerResp(item.id) !== "true"}>
+                            Verdadeiro
+                          </TextOption>
+                        </OptionTFError>
+                        <OptionTFError
+                          incorrect={item.tfQuestion.answer === false}
+                          optionSelect={answerResp(item.id) === "false"}
+                        >
+                          <TextOption correct={answerResp(item.id) === "true"}>
+                            Falso
+                          </TextOption>
+                        </OptionTFError>
+                      </>
+                    )}
+                  </OptionsTF>
+                  {item.tfQuestion.explanation && (
+                    <TextExplanation>
+                      Justificativa: {item.tfQuestion.explanation}
+                    </TextExplanation>
+                  )}
+                </QuestionView>
+              )}
+            </ItemList>
+          )}
+        />
+      )}
     </Container>
   );
 }
