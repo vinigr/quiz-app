@@ -25,7 +25,7 @@ export const QuestionView = styled.View`
 
 export const QuestionText = styled.Text`
   font-family: "Rubik-Regular";
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 16px;
 `;
 
