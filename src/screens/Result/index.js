@@ -84,7 +84,12 @@ export default function Result(props) {
             key={index}
             incorrect={answer[0].selectedAnswer == index}
           >
-            <TextOption correct={answer[0].selectedAnswer == index}>
+            <TextOption
+              correct={
+                (answer[0].selectedAnswer =
+                  index && JSON.parse(question.answer))
+              }
+            >
               {option}
             </TextOption>
           </OptionMEError>
@@ -151,20 +156,21 @@ export default function Result(props) {
               {item.meQuestion ? (
                 <React.Fragment>
                   <ViewQuestion>
-                    <QuestionText>{index + 1} - </QuestionText>
+                    <QuestionText>{index + 1}. </QuestionText>
                     <QuestionText>{item.meQuestion.question}</QuestionText>
                   </ViewQuestion>
                   {renderAnswers(item.meQuestion, item.id)}
-                  {item.meQuestion.explanation && (
-                    <TextExplanation>
-                      Justificativa: {item.meQuestion.explanation}
-                    </TextExplanation>
-                  )}
+                  {item.meQuestion.explanation &&
+                    item.meQuestion.explanation != "undefined" && (
+                      <TextExplanation>
+                        Justificativa: {item.meQuestion.explanation}
+                      </TextExplanation>
+                    )}
                 </React.Fragment>
               ) : (
                 <QuestionView key={item.id}>
                   <ViewQuestion>
-                    <QuestionText>{index + 1} - </QuestionText>
+                    <QuestionText>{index + 1}. </QuestionText>
                     <QuestionText>{item.tfQuestion.question}</QuestionText>
                   </ViewQuestion>
 
@@ -217,11 +223,12 @@ export default function Result(props) {
                       </>
                     )}
                   </OptionsTF>
-                  {item.tfQuestion.explanation && (
-                    <TextExplanation>
-                      Justificativa: {item.tfQuestion.explanation}
-                    </TextExplanation>
-                  )}
+                  {item.tfQuestion.explanation &&
+                    item.tfQuestion.explanation != "undefined" && (
+                      <TextExplanation>
+                        Justificativa: {item.tfQuestion.explanation}
+                      </TextExplanation>
+                    )}
                 </QuestionView>
               )}
             </ItemList>
