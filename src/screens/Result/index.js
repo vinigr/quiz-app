@@ -75,7 +75,10 @@ export default function Result(props) {
         (JSON.parse(question.answer) === index ? (
           <OptionMECorrect
             key={index}
-            correct={answer[0].selectedAnswer == index}
+            correct={
+              answer[0].selectedAnswer == index &&
+              answer[0].selectedAnswer == question.answer
+            }
           >
             <TextOption correct>{option}</TextOption>
           </OptionMECorrect>
@@ -84,14 +87,7 @@ export default function Result(props) {
             key={index}
             incorrect={answer[0].selectedAnswer == index}
           >
-            <TextOption
-              correct={
-                (answer[0].selectedAnswer =
-                  index && JSON.parse(question.answer))
-              }
-            >
-              {option}
-            </TextOption>
+            <TextOption>{option}</TextOption>
           </OptionMEError>
         ))
     );
