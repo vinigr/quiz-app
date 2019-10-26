@@ -115,7 +115,7 @@ export const Actions = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 30px;
+  margin: 30px 0 20px;
 `;
 
 export const ButtonActions = styled.TouchableOpacity`
