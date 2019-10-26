@@ -176,12 +176,12 @@ export default function Result(props) {
                       JSON.parse(answerResp(item.id)) ? (
                       <>
                         <OptionTFCorrect
-                          correct={item.tfQuestion.answer === true}
+                          correct={item.tfQuestion.answer == true}
                           optionSelect={
                             JSON.parse(answerResp(item.id)) === true
                           }
                         >
-                          <TextOption correct={item.tfQuestion.answer === true}>
+                          <TextOption correct={item.tfQuestion.answer == true}>
                             Verdadeiro
                           </TextOption>
                         </OptionTFCorrect>
@@ -191,9 +191,7 @@ export default function Result(props) {
                             JSON.parse(answerResp(item.id)) === false
                           }
                         >
-                          <TextOption
-                            correct={item.tfQuestion.answer === false}
-                          >
+                          <TextOption correct={item.tfQuestion.answer == false}>
                             Falso
                           </TextOption>
                         </OptionTFCorrect>
@@ -202,9 +200,17 @@ export default function Result(props) {
                       <>
                         <OptionTFError
                           incorrect={item.tfQuestion.answer === true}
-                          optionSelect={answerResp(item.id) === "true"}
+                          optionSelect={answerResp(item.id) == "true"}
                         >
-                          <TextOption correct={answerResp(item.id) !== "true"}>
+                          {console.tron.log(
+                            typeof answerResp(item.id),
+                            answerResp(item.id) == "true"
+                          )}
+                          <TextOption
+                            correct={
+                              answerResp(item.id) == item.tfQuestion.answer
+                            }
+                          >
                             Verdadeiro
                           </TextOption>
                         </OptionTFError>
@@ -212,7 +218,9 @@ export default function Result(props) {
                           incorrect={item.tfQuestion.answer === false}
                           optionSelect={answerResp(item.id) === "false"}
                         >
-                          <TextOption correct={answerResp(item.id) === "true"}>
+                          <TextOption
+                            correct={item.tfQuestion.answer === false}
+                          >
                             Falso
                           </TextOption>
                         </OptionTFError>
