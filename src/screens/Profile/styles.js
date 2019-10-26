@@ -1,21 +1,15 @@
-import styled from 'styled-components/native';
-import LinearGradient from 'react-native-linear-gradient';
+import styled from "styled-components/native";
+import { Dimensions } from "react-native";
 
-export const Container = styled(LinearGradient).attrs({
-  colors: ['#F7FEFC', '#fff'],
-  start: { x: 0.5, y: 0 },
-  end: { x: 0.5, y: 1.0 },
-})`  
+export const Container = styled.SafeAreaView`
   align-items: center;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   padding-top: 30px;
-  height: 100%;
+  height: ${Dimensions.get("window").height - 50};
   justify-content: space-around;
 `;
 
-export const Header = styled.View`
-  
-`;
+export const Header = styled.View``;
 
 export const Photo = styled.Image`
   height: 150px;
@@ -25,7 +19,7 @@ export const Photo = styled.Image`
 `;
 
 export const Name = styled.Text`
-  font-family: 'Rubik-Medium';
+  font-family: "Rubik-Medium";
   font-size: 25px;
   color: #272727;
   text-align: center;
@@ -37,7 +31,7 @@ export const Menu = styled.View`
 `;
 
 export const Option = styled.TouchableOpacity`
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   width: 100%;
   height: 50px;
   flex-direction: row;
@@ -54,8 +48,8 @@ export const OptionTextIcon = styled.View`
 `;
 
 export const TextOption = styled.Text`
-  font-family: 'Rubik-Regular';
+  font-family: "Rubik-Regular";
   margin-left: 10px;
   font-size: 15px;
-  color: #4F4F4F;
+  color: #4f4f4f;
 `;
