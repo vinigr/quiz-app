@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, ToastAndroid } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {FlatList, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import {
@@ -54,10 +54,14 @@ export default function Disciplinas(props) {
       update: fetchData,
     });
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function addSubject() {
-    if (!code || code === '') return setModalAdd(false);
+    if (!code || code === '') {
+      return setModalAdd(false);
+    }
 
     await setModalAdd(false);
     try {
@@ -99,15 +103,23 @@ export default function Disciplinas(props) {
   }
 
   async function unsubscribe() {
-    if (!setSubjectSelected) return console.tron.log('erro');
+    if (!setSubjectSelected) {
+      return console.tron.log('erro');
+    }
 
     try {
-      const { data } = await api.delete(`/user/unsubscribe/${subjectSelected}`);
+      const {data} = await api.delete(`/user/unsubscribe/${subjectSelected}`);
       const tempSubjects = [...subject];
-      const newSubjects = tempSubjects.filter(subject => subject.subject.id !== subjectSelected);
+      const newSubjects = tempSubjects.filter(
+        subject => subject.subject.id !== subjectSelected,
+      );
       setSubject(newSubjects);
 
-      ToastAndroid.showWithGravity(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+      ToastAndroid.showWithGravity(
+        data.message,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
     } catch (error) {
       ToastAndroid.showWithGravity(
         'Erro ao cancelar inscrição!',
@@ -130,12 +142,13 @@ export default function Disciplinas(props) {
             keyExtractor={item => `${item.subject_id}`}
             onRefresh={fetchData}
             refreshing={loading}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <ItemList
                 onLongPress={() => handleVisibleSubscribe(item.subject.id)}
-                onPress={() => props.navigation.navigate('Disciplina', {
-                  id: item.subject.id,
-                })
+                onPress={() =>
+                  props.navigation.navigate('Disciplina', {
+                    id: item.subject.id,
+                  })
                 }
                 style={{
                   shadowColor: '#000',
@@ -147,14 +160,14 @@ export default function Disciplinas(props) {
                   shadowRadius: 4.65,
 
                   elevation: 6,
-                }}
-              >
+                }}>
                 <HeaderSubject>
                   <ViewSubject>
                     <TitleItem>{item.subject.name}</TitleItem>
                     <TopicItem>{item.subject.topic}</TopicItem>
                   </ViewSubject>
-                  <TouchableIcon onPress={() => handleVisibleSubscribe(item.subject.id)}>
+                  <TouchableIcon
+                    onPress={() => handleVisibleSubscribe(item.subject.id)}>
                     <Icon name="dots-vertical" size={24} />
                   </TouchableIcon>
                 </HeaderSubject>
@@ -171,8 +184,7 @@ export default function Disciplinas(props) {
             animationIn="fadeIn"
             animationOut="fadeOut"
             animationInTiming={200}
-            backdropTransitionOutTiming={0}
-          >
+            backdropTransitionOutTiming={0}>
             <ViewModal>
               <OptionsModal onPress={() => unsubscribe()}>
                 <OptionsText>Cancelar inscrição</OptionsText>
@@ -186,8 +198,7 @@ export default function Disciplinas(props) {
             animationIn="fadeIn"
             animationOut="fadeOut"
             animationInTiming={200}
-            backdropTransitionOutTiming={0}
-          >
+            backdropTransitionOutTiming={0}>
             <ViewModalAdd>
               <TextModalAdd>
                 Peça o código para o criador da disciplina e digite-o abaixo:
@@ -204,7 +215,7 @@ export default function Disciplinas(props) {
   );
 }
 
-Disciplinas.navigationOptions = ({ navigation }) => ({
+Disciplinas.navigationOptions = ({navigation}) => ({
   headerRight: (
     <IconsHeader>
       <IconHeader onPress={() => navigation.state.params.update()}>

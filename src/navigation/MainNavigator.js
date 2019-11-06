@@ -1,11 +1,10 @@
 import React from 'react';
-import {
-  createStackNavigator,
-  createAppContainer,
-  createSwitchNavigator,
-  createMaterialTopTabNavigator,
-} from 'react-navigation';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+
+import {createStackNavigator} from 'react-navigation-stack';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   AuthLoading,
@@ -94,35 +93,45 @@ const bottomNavigator = createMaterialBottomTabNavigator(
     Disciplinas: {
       screen: stackDisciplinas,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Icon color={tintColor} size={24} name="application" />,
+        tabBarIcon: ({tintColor}) => (
+          <Icon color={tintColor} size={24} name="application" />
+        ),
       },
     },
     Questionarios: {
       screen: Questionarios,
       navigationOptions: {
         title: 'Quizzes',
-        tabBarIcon: ({ tintColor }) => <Icon color={tintColor} size={24} name="forum" />,
+        tabBarIcon: ({tintColor}) => (
+          <Icon color={tintColor} size={24} name="forum" />
+        ),
       },
     },
     Historico: {
       screen: Historico,
       navigationOptions: {
         title: 'Histórico',
-        tabBarIcon: ({ tintColor }) => <Icon color={tintColor} size={24} name="history" />,
+        tabBarIcon: ({tintColor}) => (
+          <Icon color={tintColor} size={24} name="history" />
+        ),
       },
     },
     Profile: {
       screen: stackProfile,
       navigationOptions: {
         title: 'Perfil',
-        tabBarIcon: ({ tintColor }) => <Icon color={tintColor} size={24} name="account" />,
+        tabBarIcon: ({tintColor}) => (
+          <Icon color={tintColor} size={24} name="account" />
+        ),
       },
     },
   },
   {
     activeColor: '#059451',
     inactiveColor: '#646464',
-    barStyle: { backgroundColor: '#fff' },
+    barStyle: {
+      backgroundColor: '#fff',
+    },
   },
 );
 
