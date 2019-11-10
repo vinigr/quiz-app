@@ -22,6 +22,7 @@ export const TextInput = styled.TextInput`
   color: #000;
   font-size: 14px;
   width: 100%;
+  padding-right: 50px;
 `;
 
 export const TouchableSecure = styled.TouchableHighlight`
