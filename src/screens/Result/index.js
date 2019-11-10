@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 
-import { FlatList, StatusBar } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {FlatList, StatusBar} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Container,
   Title,
@@ -16,8 +16,8 @@ import {
   ItemList,
   ViewQuestion,
   TextExplanation,
-  QuestionView
-} from "./styles";
+  QuestionView,
+} from './styles';
 
 import {
   OptionMECorrect,
@@ -26,10 +26,10 @@ import {
   QuestionText,
   OptionsTF,
   OptionTFCorrect,
-  OptionTFError
-} from "../Quiz/styles";
+  OptionTFError,
+} from '../Quiz/styles';
 
-import api from "../../service/api";
+import api from '../../service/api';
 
 export default function Result(props) {
   const [disputes, setDisputes] = useState([]);
@@ -38,10 +38,10 @@ export default function Result(props) {
   const [showAnswers, setShowAnswers] = useState(false);
 
   async function fetchData() {
-    const id = props.navigation.getParam("quizId");
-    StatusBar.setBarStyle("dark-content");
+    const id = props.navigation.getParam('quizId');
+    StatusBar.setBarStyle('dark-content');
     try {
-      const { data } = await api.get(`/result/${id}`);
+      const {data} = await api.get(`/result/${id}`);
       setDisputes(data.disputes);
       setQuestions(data.questions);
       setAnswers(data.answers);
@@ -52,6 +52,8 @@ export default function Result(props) {
 
   useEffect(() => {
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function renderAnswers(question, id) {
@@ -61,13 +63,11 @@ export default function Result(props) {
       question.option2,
       question.option3,
       question.option4,
-      question.option5
+      question.option5,
     );
-    Object.assign(question, { options: arrayOptions });
-    const { options } = question;
-
+    Object.assign(question, {options: arrayOptions});
+    const {options} = question;
     const answer = answers.filter(a => a.questionId === id);
-
     return options.map(
       (option, index) =>
         option &&
@@ -78,18 +78,16 @@ export default function Result(props) {
             correct={
               answer[0].selectedAnswer == index &&
               answer[0].selectedAnswer == question.answer
-            }
-          >
+            }>
             <TextOption correct>{option}</TextOption>
           </OptionMECorrect>
         ) : (
           <OptionMEError
             key={index}
-            incorrect={answer[0].selectedAnswer == index}
-          >
+            incorrect={answer[0].selectedAnswer == index}>
             <TextOption>{option}</TextOption>
           </OptionMEError>
-        ))
+        )),
     );
   }
 
@@ -110,8 +108,8 @@ export default function Result(props) {
       <FlatList
         data={disputes}
         keyExtractor={item => `${item.id}`}
-        renderItem={({ item }) =>
-          item.id !== props.navigation.getParam("disputeId") ? (
+        renderItem={({item}) =>
+          item.id !== props.navigation.getParam('disputeId') ? (
             <User>
               <UserName>
                 {item.userId
@@ -147,7 +145,7 @@ export default function Result(props) {
         <FlatList
           data={questions}
           keyExtractor={item => `${item.id}`}
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <ItemList>
               {item.meQuestion ? (
                 <React.Fragment>
@@ -157,7 +155,7 @@ export default function Result(props) {
                   </ViewQuestion>
                   {renderAnswers(item.meQuestion, item.id)}
                   {item.meQuestion.explanation &&
-                    item.meQuestion.explanation != "undefined" && (
+                    item.meQuestion.explanation != 'undefined' && (
                       <TextExplanation>
                         Justificativa: {item.meQuestion.explanation}
                       </TextExplanation>
@@ -171,7 +169,7 @@ export default function Result(props) {
                   </ViewQuestion>
 
                   <OptionsTF>
-                    {answerResp(item.id) !== "skip" &&
+                    {answerResp(item.id) !== 'skip' &&
                     item.tfQuestion.answer ==
                       JSON.parse(answerResp(item.id)) ? (
                       <>
@@ -179,8 +177,7 @@ export default function Result(props) {
                           correct={item.tfQuestion.answer == true}
                           optionSelect={
                             JSON.parse(answerResp(item.id)) === true
-                          }
-                        >
+                          }>
                           <TextOption correct={item.tfQuestion.answer == true}>
                             Verdadeiro
                           </TextOption>
@@ -189,8 +186,7 @@ export default function Result(props) {
                           correct={item.tfQuestion.answer === false}
                           optionSelect={
                             JSON.parse(answerResp(item.id)) === false
-                          }
-                        >
+                          }>
                           <TextOption correct={item.tfQuestion.answer == false}>
                             Falso
                           </TextOption>
@@ -200,27 +196,23 @@ export default function Result(props) {
                       <>
                         <OptionTFError
                           incorrect={item.tfQuestion.answer === true}
-                          optionSelect={answerResp(item.id) == "true"}
-                        >
+                          optionSelect={answerResp(item.id) == 'true'}>
                           {console.tron.log(
                             typeof answerResp(item.id),
-                            answerResp(item.id) == "true"
+                            answerResp(item.id) == 'true',
                           )}
                           <TextOption
                             correct={
                               answerResp(item.id) == item.tfQuestion.answer
-                            }
-                          >
+                            }>
                             Verdadeiro
                           </TextOption>
                         </OptionTFError>
                         <OptionTFError
                           incorrect={item.tfQuestion.answer === false}
-                          optionSelect={answerResp(item.id) === "false"}
-                        >
+                          optionSelect={answerResp(item.id) === 'false'}>
                           <TextOption
-                            correct={item.tfQuestion.answer === false}
-                          >
+                            correct={item.tfQuestion.answer === false}>
                             Falso
                           </TextOption>
                         </OptionTFError>
@@ -228,7 +220,7 @@ export default function Result(props) {
                     )}
                   </OptionsTF>
                   {item.tfQuestion.explanation &&
-                    item.tfQuestion.explanation != "undefined" && (
+                    item.tfQuestion.explanation != 'undefined' && (
                       <TextExplanation>
                         Justificativa: {item.tfQuestion.explanation}
                       </TextExplanation>

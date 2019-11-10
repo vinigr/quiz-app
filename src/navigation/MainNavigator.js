@@ -22,6 +22,8 @@ import {
   ChangePassword,
   Quiz,
   Result,
+  QuizUnloggedUser,
+  ResultUnloggedUser,
 } from '../screens';
 
 const Disciplina = createMaterialTopTabNavigator(
@@ -196,6 +198,12 @@ const rootNavigator = createSwitchNavigator(
     },
     appNavigator: {
       screen: appNavigator,
+    },
+    QuizUnloggedUser: {
+      screen: QuizUnloggedUser,
+    },
+    ResultUnloggedUser: {
+      screen: ResultUnloggedUser,
     },
   },
   {
