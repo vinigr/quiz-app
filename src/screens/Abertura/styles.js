@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Fonts from '../../utils/fonts';
 
 export const Container = styled.View`
@@ -70,7 +70,7 @@ export const Input = styled.TextInput`
   border: solid #9c9c9c 1px;
   border-radius: 4px;
   margin-bottom: 16px;
-  background-color: #e3e3e3;
+  background-color: #f1f1f1;
 `;
 
 export const TextModal = styled.Text`
@@ -79,11 +79,14 @@ export const TextModal = styled.Text`
 `;
 
 export const ButtonModal = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
   padding: 10px;
   background-color: #e7e7e7;
   border-radius: 4px;
   align-self: flex-end;
   border: solid #9c9c9c 0.5px;
+  margin-top: 10px;
 `;
 
 export const TextButtonAdd = styled.Text`

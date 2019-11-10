@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Modal from 'react-native-modal';
 import {
@@ -17,7 +19,7 @@ import {
   TextButtonAdd,
 } from './styles';
 
-import { TextError } from '../../styles';
+import {TextError} from '../../styles';
 
 import api from '../../service/api';
 
@@ -31,10 +33,10 @@ export default function Abertura(props) {
   async function searchQuiz() {
     setError(null);
     try {
-      const { data } = await api.get(`/unloggedUser/${code}`);
+      const {data} = await api.get(`/unloggedUser/${code}`);
       console.tron.log(data);
       setQuiz(data.quiz);
-    } catch ({ response }) {
+    } catch ({response}) {
       setError(response.data.message);
       console.tron.log(response);
     }
@@ -42,19 +44,36 @@ export default function Abertura(props) {
 
   async function startQuiz() {
     setError(null);
-    if (!name) return setError('Nome não informado!');
-    if (!quiz) return setError('Quiz não informado!');
+    if (!name) {
+      return setError('Nome não informado!');
+    }
+    if (!quiz) {
+      return setError('Quiz não informado!');
+    }
     try {
-      const { data } = await api.post('/unloggedUser/startQuiz', {
+      const {data} = await api.post('/unloggedUser/startQuiz', {
         name,
-        quiz,
+        quiz: quiz.id,
       });
       setCode(null);
-      setQuiz(null);
-    } catch ({ response }) {
+      props.navigation.navigate('QuizUnloggedUser', {
+        user: data.user,
+        feedbackAnswer: quiz.feedbackAnswer,
+        quizId: quiz.id,
+        listQuiz: data.listQuiz,
+        disputeData: data.dispute,
+      });
+    } catch ({response}) {
       setError(response.data.message);
     }
   }
+
+  const closeModal = () => {
+    setModalAdd(false);
+    setCode('');
+    setQuiz();
+    setError();
+  };
 
   return (
     <Container>
@@ -75,13 +94,12 @@ export default function Abertura(props) {
       </InputView>
       <Modal
         isVisible={modalAdd}
-        onBackButtonPress={() => setModalAdd(false)}
-        onBackdropPress={() => setModalAdd(false)}
+        onBackButtonPress={closeModal}
+        onBackdropPress={closeModal}
         animationIn="fadeIn"
         animationOut="fadeOut"
         animationInTiming={200}
-        backdropTransitionOutTiming={0}
-      >
+        backdropTransitionOutTiming={0}>
         <ViewModal>
           {!quiz ? (
             <>
@@ -96,12 +114,17 @@ export default function Abertura(props) {
               {error && <TextError>{error}</TextError>}
               <ButtonModal onPress={() => searchQuiz()}>
                 <TextButtonAdd>Buscar</TextButtonAdd>
+                <Icon name="chevron-right" size={24} color="#000" />
               </ButtonModal>
             </>
           ) : (
             <>
               <TextModal>Digite seu nome</TextModal>
-              <Input placeholder="Nome" value={name} onChangeText={text => setName(text)} />
+              <Input
+                placeholder="Nome"
+                value={name}
+                onChangeText={text => setName(text)}
+              />
               {error && <TextError>{error}</TextError>}
               <ButtonModal onPress={() => startQuiz()}>
                 <TextButtonAdd>Entrar</TextButtonAdd>
