@@ -14,6 +14,8 @@ import Quizzes from './Disciplina/Quizzes';
 import Pessoas from './Disciplina/Pessoas';
 import Quiz from './Quiz';
 import Result from './Result';
+import QuizUnloggedUser from './QuizUnloggedUser';
+import ResultUnloggedUser from './ResultUnloggedUser';
 
 export {
   AuthLoading,
@@ -32,4 +34,6 @@ export {
   ChangePassword,
   Quiz,
   Result,
+  QuizUnloggedUser,
+  ResultUnloggedUser,
 };
