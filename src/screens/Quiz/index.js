@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 
-import { Alert, BackHandler } from "react-native";
-import Modal from "react-native-modal";
+import {Alert, BackHandler} from 'react-native';
+import Modal from 'react-native-modal';
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ImageView from 'react-native-image-view';
 
-import FullScreen from "../../utils/FullScreen";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import FullScreen from '../../utils/FullScreen';
 
 import {
   Container,
@@ -32,15 +34,15 @@ import {
   TextInfo,
   ViewButtons,
   ButtonModal,
-  TextButton
-} from "./styles";
+  TextButton,
+} from './styles';
 
-import { TextError } from "../../styles";
+import {TextError} from '../../styles';
 
-import api from "../../service/api";
-import randomArray from "../../utils/randomArray";
+import api from '../../service/api';
+import randomArray from '../../utils/randomArray';
 
-import Loading from "../../components/Loading";
+import Loading from '../../components/Loading';
 
 export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
@@ -51,10 +53,11 @@ export default function Quiz(props) {
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [error, setError] = useState();
   const [alertModal, setAlertModal] = useState(false);
+  const [isImageViewVisible, setIsImageViewVisible] = useState(false);
 
   const indexQuestion = currentQuestion - 1;
   const id = props.navigation.state.params.item;
-  const { feedbackAnswer } = props.navigation.state.params;
+  const {feedbackAnswer} = props.navigation.state.params;
 
   function handleBackPress() {
     setAlertModal(true);
@@ -64,39 +67,41 @@ export default function Quiz(props) {
 
   useEffect(() => {
     async function fetchData() {
-      if (!id) return props.navigation.goBack();
+      if (!id) {
+        return props.navigation.goBack();
+      }
       try {
-        const { data } = await api.post("/startQuiz", {
-          id
+        const {data} = await api.post('/startQuiz', {
+          id,
         });
-        BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress);
         FullScreen.enable();
         setQuestions(randomArray(data.listQuiz));
         setDispute(data.dispute.id);
         return setLoading(false);
       } catch (err) {
-        if (err.response.data.message === "Este quiz já foi disputado!") {
-          return Alert.alert("Erro", "Quiz já disputado", [
-            { text: "OK", onPress: () => props.navigation.goBack() }
+        if (err.response.data.message === 'Este quiz já foi disputado!') {
+          return Alert.alert('Erro', 'Quiz já disputado', [
+            {text: 'OK', onPress: () => props.navigation.goBack()},
           ]);
         }
       }
     }
     fetchData();
-  }, []);
+  }, [id, props.navigation]);
 
   useEffect(
     () => () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
       FullScreen.disable();
     },
-    []
+    [],
   );
 
   function navigationResult() {
-    BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+    BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
     FullScreen.disable();
-    props.navigation.replace("Result", { quizId: id, disputeId: dispute });
+    props.navigation.replace('Result', {quizId: id, disputeId: dispute});
   }
 
   function handleAnswers(answerQuestion) {
@@ -105,14 +110,18 @@ export default function Quiz(props) {
 
   async function handleQuestions() {
     setError(null);
-    if (!dispute) return;
-    if (answer === null) return setError("Nenhuma resposta selecionada!");
+    if (!dispute) {
+      return;
+    }
+    if (answer === null) {
+      return setError('Nenhuma resposta selecionada!');
+    }
 
     try {
-      const { data } = await api.post("/answerQuestion", {
+      const {data} = await api.post('/answerQuestion', {
         disputeId: dispute,
         questionId: questions[indexQuestion].id,
-        answer
+        answer,
       });
 
       if (feedbackAnswer) {
@@ -121,9 +130,9 @@ export default function Quiz(props) {
       }
 
       if (currentQuestion === questions.length) {
-        Alert.alert("Status", "Quiz finalizado!", [
-          { text: "Mostrar resultado", onPress: navigationResult },
-          { text: "Sair", onPress: () => props.navigation.goBack() }
+        Alert.alert('Status', 'Quiz finalizado!', [
+          {text: 'Mostrar resultado', onPress: navigationResult},
+          {text: 'Sair', onPress: () => props.navigation.goBack()},
         ]);
         return;
       }
@@ -133,18 +142,20 @@ export default function Quiz(props) {
       setCurrentQuestion(currentQuestion + 1);
       return;
     } catch (err) {
-      setError("Tente novamente!");
+      setError('Tente novamente!');
     }
   }
 
   async function jumpQuestion() {
-    if (!dispute) return;
+    if (!dispute) {
+      return;
+    }
 
     try {
-      const { data } = await api.post("/answerQuestion", {
+      const {data} = await api.post('/answerQuestion', {
         disputeId: dispute,
         questionId: questions[indexQuestion].id,
-        answer: "skip"
+        answer: 'skip',
       });
 
       if (feedbackAnswer) {
@@ -153,9 +164,9 @@ export default function Quiz(props) {
       }
 
       if (currentQuestion === questions.length) {
-        Alert.alert("Status", "Quiz finalizado!", [
-          { text: "Mostrar resultado", onPress: navigationResult },
-          { text: "Sair", onPress: () => props.navigation.goBack() }
+        Alert.alert('Status', 'Quiz finalizado!', [
+          {text: 'Mostrar resultado', onPress: navigationResult},
+          {text: 'Sair', onPress: () => props.navigation.goBack()},
         ]);
         return;
       }
@@ -165,15 +176,15 @@ export default function Quiz(props) {
       setCurrentQuestion(currentQuestion + 1);
       return;
     } catch (err) {
-      setError("Tente novamente!");
+      setError('Tente novamente!');
     }
   }
 
   function nextQuestion() {
     if (currentQuestion === questions.length) {
-      Alert.alert("Status", "Quiz finalizado!", [
-        { text: "Mostrar resultado", onPress: navigationResult },
-        { text: "Sair", onPress: () => props.navigation.goBack() }
+      Alert.alert('Status', 'Quiz finalizado!', [
+        {text: 'Mostrar resultado', onPress: navigationResult},
+        {text: 'Sair', onPress: () => props.navigation.goBack()},
       ]);
       return;
     }
@@ -190,11 +201,11 @@ export default function Quiz(props) {
       question.option2,
       question.option3,
       question.option4,
-      question.option5
+      question.option5,
     );
-    Object.assign(question, { options: arrayOptions });
+    Object.assign(question, {options: arrayOptions});
 
-    const { options } = question;
+    const {options} = question;
 
     return options.map(
       (option, index) =>
@@ -202,16 +213,15 @@ export default function Quiz(props) {
           <OptionME
             key={index}
             correct={answer === index}
-            onPress={() => handleAnswers(index)}
-          >
+            onPress={() => handleAnswers(index)}>
             <TextOption correct={answer === index}>{option}</TextOption>
           </OptionME>
-        )
+        ),
     );
   }
 
   function renderAnswers(question) {
-    const { options } = question;
+    const {options} = question;
 
     return options.map(
       (option, index) =>
@@ -220,8 +230,7 @@ export default function Quiz(props) {
           <OptionMECorrect
             key={index}
             correct={answer === index}
-            onPress={() => handleAnswers(index)}
-          >
+            onPress={() => handleAnswers(index)}>
             <TextOption correct={JSON.parse(answerCorrect) === index}>
               {option}
             </TextOption>
@@ -230,11 +239,10 @@ export default function Quiz(props) {
           <OptionMEError
             key={index}
             incorrect={answer === index}
-            onPress={() => handleAnswers(index)}
-          >
+            onPress={() => handleAnswers(index)}>
             <TextOption correct={false}>{option}</TextOption>
           </OptionMEError>
-        ))
+        )),
     );
   }
 
@@ -244,14 +252,12 @@ export default function Quiz(props) {
         <>
           <OptionTF
             correct={answer === true}
-            onPress={() => handleAnswers(true)}
-          >
+            onPress={() => handleAnswers(true)}>
             <TextOption correct={answer === true}>Verdadeiro</TextOption>
           </OptionTF>
           <OptionTF
             correct={answer === false}
-            onPress={() => handleAnswers(false)}
-          >
+            onPress={() => handleAnswers(false)}>
             <TextOption correct={answer === false}>Falso</TextOption>
           </OptionTF>
         </>
@@ -261,16 +267,14 @@ export default function Quiz(props) {
         <>
           <OptionTFCorrect
             correct={JSON.parse(answerCorrect) === true}
-            optionSelect={answer === true}
-          >
+            optionSelect={answer === true}>
             <TextOption correct={JSON.parse(answerCorrect) === true}>
               Verdadeiro
             </TextOption>
           </OptionTFCorrect>
           <OptionTFCorrect
             correct={JSON.parse(answerCorrect) === false}
-            optionSelect={answer === false}
-          >
+            optionSelect={answer === false}>
             <TextOption correct={JSON.parse(answerCorrect) === false}>
               Falso
             </TextOption>
@@ -282,17 +286,14 @@ export default function Quiz(props) {
         <>
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === true}
-            optionSelect={answer === true}
-          >
+            optionSelect={answer === true}>
             <TextOption correct>Verdadeiro</TextOption>
           </OptionTFError>
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === false}
-            optionSelect={answer === false}
-          >
+            optionSelect={answer === false}>
             <TextOption
-              correct={JSON.parse(answerCorrect) === false && answer !== false}
-            >
+              correct={JSON.parse(answerCorrect) === false && answer !== false}>
               Falso
             </TextOption>
           </OptionTFError>
@@ -317,11 +318,27 @@ export default function Quiz(props) {
                 {questions[indexQuestion].tfQuestion.question}
               </QuestionText>
               {questions[indexQuestion].tfQuestion.pathImage && (
-                <ImageQuestion
-                  source={{
-                    uri: questions[indexQuestion].tfQuestion.pathImage
-                  }}
-                />
+                <>
+                  <ImageQuestion
+                    source={{
+                      uri: questions[indexQuestion].tfQuestion.pathImage,
+                    }}
+                    resizeMode="contain"
+                  />
+
+                  <ImageView
+                    images={[
+                      {
+                        source: {
+                          uri: questions[indexQuestion].tfQuestion.pathImage,
+                        },
+                      },
+                    ]}
+                    imageIndex={0}
+                    isVisible={isImageViewVisible}
+                    onClose={() => setIsImageViewVisible(false)}
+                  />
+                </>
               )}
               <OptionsTF>{renderAnswersTF()}</OptionsTF>
             </QuestionView>
@@ -331,11 +348,26 @@ export default function Quiz(props) {
                 {questions[indexQuestion].meQuestion.question}
               </QuestionText>
               {questions[indexQuestion].meQuestion.pathImage && (
-                <ImageQuestion
-                  source={{
-                    uri: questions[indexQuestion].meQuestion.pathImage
-                  }}
-                />
+                <>
+                  <ImageQuestion
+                    onPress={() => setIsImageViewVisible(true)}
+                    source={{
+                      uri: questions[indexQuestion].meQuestion.pathImage,
+                    }}
+                  />
+                  <ImageView
+                    images={[
+                      {
+                        source: {
+                          uri: questions[indexQuestion].meQuestion.pathImage,
+                        },
+                      },
+                    ]}
+                    imageIndex={0}
+                    isVisible={isImageViewVisible}
+                    onClose={() => setIsImageViewVisible(false)}
+                  />
+                </>
               )}
               <OptionsME>
                 {answerCorrect === null
@@ -381,8 +413,7 @@ export default function Quiz(props) {
         animationIn="fadeIn"
         animationOut="fadeOut"
         animationInTiming={200}
-        backdropTransitionOutTiming={0}
-      >
+        backdropTransitionOutTiming={0}>
         <ViewModalAlert>
           <TitleModal>Sair</TitleModal>
           <TextInfo>
