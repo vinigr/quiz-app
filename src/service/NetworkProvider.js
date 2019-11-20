@@ -1,36 +1,37 @@
-import React, { PureComponent } from "react";
-import NetInfo from "@react-native-community/netinfo";
-import { StatusBar } from "react-native";
-import OfflineNotice from "../components/OfflineNotice";
+import React, {PureComponent} from 'react';
+import NetInfo from '@react-native-community/netinfo';
+import {StatusBar} from 'react-native';
+import OfflineNotice from '../components/OfflineNotice';
 
-export const NetworkContext = React.createContext({ isConnected: true });
+export const NetworkContext = React.createContext({isConnected: true});
 
 export class NetworkProvider extends PureComponent {
   state = {
-    isConnected: true
+    isConnected: true,
   };
 
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      this.handleConnectivityChange
+      'connectionChange',
+      this.handleConnectivityChange,
     );
   }
 
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener(
-      "connectionChange",
-      this.handleConnectivityChange
+      'connectionChange',
+      this.handleConnectivityChange,
     );
   }
 
   handleConnectivityChange = isConnected => {
-    this.setState({ isConnected });
+    this.setState({isConnected});
     if (!isConnected) {
-      return StatusBar.setBackgroundColor("#E31515");
+      StatusBar.setBarStyle('light-content');
+      return StatusBar.setBackgroundColor('#E31515');
     }
-    StatusBar.setBackgroundColor("#fafafa");
-    StatusBar.setBarStyle("dark-content");
+    StatusBar.setBackgroundColor('#fafafa');
+    StatusBar.setBarStyle('dark-content');
   };
 
   render() {
