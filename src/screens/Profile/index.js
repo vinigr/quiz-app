@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, StatusBar } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ScrollView, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
-  Container, Header, Photo, Name, Menu, Option, OptionTextIcon, TextOption,
+  Container,
+  Header,
+  Photo,
+  Name,
+  Menu,
+  Option,
+  OptionTextIcon,
+  TextOption,
 } from './styles';
 
 import Loading from '../../components/Loading';
@@ -35,7 +42,9 @@ export default function Profile(props) {
   async function logout() {
     try {
       const userNotification = await NotificationService();
-      if (!userNotification) return;
+      if (!userNotification) {
+        return;
+      }
       await api.post('/logout', {
         userNotification,
       });
@@ -55,18 +64,21 @@ export default function Profile(props) {
         ) : (
           <>
             <Header>
-              <Photo source={user.path ? { uri: user.path } : imagePerson} />
+              <Photo source={user.path ? {uri: user.path} : imagePerson} />
               <Name>{user.name}</Name>
             </Header>
             <Menu>
-              <Option onPress={() => props.navigation.navigate('EditProfile', { user })}>
+              <Option
+                onPress={() =>
+                  props.navigation.navigate('EditProfile', {user})
+                }>
                 <OptionTextIcon>
                   <Icon color="#4F4F4F" name="account-edit" size={30} />
                   <TextOption>Editar perfil</TextOption>
                 </OptionTextIcon>
                 <Icon name="chevron-right" size={30} />
               </Option>
-              <Option>
+              {/* <Option>
                 <OptionTextIcon>
                   <Icon color="#4F4F4F" name="bell" size={30} />
                   <TextOption>Notificações</TextOption>
@@ -79,7 +91,7 @@ export default function Profile(props) {
                   <TextOption>Configurações</TextOption>
                 </OptionTextIcon>
                 <Icon name="chevron-right" size={30} />
-              </Option>
+              </Option> */}
               <Option onPress={logout}>
                 <OptionTextIcon>
                   <Icon color="#4F4F4F" name="exit-to-app" size={30} />
