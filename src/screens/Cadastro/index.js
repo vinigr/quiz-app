@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { View } from 'react-native';
-import { Button, TitleAuth } from '../../styles';
+import {View} from 'react-native';
+import {Button, TitleAuth, ViewError, TextError} from '../../styles';
 import Input from '../../components/TextInput';
 import {
-  Container, ViewInputs, TextButton, ViewLogin, TextConta, TextLogin,
+  Container,
+  ViewInputs,
+  TextButton,
+  ViewLogin,
+  TextConta,
+  TextLogin,
 } from './styles';
 
 import api from '../../service/api';
@@ -24,13 +29,21 @@ export default function Cadastro(props) {
 
   async function handleSubmit() {
     setError(null);
-    if (!name || name === '' || !email || !password || email === '' || password === '') {
+    if (
+      !name ||
+      name === '' ||
+      !email ||
+      !password ||
+      email === '' ||
+      password === ''
+    ) {
       return setError('Dados insuficientes');
     }
     const userNotification = await NotificationService();
 
-    if (!userNotification) return setError('Erro ao buscar id de notificações do aparelho!');
-
+    if (!userNotification) {
+      return setError('Erro ao buscar id de notificações do aparelho!');
+    }
     try {
       const token = await api.post('/signup', {
         name,
@@ -41,6 +54,7 @@ export default function Cadastro(props) {
       await AuthService.setToken(token.data.token);
       return props.navigation.navigate('appNavigator');
     } catch (err) {
+      console.log(err.response.data.message);
       return setError(err.response.data.message);
     }
   }
@@ -49,6 +63,11 @@ export default function Cadastro(props) {
     <Container>
       <View>
         <TitleAuth>Cadastro</TitleAuth>
+        {error && (
+          <ViewError>
+            <TextError>{error}</TextError>
+          </ViewError>
+        )}
         <ViewInputs>
           <Input
             value={name}
@@ -84,7 +103,9 @@ export default function Cadastro(props) {
 
       <ViewLogin>
         <TextConta>Já possui conta?</TextConta>
-        <TextLogin onPress={() => props.navigation.replace('Login')}>Entre</TextLogin>
+        <TextLogin onPress={() => props.navigation.replace('Login')}>
+          Entre
+        </TextLogin>
       </ViewLogin>
     </Container>
   );

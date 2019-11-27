@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { Text, View } from 'react-native';
+import {Text, View} from 'react-native';
 
-import {
-  Button, TitleAuth, ViewError, TextError,
-} from '../../styles';
+import {Button, TitleAuth, ViewError, TextError} from '../../styles';
 import {
   Container,
   ViewInputs,
@@ -28,10 +26,14 @@ export default function Login(props) {
 
   async function handleSubmit() {
     setError(null);
-    if (!email || !password || email === '' || password === '') return setError('Dados insuficientes');
+    if (!email || !password || email === '' || password === '') {
+      return setError('Dados insuficientes');
+    }
     const userNotification = await NotificationService();
 
-    if (typeof userNotification !== 'string') return setError('Error type notification');
+    if (typeof userNotification !== 'string') {
+      return setError('Error type notification');
+    }
 
     try {
       const token = await api.post('/signin', {
@@ -92,7 +94,8 @@ export default function Login(props) {
           />
         </ViewInputs>
         <ViewRecuperacao>
-          <TextRecuperacao onPress={() => props.navigation.navigate('Recuperacao')}>
+          <TextRecuperacao
+            onPress={() => props.navigation.navigate('Recuperacao')}>
             Esqueci minha senha
           </TextRecuperacao>
         </ViewRecuperacao>
@@ -102,7 +105,7 @@ export default function Login(props) {
       </View>
 
       <ViewCadastro>
-        <Text style={{ fontSize: 16 }}>Ainda não tem uma conta?</Text>
+        <Text style={{fontSize: 16}}>Ainda não tem uma conta?</Text>
         <TextCadastro onPress={() => props.navigation.replace('Cadastro')}>
           Cadastre-se
         </TextCadastro>
