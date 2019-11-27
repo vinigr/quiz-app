@@ -1,4 +1,4 @@
-package com.quizapp;
+package com.queston;
 
 import android.os.Bundle;
 
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "quizApp";
+        return "questOn";
     }
 
     @Override

@@ -139,7 +139,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.quizapp"
+        applicationId "com.queston"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

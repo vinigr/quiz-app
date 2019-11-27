@@ -1,4 +1,4 @@
-package com.quizapp;
+package com.queston;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
