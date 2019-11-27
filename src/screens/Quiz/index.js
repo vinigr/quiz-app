@@ -54,6 +54,7 @@ export default function Quiz(props) {
   const [error, setError] = useState();
   const [alertModal, setAlertModal] = useState(false);
   const [isImageViewVisible, setIsImageViewVisible] = useState(false);
+  const [disabledButton, setDisabledButton] = useState();
 
   const indexQuestion = currentQuestion - 1;
   const id = props.navigation.state.params.item;
@@ -116,7 +117,7 @@ export default function Quiz(props) {
     if (answer === null) {
       return setError('Nenhuma resposta selecionada!');
     }
-
+    setDisabledButton(true);
     try {
       const {data} = await api.post('/answerQuestion', {
         disputeId: dispute,
@@ -124,6 +125,7 @@ export default function Quiz(props) {
         answer,
       });
 
+      setDisabledButton(false);
       if (feedbackAnswer) {
         setAnswerCorrect(`${data.answer}`);
         return;
@@ -143,6 +145,7 @@ export default function Quiz(props) {
       return;
     } catch (err) {
       setError('Tente novamente!');
+      setDisabledButton(false);
     }
   }
 
@@ -150,7 +153,7 @@ export default function Quiz(props) {
     if (!dispute) {
       return;
     }
-
+    setDisabledButton(true);
     try {
       const {data} = await api.post('/answerQuestion', {
         disputeId: dispute,
@@ -158,6 +161,7 @@ export default function Quiz(props) {
         answer: 'skip',
       });
 
+      setDisabledButton(false);
       if (feedbackAnswer) {
         setAnswerCorrect(`${data.answer}`);
         return;
@@ -177,6 +181,7 @@ export default function Quiz(props) {
       return;
     } catch (err) {
       setError('Tente novamente!');
+      setDisabledButton(false);
     }
   }
 
@@ -247,6 +252,7 @@ export default function Quiz(props) {
   }
 
   function renderAnswersTF() {
+    console.log(answer);
     if (answerCorrect === null) {
       return (
         <>
@@ -287,7 +293,10 @@ export default function Quiz(props) {
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === true}
             optionSelect={answer === true}>
-            <TextOption correct>Verdadeiro</TextOption>
+            <TextOption
+              correct={JSON.parse(answerCorrect) === true && answer !== true}>
+              Verdadeiro
+            </TextOption>
           </OptionTFError>
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === false}
@@ -395,11 +404,19 @@ export default function Quiz(props) {
           </ButtonActions>
         ) : (
           <>
-            <ButtonActions onPress={jumpQuestion} color="#DC7633">
+            <ButtonActions
+              disabled={disabledButton}
+              activeOpacity={disabledButton ? 0.5 : 1}
+              onPress={jumpQuestion}
+              color="#DC7633">
               <TextActions>Pular</TextActions>
               <Icon name="skip-next" size={24} color="#fff" />
             </ButtonActions>
-            <ButtonActions onPress={handleQuestions} color="#28B463">
+            <ButtonActions
+              disabled={disabledButton}
+              activeOpacity={disabledButton ? 0.5 : 1}
+              onPress={handleQuestions}
+              color="#28B463">
               <TextActions>Confirmar</TextActions>
               <Icon name="check" size={24} color="#fff" />
             </ButtonActions>

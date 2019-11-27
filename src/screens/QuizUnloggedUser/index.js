@@ -51,6 +51,7 @@ export default function QuizUnloggedUser(props) {
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [error, setError] = useState();
   const [alertModal, setAlertModal] = useState(false);
+  const [disabledButton, setDisabledButton] = useState();
 
   const indexQuestion = currentQuestion - 1;
   const {user, feedbackAnswer, quizId} = props.navigation.state.params;
@@ -105,7 +106,7 @@ export default function QuizUnloggedUser(props) {
     if (answer === null) {
       return setError('Nenhuma resposta selecionada!');
     }
-
+    setDisabledButton(true);
     try {
       const {data} = await api.post('/unloggedUser/answerQuestion', {
         disputeId: dispute,
@@ -114,6 +115,8 @@ export default function QuizUnloggedUser(props) {
         userId: user,
       });
 
+      setDisabledButton(false);
+
       if (feedbackAnswer) {
         setAnswerCorrect(`${data.answer}`);
         return;
@@ -133,6 +136,7 @@ export default function QuizUnloggedUser(props) {
       return;
     } catch (err) {
       setError('Tente novamente!');
+      setDisabledButton(false);
     }
   }
 
@@ -140,7 +144,7 @@ export default function QuizUnloggedUser(props) {
     if (!dispute) {
       return;
     }
-
+    setDisabledButton(true);
     try {
       const {data} = await api.post('/unloggedUser/answerQuestion', {
         disputeId: dispute,
@@ -149,6 +153,8 @@ export default function QuizUnloggedUser(props) {
         userId: user,
       });
 
+      setDisabledButton(false);
+
       if (feedbackAnswer) {
         setAnswerCorrect(`${data.answer}`);
         return;
@@ -168,6 +174,7 @@ export default function QuizUnloggedUser(props) {
       return;
     } catch (err) {
       setError('Tente novamente!');
+      setDisabledButton(false);
     }
   }
 
@@ -278,7 +285,10 @@ export default function QuizUnloggedUser(props) {
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === true}
             optionSelect={answer === true}>
-            <TextOption correct>Verdadeiro</TextOption>
+            <TextOption
+              correct={JSON.parse(answerCorrect) === true && answer !== true}>
+              Verdadeiro
+            </TextOption>
           </OptionTFError>
           <OptionTFError
             incorrect={JSON.parse(answerCorrect) === false}
@@ -355,11 +365,19 @@ export default function QuizUnloggedUser(props) {
           </ButtonActions>
         ) : (
           <>
-            <ButtonActions onPress={jumpQuestion} color="#DC7633">
+            <ButtonActions
+              disabled={disabledButton}
+              activeOpacity={disabledButton ? '0.5' : '1'}
+              onPress={jumpQuestion}
+              color="#DC7633">
               <TextActions>Pular</TextActions>
               <Icon name="skip-next" size={24} color="#fff" />
             </ButtonActions>
-            <ButtonActions onPress={handleQuestions} color="#28B463">
+            <ButtonActions
+              disabled={disabledButton}
+              activeOpacity={disabledButton ? 0.5 : 1}
+              onPress={handleQuestions}
+              color="#28B463">
               <TextActions>Confirmar</TextActions>
               <Icon name="check" size={24} color="#fff" />
             </ButtonActions>
@@ -381,7 +399,7 @@ export default function QuizUnloggedUser(props) {
           </TextInfo>
           <TextInfo>Você realmente deseja sair?</TextInfo>
           <ViewButtons>
-            <ButtonModal onPress={() => props.navigation.goBack()}>
+            <ButtonModal onPress={() => props.navigation.navigate('Abertura')}>
               <TextButton>Ok</TextButton>
             </ButtonModal>
             <ButtonModal onPress={() => setAlertModal(false)}>
