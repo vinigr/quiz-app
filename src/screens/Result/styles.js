@@ -1,11 +1,11 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
   padding: 10px;
 `;
 
 export const Title = styled.Text`
-  font-family: "Rubik-Medium";
+  font-family: 'Rubik-Medium';
   font-size: 24px;
   margin-bottom: 16px;
 `;
@@ -17,7 +17,7 @@ export const HeadList = styled.View`
 `;
 
 export const TextHead = styled.Text`
-  font-family: "Rubik-Medium";
+  font-family: 'Rubik-Medium';
   font-size: 22px;
 `;
 
@@ -29,12 +29,12 @@ export const User = styled.View`
 `;
 
 export const UserName = styled.Text`
-  font-family: "Rubik-Regular";
+  font-family: 'Rubik-Regular';
   font-size: 18px;
 `;
 
 export const UserScore = styled.Text`
-  font-family: "Rubik-Regular";
+  font-family: 'Rubik-Regular';
   font-size: 18px;
 `;
 
@@ -59,7 +59,7 @@ export const ButtonShowAnswers = styled.TouchableOpacity`
 `;
 
 export const TextButton = styled.Text`
-  font-family: "Rubik-Regular";
+  font-family: 'Rubik-Regular';
   font-size: 16px;
   color: #000;
 `;
@@ -74,7 +74,7 @@ export const ItemList = styled.View`
 export const ViewQuestion = styled.View``;
 
 export const TextExplanation = styled.Text`
-  font-family: "Rubik-Regular";
+  font-family: 'Rubik-Regular';
   font-size: 14px;
   color: #000;
   margin-top: 10px;

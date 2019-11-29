@@ -112,18 +112,14 @@ export default function Result(props) {
           item.id !== props.navigation.getParam('disputeId') ? (
             <User>
               <UserName>
-                {item.userId
-                  ? item.User.name
-                  : `${item.UnloggedUser.name} (Não registrado)`}
+                {item.userId ? '********' : '******** (Não registrado)'}
               </UserName>
               <UserScore>{item.score}</UserScore>
             </User>
           ) : (
             <UserThis>
               <UserName>
-                {item.userId
-                  ? item.User.name
-                  : `${item.UnloggedUser.name} (Não registrado)`}
+                {item.userId ? item.User.name : '******** (Não registrado)'}
               </UserName>
               <UserScore>{item.score > 0 ? item.score : 0}</UserScore>
             </UserThis>

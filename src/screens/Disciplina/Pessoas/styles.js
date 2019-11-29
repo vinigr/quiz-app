@@ -1,22 +1,21 @@
 import styled from 'styled-components/native';
-import { StyleSheet } from 'react-native';
 
 export const Container = styled.View`
-  padding: 16px;
+  padding: 0 16px;
 `;
 
 export const Title = styled.Text`
   font-family: 'Rubik-Regular';
   font-size: 26px;
-  color: #03512D;
-  margin-top: 20px;
+  color: #03512d;
+  margin-top: 10px;
 `;
 
 export const User = styled.View`
   height: 50px;
   flex-direction: row;
   align-items: center;
-  margin: 10px 5px;
+  margin: 6px 5px;
 `;
 
 export const ImageUser = styled.Image`
