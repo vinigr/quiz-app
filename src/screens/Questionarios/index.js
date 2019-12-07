@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StatusBar, FlatList } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StatusBar, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
@@ -26,7 +26,7 @@ import {
 
 import api from '../../service/api';
 
-const { formatToTimeZone } = require('date-fns-timezone');
+const {formatToTimeZone} = require('date-fns-timezone');
 
 export default function Questionarios(props) {
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ export default function Questionarios(props) {
       await setQuizzesNext(result.data.listNext);
       await setQuizzesOthers(result.data.listOthers);
       return setLoading(false);
-    } catch ({ response }) {
+    } catch ({response}) {
       setLoading(false);
       return console.tron.log(response);
     }
@@ -62,7 +62,7 @@ export default function Questionarios(props) {
             keyExtractor={item => `${item.id}`}
             onRefresh={fetchData}
             refreshing={loading}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <QuizItem>
                 <Header>
                   <TitleItem>{item.name}</TitleItem>
@@ -83,14 +83,15 @@ export default function Questionarios(props) {
                       <TextExpiry>Disponível</TextExpiry>
                     )}
                   </InfoExpired>
-                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                  {(new Date().toISOString() < item.expirationAt ||
+                    !item.expirationAt) && (
                     <ButtonStart
-                      onPress={() => props.navigation.navigate('Quiz', {
-                        item: item.id,
-                        feedbackAnswer: item.feedbackAnswer,
-                      })
-                      }
-                    >
+                      onPress={() =>
+                        props.navigation.navigate('Quiz', {
+                          item: item.id,
+                          feedbackAnswer: item.feedbackAnswer,
+                        })
+                      }>
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
@@ -105,7 +106,7 @@ export default function Questionarios(props) {
             keyExtractor={item => `${item.id}`}
             onRefresh={quizzesNext.length === 0 ? fetchData : null}
             refreshing={loading}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <QuizItem>
                 <Header>
                   <TitleItem>{item.name}</TitleItem>
@@ -126,14 +127,15 @@ export default function Questionarios(props) {
                       <TextExpiry>Disponível</TextExpiry>
                     )}
                   </InfoExpired>
-                  {(new Date().toISOString() < item.expirationAt || !item.expirationAt) && (
+                  {(new Date().toISOString() < item.expirationAt ||
+                    !item.expirationAt) && (
                     <ButtonStart
-                      onPress={() => props.navigation.navigate('Quiz', {
-                        item: item.id,
-                        feedbackAnswer: item.feedbackAnswer,
-                      })
-                      }
-                    >
+                      onPress={() =>
+                        props.navigation.navigate('Quiz', {
+                          item: item.id,
+                          feedbackAnswer: item.feedbackAnswer,
+                        })
+                      }>
                       <TextButton>INICIAR</TextButton>
                       <Icon name="play" size={24} color="#fff" />
                     </ButtonStart>
