@@ -104,7 +104,7 @@ export default function Disciplinas(props) {
 
   async function unsubscribe() {
     if (!setSubjectSelected) {
-      return console.tron.log('erro');
+      return;
     }
 
     try {
@@ -131,89 +131,87 @@ export default function Disciplinas(props) {
     setSubjectSelected(null);
   }
 
-  return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Container>
-          <ViewList>
-            <FlatList
-              data={subject}
-              keyExtractor={item => `${item.subject_id}`}
-              onRefresh={fetchData}
-              refreshing={loading}
-              renderItem={({item}) => (
-                <ItemList
-                  onLongPress={() => handleVisibleSubscribe(item.subject.id)}
-                  onPress={() =>
-                    props.navigation.navigate('Disciplina', {
-                      id: item.subject.id,
-                    })
-                  }
-                  style={{
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 3,
-                    },
-                    shadowOpacity: 0.27,
-                    shadowRadius: 4.65,
+  if (loading) {
+    return <Loading />;
+  }
 
-                    elevation: 6,
-                  }}>
-                  <HeaderSubject>
-                    <ViewSubject>
-                      <TitleItem>{item.subject.name}</TitleItem>
-                      <TopicItem>{item.subject.topic}</TopicItem>
-                    </ViewSubject>
-                    <TouchableIcon
-                      onPress={() => handleVisibleSubscribe(item.subject.id)}>
-                      <Icon name="dots-vertical" size={24} />
-                    </TouchableIcon>
-                  </HeaderSubject>
-                  <ViewTeacher>
-                    <NameTeacher>{item.subject.user.name}</NameTeacher>
-                  </ViewTeacher>
-                </ItemList>
-              )}
-            />
-            <Modal
-              isVisible={visible}
-              onBackButtonPress={() => setVisible(false)}
-              onBackdropPress={() => setVisible(false)}
-              animationIn="fadeIn"
-              animationOut="fadeOut"
-              animationInTiming={200}
-              backdropTransitionOutTiming={0}>
-              <ViewModal>
-                <OptionsModal onPress={() => unsubscribe()}>
-                  <OptionsText>Cancelar inscrição</OptionsText>
-                </OptionsModal>
-              </ViewModal>
-            </Modal>
-            <Modal
-              isVisible={modalAdd}
-              onBackButtonPress={() => setModalAdd(false)}
-              onBackdropPress={() => setModalAdd(false)}
-              animationIn="fadeIn"
-              animationOut="fadeOut"
-              animationInTiming={200}
-              backdropTransitionOutTiming={0}>
-              <ViewModalAdd>
-                <TextModalAdd>
-                  Peça o código para o criador da disciplina e digite-o abaixo:
-                </TextModalAdd>
-                <InputCode value={code} onChangeText={text => setCode(text)} />
-                <ButtonAdd onPress={() => addSubject()}>
-                  <TextAdd>Adicionar</TextAdd>
-                </ButtonAdd>
-              </ViewModalAdd>
-            </Modal>
-          </ViewList>
-        </Container>
-      )}
-    </>
+  return (
+    <Container>
+      <ViewList>
+        <FlatList
+          data={subject}
+          keyExtractor={item => `${item.subject_id}`}
+          onRefresh={fetchData}
+          refreshing={loading}
+          renderItem={({item}) => (
+            <ItemList
+              onLongPress={() => handleVisibleSubscribe(item.subject.id)}
+              onPress={() =>
+                props.navigation.navigate('Disciplina', {
+                  id: item.subject.id,
+                })
+              }
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+
+                elevation: 6,
+              }}>
+              <HeaderSubject>
+                <ViewSubject>
+                  <TitleItem>{item.subject.name}</TitleItem>
+                  <TopicItem>{item.subject.topic}</TopicItem>
+                </ViewSubject>
+                <TouchableIcon
+                  onPress={() => handleVisibleSubscribe(item.subject.id)}>
+                  <Icon name="dots-vertical" size={24} />
+                </TouchableIcon>
+              </HeaderSubject>
+              <ViewTeacher>
+                <NameTeacher>{item.subject.user.name}</NameTeacher>
+              </ViewTeacher>
+            </ItemList>
+          )}
+        />
+        <Modal
+          isVisible={visible}
+          onBackButtonPress={() => setVisible(false)}
+          onBackdropPress={() => setVisible(false)}
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          animationInTiming={200}
+          backdropTransitionOutTiming={0}>
+          <ViewModal>
+            <OptionsModal onPress={() => unsubscribe()}>
+              <OptionsText>Cancelar inscrição</OptionsText>
+            </OptionsModal>
+          </ViewModal>
+        </Modal>
+        <Modal
+          isVisible={modalAdd}
+          onBackButtonPress={() => setModalAdd(false)}
+          onBackdropPress={() => setModalAdd(false)}
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          animationInTiming={200}
+          backdropTransitionOutTiming={0}>
+          <ViewModalAdd>
+            <TextModalAdd>
+              Peça o código para o criador da disciplina e digite-o abaixo:
+            </TextModalAdd>
+            <InputCode value={code} onChangeText={text => setCode(text)} />
+            <ButtonAdd onPress={() => addSubject()}>
+              <TextAdd>Adicionar</TextAdd>
+            </ButtonAdd>
+          </ViewModalAdd>
+        </Modal>
+      </ViewList>
+    </Container>
   );
 }
 
