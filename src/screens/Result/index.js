@@ -93,8 +93,11 @@ export default function Result(props) {
 
   function answerResp(id) {
     const answer = answers.filter(a => a.questionId === id);
+    console.log(answer);
     if (answer.length > 0) {
       return answer[0].selectedAnswer;
+    } else {
+      return null;
     }
   }
 
@@ -163,7 +166,6 @@ export default function Result(props) {
                     <QuestionText>{index + 1}. </QuestionText>
                     <QuestionText>{item.tfQuestion.question}</QuestionText>
                   </ViewQuestion>
-
                   <OptionsTF>
                     {answerResp(item.id) !== 'skip' &&
                     item.tfQuestion.answer ==
@@ -193,10 +195,6 @@ export default function Result(props) {
                         <OptionTFError
                           incorrect={item.tfQuestion.answer === true}
                           optionSelect={answerResp(item.id) == 'true'}>
-                          {console.tron.log(
-                            typeof answerResp(item.id),
-                            answerResp(item.id) == 'true',
-                          )}
                           <TextOption
                             correct={
                               answerResp(item.id) == item.tfQuestion.answer
