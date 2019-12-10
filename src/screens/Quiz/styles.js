@@ -7,15 +7,31 @@ export const Container = styled.ScrollView`
   width: 100%;
 `;
 
-export const StateQuestions = styled.View`
-  padding: 10px;
-  width: 100px;
+export const Header = styled.View`
+  padding: 20px 10px;
+  width: 100%;
   height: 80px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const StateQuestions = styled.View`
+  width: 130px;
+  height: 80px;
+  justify-content: center;
 `;
 
 export const TextState = styled.Text`
   font-family: 'Rubik-Regular';
   font-size: 20px;
+`;
+
+export const ColorQuiz = styled.View`
+  width: 50px;
+  height: 50px;
+  background-color: #${props => props.color};
+  border-radius: 40px;
 `;
 
 export const QuestionView = styled.View`

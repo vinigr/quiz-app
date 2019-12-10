@@ -35,6 +35,8 @@ import {
   ViewButtons,
   ButtonModal,
   TextButton,
+  ColorQuiz,
+  Header,
 } from './styles';
 
 import {TextError} from '../../styles';
@@ -47,6 +49,7 @@ import Loading from '../../components/Loading';
 export default function Quiz(props) {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [color, setColor] = useState();
   const [dispute, setDispute] = useState();
   const [loading, setLoading] = useState(true);
   const [answer, setAnswer] = useState();
@@ -79,6 +82,7 @@ export default function Quiz(props) {
         FullScreen.enable();
         setQuestions(randomArray(data.listQuiz));
         setDispute(data.dispute.id);
+        setColor(data.color);
         return setLoading(false);
       } catch (err) {
         if (err.response.data.message === 'Este quiz já foi disputado!') {
@@ -317,10 +321,14 @@ export default function Quiz(props) {
         <Loading />
       ) : (
         <>
-          <StateQuestions>
-            <TextState>Questão</TextState>
-            <TextState>{`${currentQuestion}/${questions.length}`}</TextState>
-          </StateQuestions>
+          {console.log(color)}
+          <Header>
+            <StateQuestions>
+              <TextState>Questão</TextState>
+              <TextState>{`${currentQuestion}/${questions.length}`}</TextState>
+            </StateQuestions>
+            <ColorQuiz color={color} />
+          </Header>
           {questions[indexQuestion].tfQuestion ? (
             <QuestionView>
               <QuestionText>
@@ -406,7 +414,6 @@ export default function Quiz(props) {
           <>
             <ButtonActions
               disabled={disabledButton}
-              activeOpacity={disabledButton ? 0.5 : 1}
               onPress={jumpQuestion}
               color="#DC7633">
               <TextActions>Pular</TextActions>
@@ -414,7 +421,6 @@ export default function Quiz(props) {
             </ButtonActions>
             <ButtonActions
               disabled={disabledButton}
-              activeOpacity={disabledButton ? 0.5 : 1}
               onPress={handleQuestions}
               color="#28B463">
               <TextActions>Confirmar</TextActions>
