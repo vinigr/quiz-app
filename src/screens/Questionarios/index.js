@@ -75,7 +75,7 @@ export default function Questionarios(props) {
                         <TextExpiry>Disponível até:</TextExpiry>
                         <DateExpiry>
                           {formatToTimeZone(item.expirationAt, 'DD/MM HH:mm', {
-                            timeZone: 'America/Sao_Paulo',
+                            timeZone: 'America/Bahia',
                           })}
                         </DateExpiry>
                       </>
@@ -119,7 +119,7 @@ export default function Questionarios(props) {
                         <TextExpiry>Disponível até:</TextExpiry>
                         <DateExpiry>
                           {formatToTimeZone(item.expirationAt, 'DD/MM HH:mm', {
-                            timeZone: 'America/Sao_Paulo',
+                            timeZone: 'America/Bahia',
                           })}
                         </DateExpiry>
                       </>

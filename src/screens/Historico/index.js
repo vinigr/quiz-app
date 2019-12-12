@@ -60,7 +60,7 @@ export default function Histórico(props) {
                   <TitleItem>{item.Quiz.name}</TitleItem>
                   <DateDispute>
                     {formatToTimeZone(item.createdAt, 'DD/MM/YY | HH:mm', {
-                      timeZone: 'America/Sao_Paulo',
+                      timeZone: 'America/Bahia',
                     })}
                   </DateDispute>
                 </ViewLeft>

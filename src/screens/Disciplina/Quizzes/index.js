@@ -79,7 +79,7 @@ export default function Quizzes(props) {
                               item.expirationAt,
                               'DD/MM HH:mm',
                               {
-                                timeZone: 'America/Sao_Paulo',
+                                timeZone: 'America/Bahia',
                               },
                             )}
                           </DateExpiry>
